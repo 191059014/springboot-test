@@ -1,13 +1,13 @@
-package com.hb.test.redis;
+package com.hb.test.springsecurity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringbootTestRedisApplication {
+public class SpringbootTestSpringSecurityApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootTestRedisApplication.class, args);
+        SpringApplication.run(SpringbootTestSpringSecurityApplication.class, args);
     }
 
 }
