@@ -6,10 +6,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * SpringSecurity配置
@@ -50,41 +63,47 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//super.configure(http);
-//        http.authorizeRequests() // 拦截页面
-//                .anyRequest()
-//                .authenticated(); // 所有页面都要验证
-//
-        http.csrf().disable(); // 禁用csrf - 使用自定义登录页面
-//
-//        http.formLogin() // 登陆
-//                .loginPage("/login") // 访问需要登录才能访问的页面，如果未登录，会跳转到该地址来
-//                .successHandler(new MyAuthenticationSuccessHandler())
-//                .failureHandler(new MyAuthenticationFailureHandler())
-//        ;
-
-        http.authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/fonts/**", "/images/**").permitAll()
-                .antMatchers("/static/login.html", "/ignore","/doLogin").permitAll() // 所有用户均可访问的资源路径
-                .antMatchers("/sys").hasRole("admin")
-                .antMatchers("/menu").hasAuthority("p1")
-                .anyRequest().authenticated()
+//        http.addFilterBefore(verifyCodeFilter, UsernamePasswordAuthenticationFilter.class); // 验证码过滤器
+        http
+                .authorizeRequests()//开启登录配置
+                .antMatchers("/all").hasRole("admin")//表示访问 /all 这个接口，需要具备 admin 这个角色
+                .anyRequest().authenticated()//表示剩余的其他接口，登录之后就能访问
                 .and()
                 .formLogin()
-                .loginPage("/static/login.html") // 访问需要登录才能访问的页面，如果未登录，会跳转到该地址来
+                //定义登录页面，未登录时，访问一个需要登录之后才能访问的接口，会自动跳转到该页面
+                .loginPage("/toLogin")
+                //登录处理接口
                 .loginProcessingUrl("/doLogin")
+                //定义登录时，用户名的 key，默认为 username
                 .usernameParameter("userName")
+                //定义登录时，用户密码的 key，默认为 password
                 .passwordParameter("password")
-                .defaultSuccessUrl("/home")
-                .failureUrl("/ignore")
-                .successHandler(new MyAuthenticationSuccessHandler())
-                .failureHandler(new MyAuthenticationFailureHandler())
-
-        ;
-
-
+                //登录成功的处理器
+                .successHandler((req, resp, authentication) -> {
+                    System.out.println("登录成功处理器");
+                })
+                .failureHandler((req, resp, exception) -> {
+                    System.out.println("登录失败处理器");
+                })
+                .permitAll()//和表单登录相关的接口统统都直接通过
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessHandler((req, resp, authentication) -> {
+                    System.out.println("注销成功处理器");
+                })
+                .permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .csrf().disable();
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        // 忽略拦截
+        web.ignoring().antMatchers("/static/**");
+    }
 }
 
     

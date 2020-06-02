@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
  * 测试
  *
  * @author Mr.Huang
- * @version v0.1, HelloController.java, 2020/6/1 14:27, create by huangbiao.
+ * @version v0.1, LoginController.java, 2020/6/1 14:27, create by huangbiao.
  */
 @RestController
-public class HelloController {
+public class LoginController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public String all() {
         return "hello";
     }
