@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/css/**", "/js/**", "/fonts/**", "/images/**").permitAll()
-                .antMatchers("/static/login.html", "/ignore").permitAll() // 所有用户均可访问的资源路径
+                .antMatchers("/static/login.html", "/ignore","/doLogin").permitAll() // 所有用户均可访问的资源路径
                 .antMatchers("/sys").hasRole("admin")
                 .antMatchers("/menu").hasAuthority("p1")
                 .anyRequest().authenticated()
