@@ -1,7 +1,6 @@
 package com.hb.test.springsecurity.controller;
 
 import com.hb.test.springsecurity.model.User;
-import com.hb.test.springsecurity.model.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -42,7 +41,7 @@ public class HelloController {
         try {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authenticate);
-            System.out.println(authenticate);
+            System.out.println(111);
         } catch (LockedException e) {
             e.printStackTrace();
             return "用户被锁定";

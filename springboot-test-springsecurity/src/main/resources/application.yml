@@ -6,3 +6,7 @@ spring:
     view:
       prefix: /static/
       suffix: .html
+logging:
+  level:
+    root: debug
+  path: C:\WindowsD\log

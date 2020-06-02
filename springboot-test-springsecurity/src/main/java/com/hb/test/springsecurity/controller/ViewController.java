@@ -14,16 +14,19 @@ public class ViewController {
 
     @GetMapping("/home")
     public String home() {
+        System.out.println("goto home");
         return "home";
     }
 
-    @GetMapping("/login")
-    public String login() {
+    @GetMapping("/toLogin")
+    public String toLogin() {
+        System.out.println("goto login");
         return "login";
     }
 
     @GetMapping("/ignore")
     public String ignore() {
+        System.out.println("goto ignore");
         return "ignore";
     }
 

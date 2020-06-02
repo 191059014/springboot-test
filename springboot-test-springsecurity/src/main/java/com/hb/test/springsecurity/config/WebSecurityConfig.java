@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -52,42 +50,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests() // 拦截页面
-                .anyRequest()
-                .authenticated(); // 所有页面都要验证
-
+//super.configure(http);
+//        http.authorizeRequests() // 拦截页面
+//                .anyRequest()
+//                .authenticated(); // 所有页面都要验证
+//
         http.csrf().disable(); // 禁用csrf - 使用自定义登录页面
+//
+//        http.formLogin() // 登陆
+//                .loginPage("/login") // 访问需要登录才能访问的页面，如果未登录，会跳转到该地址来
+//                .successHandler(new MyAuthenticationSuccessHandler())
+//                .failureHandler(new MyAuthenticationFailureHandler())
+//        ;
 
-        http.formLogin() // 登陆
-                .loginPage("/login") // 默认登陆页面
-                .usernameParameter("userName") // 定义登录时，用户名的 key，默认为 userName
-                .passwordParameter("password") // 定义登录时，用户名的 key，默认为 password
-                .defaultSuccessUrl("/home", true)
-                .failureForwardUrl("/home")
-                .successHandler((httpServletRequest, httpServletResponse, authentication) -> System.out.println("认证成功"))
-                .failureHandler((httpServletRequest, httpServletResponse, e) -> System.out.println("认证失败"))
-                .withObjectPostProcessor(new ObjectPostProcessor<Object>() {
-                    @Override
-                    public <O> O postProcess(O o) {
-                        System.out.println("withObjectPostProcessor");
-                        return o;
-                    }
-                })
-                .permitAll();
+        http.authorizeRequests()
+                .antMatchers("/css/**", "/js/**", "/fonts/**", "/images/**").permitAll()
+                .antMatchers("/static/login.html", "/ignore").permitAll() // 所有用户均可访问的资源路径
+                .antMatchers("/sys").hasRole("admin")
+                .antMatchers("/menu").hasAuthority("p1")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/static/login.html") // 访问需要登录才能访问的页面，如果未登录，会跳转到该地址来
+                .loginProcessingUrl("/doLogin")
+                .usernameParameter("userName")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/home")
+                .failureUrl("/ignore")
+                .successHandler(new MyAuthenticationSuccessHandler())
+                .failureHandler(new MyAuthenticationFailureHandler())
 
-        http.userDetailsService(userDetailsService);
+        ;
 
 
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // 跳过一些请求，不用认证
-        web.ignoring()
-                .antMatchers("/ignore")
-                .antMatchers("/doLogin");
-    }
 }
 
     
