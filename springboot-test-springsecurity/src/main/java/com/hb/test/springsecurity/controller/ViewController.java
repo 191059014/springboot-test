@@ -24,10 +24,22 @@ public class ViewController {
         return "login";
     }
 
-    @GetMapping("/ignore")
-    public String ignore() {
-        System.out.println("goto ignore");
-        return "ignore";
+    @GetMapping("/403")
+    public String error_403() {
+        System.out.println("goto 403");
+        return "403";
+    }
+
+    @GetMapping("/v1")
+    public String v1() {
+        System.out.println("goto v1");
+        return "v1";
+    }
+
+    @GetMapping("/v2")
+    public String v2() {
+        System.out.println("goto v2");
+        return "v2";
     }
 
 }

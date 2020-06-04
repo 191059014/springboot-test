@@ -1,6 +1,5 @@
 package com.hb.test.springsecurity.controller;
 
-import com.hb.test.springsecurity.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -8,10 +7,10 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 测试
@@ -25,21 +24,16 @@ public class LoginController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/all")
-    public String all() {
-        return "hello";
-    }
-
     /**
      * 登陆接口
      *
      * @param user 用户信息
      * @return 结果
      */
-    @PostMapping("/doLogin")
-    public String doLogin(@RequestBody User user) {
+    @RequestMapping(value = "/doLogin")
+    public String doLogin(HttpServletRequest request) {
         try {
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getParameter("userName"), request.getParameter("password")));
             SecurityContextHolder.getContext().setAuthentication(authenticate);
             System.out.println(111);
         } catch (LockedException e) {

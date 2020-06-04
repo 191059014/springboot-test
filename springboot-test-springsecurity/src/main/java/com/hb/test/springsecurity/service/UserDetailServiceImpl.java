@@ -50,8 +50,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
      */
     public User getUserByUserName(String userName) {
         Map<String, User> userMap = new HashMap<>();
-        userMap.put("zhangsan", new User("zhangsan", "$2a$10$DBYNsfDsGsjIDmL/LL7uku1JJvMAESHwFbyfNNvINYPiFxOfCXq0q"));// 123
-        userMap.put("lisi", new User("lisi", "$2a$10$furPmcpdd5uKPwkJ3HEN8OuMNfqPKEkG8Ci9XII2K5.Jwdti9FHQi")); // 456
+        userMap.put("zhangsan", new User(123L, "zhangsan", "$2a$10$DBYNsfDsGsjIDmL/LL7uku1JJvMAESHwFbyfNNvINYPiFxOfCXq0q"));// 123
+        userMap.put("lisi", new User(456L, "lisi", "$2a$10$furPmcpdd5uKPwkJ3HEN8OuMNfqPKEkG8Ci9XII2K5.Jwdti9FHQi")); // 456
         return userMap.get(userName);
     }
 
@@ -63,8 +63,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
      */
     public List<String> getRoleListByRoleIdArr(String... roleId) {
         Map<String, List<String>> roleMap = new HashMap<>();
-        roleMap.put("zhangsan", Arrays.asList("role1"));
-        roleMap.put("lisi", Arrays.asList("role2"));
+        roleMap.put("zhangsan", Arrays.asList("r1"));
+        roleMap.put("lisi", Arrays.asList("r2"));
         return roleMap.get(roleId[0]);
     }
 
@@ -76,8 +76,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
      */
     public List<Permission> getPermissionListByPermissionIdArr(String... permissionId) {
         Map<String, List<Permission>> permissionMap = new HashMap<>();
-        permissionMap.put("zhangsan", Arrays.asList(new Permission("v1")));
-        permissionMap.put("lisi", Arrays.asList(new Permission("v2")));
+        permissionMap.put("zhangsan", Arrays.asList(new Permission("p1")));
+        permissionMap.put("lisi", Arrays.asList(new Permission("p2")));
         return permissionMap.get(permissionId[0]);
     }
 

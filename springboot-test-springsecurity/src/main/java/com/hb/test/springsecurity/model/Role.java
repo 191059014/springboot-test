@@ -1,6 +1,8 @@
 package com.hb.test.springsecurity.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 角色
@@ -9,6 +11,8 @@ import lombok.Data;
  * @version v0.1, Role.java, 2020/6/1 15:29, create by huangbiao.
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role {
 
     /**

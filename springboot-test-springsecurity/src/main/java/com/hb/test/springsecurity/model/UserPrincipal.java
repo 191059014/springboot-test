@@ -29,11 +29,11 @@ public class UserPrincipal implements UserDetails {
     /**
      * 权限集合
      */
-    private List<Permission> permissionList;
+    private Collection<? extends GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.permissionList;
+        return this.authorities;
     }
 
     @Override
@@ -64,6 +64,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
 

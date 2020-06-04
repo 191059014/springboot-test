@@ -9,20 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * SpringSecurity配置
@@ -66,8 +54,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.addFilterBefore(verifyCodeFilter, UsernamePasswordAuthenticationFilter.class); // 验证码过滤器
         http
                 .authorizeRequests()//开启登录配置
-                .antMatchers("/all").hasRole("admin")//表示访问 /all 这个接口，需要具备 admin 这个角色
+                .antMatchers("/v1").hasAuthority("p1")//表示访问/v1这个接口，需要具备r1这个角色
+                .antMatchers("/v2").hasAuthority("p2")//表示访问/v2这个接口，需要具备r2这个角色
                 .anyRequest().authenticated()//表示剩余的其他接口，登录之后就能访问
+                .anyRequest().access("@rbacAuthorityService.hasPermission(request,authentication)")// rbac动态url认证
                 .and()
                 .formLogin()
                 //定义登录页面，未登录时，访问一个需要登录之后才能访问的接口，会自动跳转到该页面
@@ -78,13 +68,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("userName")
                 //定义登录时，用户密码的 key，默认为 password
                 .passwordParameter("password")
-                //登录成功的处理器
-                .successHandler((req, resp, authentication) -> {
-                    System.out.println("登录成功处理器");
-                })
-                .failureHandler((req, resp, exception) -> {
-                    System.out.println("登录失败处理器");
-                })
+                .successHandler(new LoginSuccessHandler())
+                .failureHandler(new LoginFailureHandler())
                 .permitAll()//和表单登录相关的接口统统都直接通过
                 .and()
                 .logout()
@@ -96,13 +81,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .exceptionHandling().accessDeniedHandler((request, response, e) -> {
+                    System.out.println("权限不足");
+                    response.sendRedirect("/403");
+                })
+        ;
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         // 忽略拦截
-        web.ignoring().antMatchers("/static/**");
+        web.ignoring().antMatchers("/static/**")
+        .antMatchers("/403");
     }
 }
 
