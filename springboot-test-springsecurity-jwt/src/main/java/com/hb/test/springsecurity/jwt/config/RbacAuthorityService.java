@@ -28,14 +28,16 @@ public class RbacAuthorityService {
     @Autowired
     private RequestMappingHandlerMapping mapping;
 
+    @Autowired
+    private HttpServletRequest request;
+
     /**
      * 校验是否含有权限
      *
-     * @param request        请求
      * @param authentication 认真信息
      * @return true为有权限
      */
-    public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
+    public boolean hasPermission(Authentication authentication) {
 
         Object userInfo = authentication.getPrincipal();
         boolean hasPermission = false;

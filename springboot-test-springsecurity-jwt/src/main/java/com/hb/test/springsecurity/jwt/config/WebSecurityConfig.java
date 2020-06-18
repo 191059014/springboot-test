@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 // RBAC 动态 url 认证
                 .anyRequest()
-                .access("@rbacAuthorityService.hasPermission(request,authentication)")
+                .access("@rbacAuthorityService.hasPermission(authentication)")
 
                 // 登出行为由自己实现，参考 com.hb.test.springsecurity.jwt.controller.LoginController.logout
                 .and().logout().disable()
