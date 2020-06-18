@@ -10,3 +10,15 @@ logging:
   level:
     root: info
   path: C:\WindowsD\log
+####自定义的配置
+custom:
+  config:
+    ignores:
+      get:
+        - /toLogin
+        - /403
+      post:
+        - /login
+        - /logout
+      pattern:
+        - /static/**

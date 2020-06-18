@@ -6,39 +6,37 @@
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
-<form method="post" action="/doLogin">
-    <table>
-        <tr>
-            <td>用户名</td>
-            <td><input type="text" id="userName" name="userName" value="zhangsan"/></td>
-        </tr>
-        <tr>
-            <td>密码</td>
-            <td><input type="text" id="password" name="password" value="123"/></td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align: center">
-                <button type="submit">login</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                zhangsan
-            </td>
-            <td>
-                123
-            </td>
-        </tr>
-        <tr>
-            <td>
-                lisi
-            </td>
-            <td>
-                456
-            </td>
-        </tr>
-    </table>
-</form>
+<table>
+    <tr>
+        <td>用户名</td>
+        <td><input type="text" id="userName" name="userName" value="zhangsan"/></td>
+    </tr>
+    <tr>
+        <td>密码</td>
+        <td><input type="text" id="password" name="password" value="123"/></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <button onclick="login()">login</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            zhangsan
+        </td>
+        <td>
+            123
+        </td>
+    </tr>
+    <tr>
+        <td>
+            lisi
+        </td>
+        <td>
+            456
+        </td>
+    </tr>
+</table>
 
 <script>
 
@@ -46,24 +44,24 @@
 
     });
 
-    // function login() {
-    //     let userName = $("#userName").val();
-    //     let password = $("#password").val();
-    //     let params = {
-    //         "userName": userName,
-    //         "password": password
-    //     };
-    //     let url = "http://localhost:8080/doLogin";
-    //     $.ajax({
-    //         url: url,
-    //         type: "post",
-    //         contentType: "application/json;charset=UTF-8",
-    //         data: JSON.stringify(params),
-    //         success: function (res) {
-    //             alert(res)
-    //         }
-    //     })
-    // }
+    function login() {
+        let userName = $("#userName").val();
+        let password = $("#password").val();
+        let params = {
+            "userName": userName,
+            "password": password
+        };
+        let url = "http://localhost:8080/login";
+        $.ajax({
+            url: url,
+            type: "post",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(params),
+            success: function (res) {
+                alert(res)
+            }
+        })
+    }
 
 </script>
 </body>

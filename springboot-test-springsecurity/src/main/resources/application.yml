@@ -8,5 +8,5 @@ spring:
       suffix: .html
 logging:
   level:
-    root: debug
+    root: info
   path: C:\WindowsD\log

@@ -4,7 +4,9 @@ import com.hb.test.springsecurity.jwt.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -29,7 +31,7 @@ public class JwtUtils {
     private static final String APP_SECRET = "secretKey";
 
     public static void main(String[] args) {
-        User user = new User(1L,"zhangsan","123456");
+        User user = new User(1L, "zhangsan", "123456");
         String token = generateJsonWebToken(user);
         System.out.println(token);
         Claims claims = checkJWT(token);
@@ -72,6 +74,35 @@ public class JwtUtils {
         }
         return null;
 
+    }
+
+    /**
+     * 解析token中的信息,并判断是否过期
+     */
+    public static UsernamePasswordAuthenticationToken getAuthentication(String token) {
+
+        Claims claims = Jwts.parser().setSigningKey(APP_SECRET)
+                .parseClaimsJws(token.replace("Bearer ", ""))
+                .getBody();
+
+        //得到用户名
+        String username = claims.getSubject();
+
+        //得到过期时间
+        Date expiration = claims.getExpiration();
+
+        //判断是否过期
+        Date now = new Date();
+
+        if (now.getTime() > expiration.getTime()) {
+
+            throw new RuntimeException("该账号已过期,请重新登陆");
+        }
+
+        if (username != null) {
+            return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+        }
+        return null;
     }
 
 }
