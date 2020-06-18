@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  mvc:
+    static-path-pattern: /static/**
+    view:
+      prefix: /static/
+      suffix: .html
+logging:
+  level:
+    root: info
+  path: C:\WindowsD\log

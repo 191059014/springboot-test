@@ -21,6 +21,7 @@
     <modules>
         <module>springboot-test-redis</module>
         <module>springboot-test-springsecurity</module>
+        <module>springboot-test-springsecurity-jwt</module>
     </modules>
 
     <properties>
