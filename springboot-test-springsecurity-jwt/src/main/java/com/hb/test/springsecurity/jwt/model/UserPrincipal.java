@@ -1,6 +1,7 @@
 package com.hb.test.springsecurity.jwt.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @version v0.1, UserPrincipal.java, 2020/6/1 15:25, create by huangbiao.
  */
 @AllArgsConstructor
+@Data
 public class UserPrincipal implements UserDetails {
 
     /**

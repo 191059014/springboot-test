@@ -42,6 +42,12 @@ public class ViewController {
         return "v2";
     }
 
+    @GetMapping("/error")
+    public String error() {
+        System.out.println("goto error");
+        return "403";
+    }
+
 }
 
     

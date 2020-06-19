@@ -38,13 +38,17 @@ public class RbacAuthorityService {
      * @return true为有权限
      */
     public boolean hasPermission(Authentication authentication) {
-
+        boolean testFlag = true;
+        if (testFlag) {
+            System.out.println("RbacAuthorityService.hasPermission（模拟）: " + testFlag);
+            return true;
+        }
         Object userInfo = authentication.getPrincipal();
         boolean hasPermission = false;
 
         if (userInfo instanceof UserDetails) {
             UserPrincipal principal = (UserPrincipal) userInfo;
-            Long userId = principal.getUser().getUserId();
+            String userId = principal.getUser().getUserId();
 
             List<Role> roles = this.selectByUserId(userId);
             List<String> roleIds = roles.stream().map(Role::getRoleId).collect(Collectors.toList());
@@ -67,11 +71,9 @@ public class RbacAuthorityService {
                     break;
                 }
             }
-
-            return hasPermission;
-        } else {
-            return false;
         }
+        System.out.println("RbacAuthorityService.hasPermission: " + hasPermission);
+        return hasPermission;
     }
 
     private List<Permission> selectByRoleIdList(List<String> roleIds) {
@@ -84,7 +86,7 @@ public class RbacAuthorityService {
         return permissions;
     }
 
-    private List<Role> selectByUserId(Long userId) {
+    private List<Role> selectByUserId(String userId) {
         return Arrays.asList(new Role("r1"));
     }
 

@@ -50,8 +50,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
      */
     public User getUserByUserName(String userName) {
         Map<String, User> userMap = new HashMap<>();
-        userMap.put("zhangsan", new User(123L, "zhangsan", "$2a$10$DBYNsfDsGsjIDmL/LL7uku1JJvMAESHwFbyfNNvINYPiFxOfCXq0q"));// 123
-        userMap.put("lisi", new User(456L, "lisi", "$2a$10$furPmcpdd5uKPwkJ3HEN8OuMNfqPKEkG8Ci9XII2K5.Jwdti9FHQi")); // 456
+        userMap.put("zhangsan", new User("123", "zhangsan", "$2a$10$DBYNsfDsGsjIDmL/LL7uku1JJvMAESHwFbyfNNvINYPiFxOfCXq0q"));// 123
+        userMap.put("lisi", new User("456", "lisi", "$2a$10$furPmcpdd5uKPwkJ3HEN8OuMNfqPKEkG8Ci9XII2K5.Jwdti9FHQi")); // 456
         return userMap.get(userName);
     }
 
