@@ -83,9 +83,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 // 异常处理
                 .and().exceptionHandling().accessDeniedHandler((request, response, e) -> {
-                    System.out.println("权限不足");
-                    response.sendRedirect("/403");
-                });
+            System.out.println("权限不足");
+            response.sendRedirect("/403");
+        });
 
         // 添加自定义 JWT 过滤器
         http.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
