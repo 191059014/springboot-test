@@ -1,0 +1,21 @@
+spring:
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 191059014@qq.com
+    # 使用 jasypt 加密密码，使用com.hb.test.PasswordTest.createPassword生成加密密码，替换 ENC(加密密码)
+    # 客户端授权码，不是邮箱密码，这个在qq邮箱设置里面自动生成的
+    password: ENC(Zlj9VbDSSWA2Ss7Q2kwBV9QOTRI7ON9nzh0xoNztYkk=)
+    protocol: smtp
+    test-connection: true
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.ssl.enable: true
+      mail.display.sendmail: springboot-test-email
+# 为 jasypt 配置解密秘钥，加密盐值
+jasypt:
+  encryptor:
+    password: springboot-test-email
