@@ -2,9 +2,9 @@ server:
   port: 8081
 spring:
   mvc:
-    static-path-pattern: /static/**
+    static-path-pattern: /templates/**
     view:
-      prefix: /static/
+      prefix: /templates/
       suffix: .html
 logging:
   level:

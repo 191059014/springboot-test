@@ -16,6 +16,7 @@
         <module>springboot-test-springsecurity</module>
         <module>springboot-test-springsecurity-jwt</module>
         <module>springboot-test-email</module>
+        <module>springboot-test-exception-handler</module>
     </modules>
 
     <properties>
