@@ -1,0 +1,6 @@
+server:
+  port: 8080
+logging:
+  level:
+    com.hb.test.log.support: info
+  path: C:\WindowsD\log
