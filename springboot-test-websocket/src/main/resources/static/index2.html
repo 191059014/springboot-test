@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket通讯-用户20</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+<div><a href="javascript:void(0)" onclick="openSocket()">开启聊天</a></div>
+<div id="chatDiv" style="background-color: gainsboro;width: 50%">
+
+</div>
+
+<div>当前用户：<input id="userId" name="userId" type="text" value="lisi"></div>
+<div>发送给：<input id="toUserId" name="toUserId" type="text" value="zhangsan"></div>
+
+<div><input id="contentText" name="contentText" type="text" value="hello zhangsan">
+    <a href="javascript:void(0)" onclick="sendMessage()">发送</a></div>
+
+<script>
+    let socket;
+
+    function openSocket() {
+        if (typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        } else {
+            console.log("您的浏览器支持WebSocket");
+            let socketUrl = "http://localhost:8080/imserver/" + 20;
+            socketUrl = socketUrl.replace("https", "ws").replace("http", "ws");
+            console.log(socketUrl);
+            if (socket != null) {
+                socket.close();
+                socket = null;
+            }
+            socket = new WebSocket(socketUrl);
+            //打开事件
+            socket.onopen = function () {
+                console.log("websocket已打开");
+                //socket.send("这是来自客户端的消息" + location.href + new Date());
+            };
+            //获得消息事件
+            socket.onmessage = function (msg) {
+                let p = $("<p style='text-align: left;width: 100%'>张三：" + msg.data + "</p>");
+                $("#chatDiv").append(p);
+                socket.send('接受成功ack');
+            };
+            //关闭事件
+            socket.onclose = function () {
+                console.log("onclose: websocket已关闭");
+            };
+            //发生了错误事件
+            socket.onerror = function () {
+                console.log("onerror: websocket发生了错误");
+            }
+        }
+    }
+
+    function sendMessage() {
+        if (typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        } else {
+            console.log("您的浏览器支持WebSocket");
+            console.log('{"toUserId":"' + $("#toUserId").val() + '","contentText":"' + $("#contentText").val() + '"}');
+            socket.send('{"toUserId":"' + 10 + '","contentText":"' + $("#contentText").val() + '"}');
+            let p = $("<p style='text-align: right;width: 100%'>我：" + $("#contentText").val() + "</p>");
+            $("#chatDiv").append(p);
+        }
+    }
+</script>
+</body>
+</html>
