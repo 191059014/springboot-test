@@ -25,7 +25,7 @@
             console.log("您的浏览器不支持WebSocket");
         } else {
             console.log("您的浏览器支持WebSocket");
-            let socketUrl = "http://localhost:8080/test/" + 20;
+            let socketUrl = "http://localhost:8080/test/" + 20+"/topic_1";
             socketUrl = socketUrl.replace("https", "ws").replace("http", "ws");
             console.log(socketUrl);
             if (socket != null) {

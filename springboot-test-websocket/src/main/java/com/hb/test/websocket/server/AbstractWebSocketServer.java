@@ -25,9 +25,6 @@ public abstract class AbstractWebSocketServer implements IWebSocketServer {
     @Autowired
     private HttpServletRequest request;
 
-    @Autowired
-    private TestService testService;
-
     /**
      * 会话集合
      */
