@@ -2,6 +2,7 @@ package com.hb.test.websocket.server;
 
 import org.springframework.stereotype.Component;
 
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 /**
@@ -13,7 +14,10 @@ import javax.websocket.server.ServerEndpoint;
 @Component
 public class WebSocketServerImpl extends AbstractWebSocketServer implements IWebSocketServer {
 
-
+    @Override
+    protected void doAfterOpen(Session session, String clientId, String topic) {
+        System.out.println("doAfterOpen");
+    }
 
 }
 

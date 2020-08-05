@@ -15,8 +15,9 @@ public interface IWebSocketServer {
      *
      * @param session  会话
      * @param clientId 客户端标识
+     * @param topic    消息主题
      */
-    void onOpen(Session session, String clientId);
+    void onOpen(Session session, String clientId, String topic);
 
     /**
      * 连接关闭的时候
@@ -39,6 +40,11 @@ public interface IWebSocketServer {
      */
     void onMessage(String message, Session session);
 
+    /**
+     * 发送消息
+     * @param message 消息
+     * @throws IOException
+     */
     void sendMessage(String message) throws IOException;
 }
 

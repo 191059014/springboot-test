@@ -2,6 +2,7 @@ package com.hb.test.websocket.server;
 
 import com.alibaba.fastjson.JSON;
 import com.hb.test.websocket.model.Message;
+import com.hb.test.websocket.util.WebSocketUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,6 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * websocket抽象类
@@ -40,24 +40,21 @@ public abstract class AbstractWebSocketServer implements IWebSocketServer {
 
     @OnOpen
     @Override
-    public void onOpen(Session session, @PathParam("clientId") String clientId) {
+    public void onOpen(Session session, @PathParam("clientId") String clientId, @PathParam("topic") String topic) {
         webSocketMap.put(clientId, session);
-//        doAfterOpen();
+        doAfterOpen(session, clientId, topic);
         System.out.println(clientId + "已上线");
     }
+
+    protected abstract void doAfterOpen(Session session, String clientId, String topic);
 
     @OnClose
     @Override
     public void onClose(Session session) {
-//        webSocketMap.remove(clientId);
-        AtomicReference<String> removeKey = new AtomicReference<>("");
-        webSocketMap.forEach((key, value) -> {
-            if (session.equals(value)) {
-                removeKey.set(key);
-            }
-        });
-        webSocketMap.remove(removeKey.get());
-        System.out.println(removeKey.get() + "退出了");
+        String clientId = session.getPathParameters().get("clientId");
+        String topic = session.getPathParameters().get("topic");
+        webSocketMap.remove(clientId);
+        System.out.println(clientId + "退出了");
     }
 
     @OnError
@@ -71,16 +68,17 @@ public abstract class AbstractWebSocketServer implements IWebSocketServer {
     public void onMessage(String message, Session session) {
         System.out.println("接收消息：" + message);
         Message msg = JSON.parseObject(message, Message.class);
-        try {
-            Session toSession = webSocketMap.get(msg.getTo());
-            if (toSession == null) {
-                System.out.println("信息接收者不存在");
-                return;
-            }
-            Object content = msg.getContent();
-            toSession.getBasicRemote().sendText(content == null ? "" : content.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+        Session toSession = webSocketMap.get(msg.getTo());
+        if (toSession == null) {
+            System.out.println("信息接收者不存在");
+            return;
+        }
+        Object content = msg.getContent();
+        boolean sendResult = WebSocketUtils.sendMessage(toSession, content == null ? "" : content.toString());
+        if (sendResult) {
+            System.out.println("发送消息成功：" + sendResult);
+        } else {
+            System.out.println("发送消息失败：" + sendResult);
         }
     }
 
