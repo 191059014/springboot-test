@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * websocket过滤器
+ * websocket过滤器，可做鉴权
  *
  * @version v0.1, 2020/8/6 16:04, create by huangbiao.
  */
