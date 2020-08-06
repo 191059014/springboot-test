@@ -3,16 +3,13 @@ package com.hb.test.websocket.server;
 import com.alibaba.fastjson.JSON;
 import com.hb.test.websocket.model.Message;
 import com.hb.test.websocket.util.WebSocketUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
-import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -22,18 +19,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class AbstractWebSocketServer implements IWebSocketServer {
 
-    @Autowired
-    private HttpServletRequest request;
-
     /**
      * 会话集合
      */
     protected static ConcurrentHashMap<String, Session> webSocketMap = new ConcurrentHashMap<>();
-
-    /**
-     * 与某个客户端的连接会话，需要通过它来给客户端发送数据
-     */
-    private Session session;
 
     @OnOpen
     @Override
@@ -77,14 +66,6 @@ public abstract class AbstractWebSocketServer implements IWebSocketServer {
         } else {
             System.out.println("发送消息失败：" + sendResult);
         }
-    }
-
-    /**
-     * 实现服务器主动推送
-     */
-    @Override
-    public void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
     }
 
 }

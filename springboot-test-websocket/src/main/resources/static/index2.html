@@ -36,13 +36,12 @@
             //打开事件
             socket.onopen = function () {
                 console.log("websocket已打开");
-                //socket.send("这是来自客户端的消息" + location.href + new Date());
+                // socket.send("token:123456789");
             };
             //获得消息事件
             socket.onmessage = function (msg) {
                 let p = $("<p style='text-align: left;width: 100%'>张三：" + msg.data + "</p>");
                 $("#chatDiv").append(p);
-                socket.send('接受成功ack');
             };
             //关闭事件
             socket.onclose = function () {

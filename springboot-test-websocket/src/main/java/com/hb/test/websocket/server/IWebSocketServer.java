@@ -1,7 +1,6 @@
 package com.hb.test.websocket.server;
 
 import javax.websocket.Session;
-import java.io.IOException;
 
 /**
  * websocket标准接口
@@ -40,12 +39,6 @@ public interface IWebSocketServer {
      */
     void onMessage(String message, Session session);
 
-    /**
-     * 发送消息
-     * @param message 消息
-     * @throws IOException
-     */
-    void sendMessage(String message) throws IOException;
 }
 
     

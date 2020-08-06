@@ -22,8 +22,6 @@ public class Message implements Serializable {
     private String topic;
     // 消息内容
     private String content;
-    // 消息状态
-    private String status;
 
 }
 

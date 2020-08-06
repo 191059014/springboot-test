@@ -1,5 +1,6 @@
 package com.hb.test.websocket.server;
 
+import com.hb.test.websocket.config.WebSocketConfig;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @version v0.1, 2020/8/5 13:53, create by huangbiao.
  */
-@ServerEndpoint("/test/{clientId}/{topic}")
+@ServerEndpoint(value = "/test/{clientId}/{topic}",configurator = WebSocketConfig.class)
 @Component
 public class WebSocketServerImpl extends AbstractWebSocketServer implements IWebSocketServer, InitializingBean {
 
