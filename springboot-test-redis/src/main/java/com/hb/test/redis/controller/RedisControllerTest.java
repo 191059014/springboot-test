@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 测试
@@ -44,6 +45,29 @@ public class RedisControllerTest {
         System.out.println(mapRedisTemplate);
         System.out.println(listRedisTemplate);
         System.out.println(stringRedisTemplate);
+    }
+
+    @GetMapping("/set")
+    public String set() {
+        stringRedisTemplate.opsForValue().set("testKey", "testValue" + System.currentTimeMillis(), 3, TimeUnit.MINUTES);
+        return "success";
+    }
+
+    @GetMapping("/setIfAbsent")
+    public String setIfAbsent() {
+        stringRedisTemplate.opsForValue().setIfAbsent("testKey", "testValue", 3, TimeUnit.MINUTES);
+        return "success";
+    }
+
+    @GetMapping("/get")
+    public Object get() {
+        return stringRedisTemplate.opsForValue().get("testKey");
+    }
+
+    @GetMapping("/del")
+    public String del() {
+        stringRedisTemplate.delete("testKey");
+        return "success";
     }
 
 }

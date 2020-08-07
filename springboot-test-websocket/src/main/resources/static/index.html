@@ -25,7 +25,7 @@
             console.log("您的浏览器不支持WebSocket");
         } else {
             console.log("您的浏览器支持WebSocket");
-            let socketUrl = "http://localhost:8080/test/" + 10+"/topic_1";
+            let socketUrl = "http://localhost:8080/ws/audit?token=zhangsan";
             socketUrl = socketUrl.replace("https", "ws").replace("http", "ws");
             console.log(socketUrl);
             if (socket != null) {
@@ -36,7 +36,6 @@
             //打开事件
             socket.onopen = function () {
                 console.log("websocket已打开");
-                //socket.send("这是来自客户端的消息" + location.href + new Date());
             };
             //获得消息事件
             socket.onmessage = function (msg) {
@@ -59,8 +58,8 @@
             console.log("您的浏览器不支持WebSocket");
         } else {
             console.log("您的浏览器支持WebSocket");
-            console.log('{"toUserId":"' + $("#toUserId").val() + '","contentText":"' + $("#contentText").val() + '"}');
-            socket.send('{"from":"10","to":"' + 20 + '","content":"' + $("#contentText").val() + '"}');
+            console.log('{"to":"lisi","topic":"topic_1","content":"' + $("#contentText").val() + '"}');
+            socket.send('{"to":"lisi","topic":"topic_1","content":"' + $("#contentText").val() + '"}');
             let p = $("<p style='text-align: right;width: 100%'>我：" + $("#contentText").val() + "</p>");
             $("#chatDiv").append(p);
         }
