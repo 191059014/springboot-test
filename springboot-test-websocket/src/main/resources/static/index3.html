@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket通讯-用户20</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+<div><a href="javascript:void(0)" onclick="openSocket()">开启聊天</a></div>
+<div id="chatDiv" style="background-color: gainsboro;width: 50%">
+
+</div>
+
+<div><input id="contentText" name="contentText" type="text" value="hello zhangsan">
+    <a href="javascript:void(0)" onclick="sendMessage()">发送</a></div>
+
+<script>
+    /**
+     * 利用stomp和socketjs
+     */
+    var stompClient = null;
+
+    function openSocket() {
+        if (typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        } else {
+
+        }
+    }
+
+    function sendMessage() {
+        if (typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        } else {
+            console.log("您的浏览器支持WebSocket");
+            console.log('{"to":"zhangsan","topic":"topic_1","content":"' + $("#contentText").val() + '"}');
+            socket.send('{"to":"zhangsan","topic":"topic_1","content":"' + $("#contentText").val() + '"}');
+            let p = $("<p style='text-align: right;width: 100%'>我：" + $("#contentText").val() + "</p>");
+            $("#chatDiv").append(p);
+        }
+    }
+</script>
+</body>
+</html>
