@@ -24,6 +24,10 @@ public class RedisListenerConfig {
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
+//        container.addMessageListener((message, bytes) -> {
+//            String redisKey = message.toString();
+//            System.out.println("channel：" + new String(message.getChannel()) + ", key：" + redisKey + "，value：" + SpringUtil.getBean(StringRedisTemplate.class).opsForValue().get("name") + "，pattern：" + new String(bytes));
+//        }, Arrays.asList(new PatternTopic("__keyevent@0__:set"), new PatternTopic("__keyevent@0__:del")));
         return container;
     }
 
