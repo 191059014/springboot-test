@@ -3,7 +3,6 @@ package com.hb.test.redis.listener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
 /**
@@ -14,15 +13,17 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 @Configuration
 public class RedisListenerConfig {
 
+    /**
+     * 创建监听容器
+     *
+     * @see RedisKeyChangeListener
+     * @see RedisKeyChangeEvent
+     * @see RedisKeyExpirationListener
+     */
     @Bean
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-//        container.addMessageListener(new RedisKeyExpirationListener(container), new PatternTopic("__keyevent@0__:expired"));
-//        container.addMessageListener(new RedisKeyExpirationListener(container), new PatternTopic("__key*__:*"));
-        container.addMessageListener(new RedisKeyExpirationListener(container), new PatternTopic("__keyevent@0__:SETNX"));
-//        container.addMessageListener(new RedisKeyExpirationListener(container), new PatternTopic("__keyspace@0__:set"));
-        System.out.println("RedisListenerConfig: " + container);
         return container;
     }
 
