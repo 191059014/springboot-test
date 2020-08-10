@@ -24,13 +24,13 @@ public class RedisKeyChangeListener extends KeyspaceEventMessageListener impleme
     /**
      * 键事件通知，需要修改redis配置文件项：notify-keyspace-events Ex
      */
-    private static final Topic KEYEVENT_CHANGE_TOPIC = new PatternTopic("__keyevent@0__:set");// 监控所有key的set操作
+    private static final Topic KEYEVENT_CHANGE_TOPIC = new PatternTopic("__keyevent@0__:set");// 监控所有key的set操作，0代表0库
     /**
      * 键空间通知，需要修改redis配置文件项：notify-keyspace-events K$
      */
-    private static final Topic KEYSPACE_CHANGE_TOPIC = new PatternTopic("__keyspace@*__:name");// 监控所有key=“name”的变化
+    private static final Topic KEYSPACE_CHANGE_TOPIC = new PatternTopic("__keyspace@*__:name");// 监控所有key=“name”的变化，*代表所有库
     /**
-     * 监控所有通知
+     * 监控所有通知，包含事件和空间
      */
     private static final Topic TOPIC = new PatternTopic("__key*__:*");
 
