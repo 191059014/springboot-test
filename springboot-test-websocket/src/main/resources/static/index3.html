@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>websocket通讯-用户20</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://raw.githubusercontent.com/jmesnil/stomp-websocket/master/lib/stomp.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
 </head>
 <body>
@@ -18,13 +20,29 @@
     /**
      * 利用stomp和socketjs
      */
-    var stompClient = null;
+    let stompClient = null;
 
     function openSocket() {
         if (typeof(WebSocket) == "undefined") {
             console.log("您的浏览器不支持WebSocket");
         } else {
-
+            let wsUrl = "http://localhost:8080/ws/audit";
+            // 建立连接对象（还未发起连接）
+            let socket = new SockJS(wsUrl);
+            // 获取 STOMP 子协议的客户端对象
+            stompClient = Stomp.over(socket);
+            var headers = {
+                token: 'AABB'
+            };
+            stompClient.connect(headers, function () {
+                console.info("连接成功");
+                stompClient.subscribe("queue/test", function (data) {
+                    console.info("接收消息：" + data);
+                });
+            }, function () {
+                console.info("连接失败");
+                openSocket();// 重新连接
+            });
         }
     }
 
@@ -37,6 +55,8 @@
             socket.send('{"to":"zhangsan","topic":"topic_1","content":"' + $("#contentText").val() + '"}');
             let p = $("<p style='text-align: right;width: 100%'>我：" + $("#contentText").val() + "</p>");
             $("#chatDiv").append(p);
+
+            stompClient.send(url, {"token": "BBCC"}, {"name": "zhangsan"});
         }
     }
 </script>
