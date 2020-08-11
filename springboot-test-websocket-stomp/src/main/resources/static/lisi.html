@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>stomp-李四</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+
+<div><a href="javascript:void(0)" onclick="openConnect()">开启聊天</a></div>
+<div id="chatDiv" style="background-color: gainsboro;width: 50%">
+
+</div>
+
+<div><input id="contentText" name="contentText" type="text" value="张三您好">
+    <a href="javascript:void(0)" onclick="sendMessage()">发送</a></div>
+
+<script>
+    let stomp;
+
+    function openConnect() {
+        /*STOMP*/
+        let url = 'http://localhost:8080/stomp';
+        let sock = new SockJS(url);
+        stomp = Stomp.over(sock);
+
+        let headers = {
+            username: 'lisi',
+            password: '123456'
+        };
+
+        stomp.connect(headers, function (frame) {
+
+            stomp.subscribe("/user/queue/chat", function (message) {
+                debugger;
+                let content = message.body;
+                let obj = JSON.parse(content);
+                let p = $("<p style='text-align: left;width: 100%'>张三：" + obj.message + "</p>");
+                $("#chatDiv").append(p);
+            });
+
+        });
+    }
+
+    function sendMessage() {
+        let adminJSON = JSON.stringify({'message': $("#contentText").val(), "to": "zhangsan"});
+        stomp.send("/app/chat", {}, adminJSON);
+        let p = $("<p style='text-align: right;width: 100%'>我：" + $("#contentText").val() + "</p>");
+        $("#chatDiv").append(p);
+    }
+</script>
+</body>
+</html>

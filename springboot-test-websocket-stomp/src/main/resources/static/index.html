@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket通讯-用户20</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+
+<div><input id="contentText" name="contentText" type="text" value="hello zhangsan">
+    <a href="javascript:void(0)" onclick="sendMessage()">发送</a></div>
+
+<script>
+    /*STOMP*/
+    let url = 'http://localhost:8080/stomp';
+    let sock = new SockJS(url);
+    let stomp = Stomp.over(sock);
+
+    let strJson = JSON.stringify({'message': 'js端消息'});
+
+    let headers = {
+        username: 'admin',
+        password: 'admin'
+    };
+
+    stomp.connect(headers, function (frame) {
+
+        //发送消息
+        //第二个参数是一个头信息的Map，它会包含在STOMP的帧中
+        //事务支持
+        let tx = stomp.begin();
+        stomp.send("/app/marco", {transaction: tx.id}, strJson);
+        tx.commit();
+
+
+        //订阅服务端消息 subscribe(destination url, callback[, headers])
+        stomp.subscribe("/topic/marco", function (message) {
+            let content = message.body;
+            let obj = JSON.parse(content);
+            console.log("订阅的服务端消息：" + obj.message);
+        }, {});
+
+
+        stomp.subscribe("/app/getShout", function (message) {
+            let content = message.body;
+            let obj = JSON.parse(content);
+            console.log("订阅的服务端直接返回的消息：" + obj.message);
+        }, {});
+
+
+        /*以下是针对特定用户的订阅*/
+        let adminJSON = JSON.stringify({'message': 'ADMIN'});
+        /*第一种*/
+        stomp.send("/app/singleShout", {}, adminJSON);
+        stomp.subscribe("/user/queue/shouts", function (message) {
+            let content = message.body;
+            let obj = JSON.parse(content);
+            console.log("admin用户特定的消息1：" + obj.message);
+        });
+        /*第二种*/
+        stomp.send("/app/shout", {}, adminJSON);
+        stomp.subscribe("/user/queue/notifications", function (message) {
+            let content = message.body;
+            let obj = JSON.parse(content);
+            console.log("admin用户特定的消息2：" + obj.message);
+        });
+
+        /*订阅异常消息*/
+        stomp.subscribe("/user/queue/errors", function (message) {
+            console.log("异常消息订阅：" + message.body);
+        });
+
+        //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
+        stomp.heartbeat.outgoing = 20000;
+
+        stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
+    });
+</script>
+</body>
+</html>

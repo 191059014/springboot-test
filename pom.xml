@@ -19,6 +19,7 @@
         <module>springboot-test-exception-handler</module>
         <module>springboot-test-log-support</module>
         <module>springboot-test-websocket</module>
+        <module>springboot-test-websocket-stomp</module>
     </modules>
 
     <properties>
