@@ -20,6 +20,7 @@
         <module>springboot-test-log-support</module>
         <module>springboot-test-websocket</module>
         <module>springboot-test-websocket-stomp</module>
+        <module>springboot-test-rocketmq</module>
     </modules>
 
     <properties>
