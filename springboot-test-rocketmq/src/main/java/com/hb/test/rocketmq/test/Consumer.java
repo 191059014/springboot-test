@@ -3,6 +3,7 @@ package com.hb.test.rocketmq.test;
 import com.hb.test.rocketmq.util.RocketMQWapper;
 import com.hb.test.rocketmq.util.RocketMQUtils;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
@@ -32,11 +33,15 @@ public class Consumer implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
 
         MessageListenerConcurrently messageListenerConcurrently = (list, consumeConcurrentlyContext) -> {
-            for (MessageExt messageExt : list) {
-                com.hb.test.rocketmq.test.MessageModel model = RocketMQUtils.decode(new String(messageExt.getBody()), com.hb.test.rocketmq.test.MessageModel.class);
-                LOGGER.info("消费者接收到消息：{}，当前重试次数：{}", model, messageExt.getReconsumeTimes());
+            try {
+                for (MessageExt messageExt : list) {
+                    com.hb.test.rocketmq.test.MessageModel model = RocketMQUtils.decode(new String(messageExt.getBody()), com.hb.test.rocketmq.test.MessageModel.class);
+                    LOGGER.info("消费者接收到消息：{}，当前重试次数：{}", model, messageExt.getReconsumeTimes());
+                }
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+            } catch (Exception e) {
+                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
             }
-            return null;
         };
 
         DefaultMQPushConsumer pushConsumer = RocketMQWapper.createPushConsumer(MessageProtocolEnums.WFP_TEST_TOPIC.getConsumerGroup(), nameServerCluster,
