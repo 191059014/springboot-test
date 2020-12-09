@@ -20,13 +20,13 @@ public class TestController {
     @Autowired
     private Server3Facade server3Facade;
 
-    @RequestMapping("/test1")
-    public Object test1() {
+    @RequestMapping("/testServer2")
+    public Object testServer2() {
         return server2Facade.getServerName();
     }
 
-    @RequestMapping("/test2")
-    public Object test2() {
+    @RequestMapping("/testServer3")
+    public Object testServer3() {
         return server3Facade.getServerName();
     }
 
