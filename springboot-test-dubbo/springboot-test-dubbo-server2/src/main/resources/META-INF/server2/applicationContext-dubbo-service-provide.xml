@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="
+	   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 提供服务 -->
+    <bean id="server2Facade" class="com.hb.test.dubbo.server2.facade.impl.Server2FacadeImpl"/>
+    <dubbo:service interface="com.hb.test.dubbo.server2.facade.Server2Facade"
+                   ref="server2Facade" version="${dubbo.version}"
+                   group="${dubbo.group}" timeout="${dubbo.timeout}"/>
+
+</beans>
