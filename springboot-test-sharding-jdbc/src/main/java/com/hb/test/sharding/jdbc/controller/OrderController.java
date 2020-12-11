@@ -61,7 +61,7 @@ public class OrderController {
      */
     @GetMapping("/addOne")
     public OrderDO addOne() {
-        String mobile = "18310673016";
+        String mobile = "16607107282";
         OrderDO orderDO = new OrderDO();
         orderDO.setOrderId(KeyGenerator.getUniqKey(mobile, DbAndTbEnum.T_ORDER));
         orderDO.setMobile(mobile);
