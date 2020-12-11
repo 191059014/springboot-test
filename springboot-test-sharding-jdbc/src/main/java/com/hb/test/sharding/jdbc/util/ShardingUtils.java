@@ -26,13 +26,6 @@ public class ShardingUtils {
      */
     public static final int TB_INDEX_LENGTH = 4;
 
-    public static String getUniqKey(String routeValue, DbAndTbEnum dbAndTbEnum) {
-        String dbIndex = getDbIndexByRoutingKey(routeValue, dbAndTbEnum);
-        String tbIndex = getTbIndexByRoutingKey(routeValue, dbAndTbEnum);
-        System.out.println("dbIndex=" + dbIndex + ", tbIndex=" + tbIndex);
-        return dbAndTbEnum.getKeyPrefix() + dbIndex + tbIndex + System.currentTimeMillis();
-    }
-
     /**
      * 获取字符串的asc码
      *

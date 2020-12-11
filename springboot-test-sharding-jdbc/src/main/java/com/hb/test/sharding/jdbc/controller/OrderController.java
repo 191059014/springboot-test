@@ -3,7 +3,7 @@ package com.hb.test.sharding.jdbc.controller;
 import com.hb.test.sharding.jdbc.common.DbAndTbEnum;
 import com.hb.test.sharding.jdbc.dobj.OrderDO;
 import com.hb.test.sharding.jdbc.service.IOrderService;
-import com.hb.test.sharding.jdbc.util.ShardingUtils;
+import com.hb.test.sharding.jdbc.util.KeyGenerator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,12 +30,28 @@ public class OrderController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param id
+     *            主键
      * @return 单条数据
      */
     @GetMapping("/selectById")
     public OrderDO selectOne(Integer id) {
-        return this.iOrderService.selectById(id);
+        return this.iOrderService.selectById(1);
+    }
+
+    /**
+     * 查询集合
+     *
+     * @param id
+     *            主键
+     * @return 单条数据
+     */
+    @GetMapping("/selectList")
+    public Object selectList(Integer id) {
+        OrderDO query = new OrderDO();
+        query.setMobile("18310673016");
+        query.setOrderId("OD0000001607683920079");
+        return this.iOrderService.selectList(query);
     }
 
     /**
@@ -47,7 +63,7 @@ public class OrderController {
     public OrderDO addOne() {
         String mobile = "18310673016";
         OrderDO orderDO = new OrderDO();
-        orderDO.setOrderId(ShardingUtils.getUniqKey(mobile, DbAndTbEnum.T_ORDER));
+        orderDO.setOrderId(KeyGenerator.getUniqKey(mobile, DbAndTbEnum.T_ORDER));
         orderDO.setMobile(mobile);
         this.iOrderService.insertBySelective(orderDO);
         return orderDO;
