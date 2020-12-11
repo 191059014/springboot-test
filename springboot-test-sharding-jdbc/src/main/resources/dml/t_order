@@ -1,0 +1,41 @@
+CREATE TABLE sharding00.`t_order_0000` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_id` varchar(32) NOT NULL DEFAULT '' COMMENT '订单标识 ',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+CREATE TABLE sharding00.`t_order_0001` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_id` varchar(32) NOT NULL DEFAULT '' COMMENT '订单标识 ',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+CREATE TABLE sharding01.`t_order_0000` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_id` varchar(32) NOT NULL DEFAULT '' COMMENT '订单标识 ',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+CREATE TABLE sharding01.`t_order_0001` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_id` varchar(32) NOT NULL DEFAULT '' COMMENT '订单标识 ',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+CREATE TABLE sharding02.`t_order_0000` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_id` varchar(32) NOT NULL DEFAULT '' COMMENT '订单标识 ',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+CREATE TABLE sharding02.`t_order_0001` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_id` varchar(32) NOT NULL DEFAULT '' COMMENT '订单标识 ',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='订单表';

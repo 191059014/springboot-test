@@ -1,0 +1,20 @@
+CREATE TABLE sharding00.`t_user_0000` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` varchar(32) NOT NULL DEFAULT '' COMMENT '用户标识 ',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+CREATE TABLE sharding00.`t_user_0001` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` varchar(32) NOT NULL DEFAULT '' COMMENT '用户标识 ',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+CREATE TABLE sharding00.`t_user_0002` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` varchar(32) NOT NULL DEFAULT '' COMMENT '用户标识 ',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='用户表';

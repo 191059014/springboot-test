@@ -23,6 +23,7 @@
         <module>springboot-test-rocketmq</module>
         <module>springboot-test-dubbo</module>
         <module>springboot-test-web</module>
+        <module>springboot-test-sharding-jdbc</module>
     </modules>
 
     <properties>

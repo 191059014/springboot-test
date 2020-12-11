@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.test.sharding.jdbc.dao.IUserDao">
+
+    <resultMap type="com.hb.test.sharding.jdbc.dobj.UserDO" id="userMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        id, user_id, mobile
+    </sql>
+
+    <!--查询单个-->
+    <select id="selectById" resultMap="userMap">
+        select
+        <include refid="allColumns"/>
+        from t_user
+        where id = #{id}
+    </select>
+
+    <!--查询集合-->
+    <select id="selectList" resultMap="userMap">
+        select
+        <include refid="allColumns"/>
+        from t_user
+        <include refid="whereSql"/>
+        order by gmt_create desc
+    </select>
+
+    <!--查询总条数-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from t_user
+        <include refid="whereSql"/>
+    </select>
+
+    <!--分页条件查询-->
+    <select id="selectPages" resultMap="userMap">
+        select
+        <include refid="allColumns"/>
+        from t_user
+        <include refid="whereSql"/>
+        order by gmt_create desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!--条件查询-->
+    <sql id="whereSql">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and mobile = #{mobile}
+            </if>
+        </where>
+    </sql>
+
+    <!--选择性的新增-->
+    <insert id="insertBySelective">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">
+                user_id,
+            </if>
+            <if test="mobile != null and mobile != ''">
+                mobile,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">
+                #{userId},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                #{mobile},
+            </if>
+        </trim>
+    </insert>
+
+    <!--选择性的修改-->
+    <update id="updateBySelective">
+        update t_user
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                mobile = #{mobile},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键逻辑删除-->
+    <update id="deleteById">
+        update t_user set record_status=1 where id = #{id}
+    </update>
+
+</mapper>
