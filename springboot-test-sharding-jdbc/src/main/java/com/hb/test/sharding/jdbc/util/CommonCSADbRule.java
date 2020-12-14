@@ -56,7 +56,7 @@ public class CommonCSADbRule implements ComplexKeysShardingAlgorithm {
                 availableTargetNames.stream().filter(availableTargetName -> {
                     String datasourceIndex = availableTargetName.substring(ShardingUtils.DATASOURCE_NAME_PREFIX_LENGTH);
                     String datasourceIndexToDbIndex =
-                        ShardingUtils.fillZeroAtLeft(datasourceIndex, ShardingUtils.DB_INDEX_LENGTH);
+                        StrUtils.fillZeroAtLeft(datasourceIndex, ShardingUtils.DB_INDEX_LENGTH);
                     return dbIndex.equals(datasourceIndexToDbIndex);
                 }).forEach(finalTargetNames::add);
             }

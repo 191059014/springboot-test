@@ -26,7 +26,6 @@
         <include refid="allColumns"/>
         from t_user
         <include refid="whereSql"/>
-        order by gmt_create desc
     </select>
 
     <!--查询总条数-->
@@ -43,7 +42,6 @@
         <include refid="allColumns"/>
         from t_user
         <include refid="whereSql"/>
-        order by gmt_create desc
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 订单表(OrderDO)表服务实现类
@@ -101,6 +102,11 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public int deleteById(Integer id) {
         return this.iOrderDao.deleteById(id);
+    }
+
+    @Override
+    public List<OrderDO> selectByOrders(Set<String> set) {
+        return this.iOrderDao.selectByOrders(set);
     }
 
 }

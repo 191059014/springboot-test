@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 订单表(OrderDO)表数据库访问层
@@ -73,4 +74,12 @@ public interface IOrderDao {
      */
     int deleteById(Integer id);
 
+    /**
+     * 通过order_id集合查询
+     *
+     * @param set
+     *            id集合
+     * @return 集合
+     */
+    List<OrderDO> selectByOrders(@Param("set") Set<String> set);
 }

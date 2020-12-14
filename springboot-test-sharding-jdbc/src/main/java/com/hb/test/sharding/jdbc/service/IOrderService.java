@@ -3,6 +3,7 @@ package com.hb.test.sharding.jdbc.service;
 import com.hb.test.sharding.jdbc.dobj.OrderDO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 订单表(OrderDO)表服务接口
@@ -70,4 +71,12 @@ public interface IOrderService {
      */
     int deleteById(Integer id);
 
+    /**
+     * 通过order_id集合查询
+     * 
+     * @param set
+     *            id集合
+     * @return 集合
+     */
+    List<OrderDO> selectByOrders(Set<String> set);
 }

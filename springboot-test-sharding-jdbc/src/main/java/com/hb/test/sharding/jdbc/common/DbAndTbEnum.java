@@ -8,7 +8,8 @@ package com.hb.test.sharding.jdbc.common;
 public enum DbAndTbEnum {
 
     T_ORDER("t_order", "order_id", "OD", 3, 6, 2, 4, "订单表"),
-    T_USER("t_user", "user_id", "UD", 1, 3, 2, 4, "用户表"),;
+    T_USER("t_user", "user_id", "UID", 1, 3, 2, 5, "用户表"),
+    ;
 
     /**
      * 分片表名
@@ -43,7 +44,8 @@ public enum DbAndTbEnum {
      */
     private String desc;
 
-    DbAndTbEnum(String logicTableName, String shardingKey, String keyPrefix, int dbCount, int tbCount, int dbIndexBegin, int tbIndexBegin, String desc) {
+    DbAndTbEnum(String logicTableName, String shardingKey, String keyPrefix, int dbCount, int tbCount, int dbIndexBegin,
+        int tbIndexBegin, String desc) {
         this.logicTableName = logicTableName;
         this.shardingKey = shardingKey;
         this.keyPrefix = keyPrefix;
@@ -89,7 +91,8 @@ public enum DbAndTbEnum {
     /**
      * 通过逻辑表名获取
      *
-     * @param logicTableName 逻辑表名
+     * @param logicTableName
+     *            逻辑表名
      * @return DbAndTbEnum
      */
     public static DbAndTbEnum getByLogicTableName(String logicTableName) {
@@ -102,5 +105,3 @@ public enum DbAndTbEnum {
     }
 
 }
-
-    
