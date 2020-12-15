@@ -26,8 +26,10 @@ public class RocketMQUtils {
     /**
      * 创建MQ消息实体
      *
-     * @param topic      主题
-     * @param msgContent 消息内容
+     * @param topic
+     *            主题
+     * @param msgContent
+     *            消息内容
      * @return MQ消息实体
      */
     public static Message createMessage(String topic, Object msgContent) {
@@ -37,9 +39,12 @@ public class RocketMQUtils {
     /**
      * 创建MQ消息实体
      *
-     * @param topic      主题
-     * @param msgContent 消息内容
-     * @param version    版本号
+     * @param topic
+     *            主题
+     * @param msgContent
+     *            消息内容
+     * @param version
+     *            版本号
      * @return MQ消息实体
      */
     public static Message createMessage(String topic, Object msgContent, String version) {
@@ -53,8 +58,10 @@ public class RocketMQUtils {
     /**
      * MQ发送消息转码
      *
-     * @param topic      主题
-     * @param msgContent 消息内容
+     * @param topic
+     *            主题
+     * @param msgContent
+     *            消息内容
      * @return json格式的消息
      */
     public static String encode(String topic, Object msgContent) {
@@ -64,9 +71,12 @@ public class RocketMQUtils {
     /**
      * MQ发送消息转码
      *
-     * @param topic      主题
-     * @param msgContent 消息内容
-     * @param version    版本号
+     * @param topic
+     *            主题
+     * @param msgContent
+     *            消息内容
+     * @param version
+     *            版本号
      * @return json格式的消息
      */
     public static String encode(String topic, Object msgContent, String version) {
@@ -98,9 +108,12 @@ public class RocketMQUtils {
     /**
      * MQ发送消息解码
      *
-     * @param message 消息
-     * @param tClass  类
-     * @param <T>     泛型
+     * @param message
+     *            消息
+     * @param tClass
+     *            类
+     * @param <T>
+     *            泛型
      * @return T
      */
     public static <T> T decode(String message, Class<T> tClass) {
@@ -122,5 +135,3 @@ public class RocketMQUtils {
     }
 
 }
-
-    
