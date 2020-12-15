@@ -1,0 +1,2 @@
+# springboot-test-rocketmq
+主要包含了rocketMQ的基本操作，以及封装工具类RocketMQUtils和RocketMQWapper，非常实用，且方便
