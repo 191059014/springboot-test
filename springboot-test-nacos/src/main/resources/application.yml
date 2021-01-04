@@ -1,0 +1,6 @@
+server:
+  port: 8080
+nacos:
+  config:
+    server-addr: 172.30.66.54,172.30.66.52,172.30.66.55
+    namespace: b46a7584-2f40-469e-aa52-6a22a9f58487
