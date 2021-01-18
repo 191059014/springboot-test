@@ -21,7 +21,7 @@
         <!-- docker仓库地址 -->
         <docker.repostory>development.docker.19ego.cn:5000</docker.repostory>
         <!-- 这里必须是小写的 -->
-        <docker.registry.name>springboottest</docker.registry.name>
+        <docker.registry.name>pmarketing</docker.registry.name>
     </properties>
 
     <dependencies>
