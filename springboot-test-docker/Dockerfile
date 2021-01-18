@@ -4,7 +4,7 @@ MAINTAINER R&D Depart.1 <gy-yykf1b@19pay.com.cn>
 RUN mkdir /log
 RUN mkdir /app
 
-ADD ./target/springbootTestDocker.jar /app/
+ADD ./target/springboottestdocker.jar /app/
 
 COPY ./run.sh /app/run.sh
 RUN chmod u+x /app/run.sh
