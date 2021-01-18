@@ -15,8 +15,6 @@
     <name>springboot-test-dubbo</name>
     <url>http://www.example.com</url>
     <modules>
-        <module>springboot-test-dubbo-producer</module>
-        <module>springboot-test-dubbo-consumer</module>
         <module>springboot-test-dubbo-server1</module>
         <module>springboot-test-dubbo-server2</module>
         <module>springboot-test-dubbo-server3</module>
