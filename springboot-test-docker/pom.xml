@@ -21,7 +21,7 @@
         <!-- docker仓库地址 -->
         <docker.repostory>development.docker.19ego.cn:5000</docker.repostory>
         <!-- 这里必须是小写的 -->
-        <docker.registry.name>springboottestplatform</docker.registry.name>
+        <docker.registry.name>springboottest</docker.registry.name>
     </properties>
 
     <dependencies>
@@ -29,7 +29,7 @@
     </dependencies>
 
     <build>
-        <finalName>springbootTestDocker</finalName>
+        <finalName>springboottestdocker</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
