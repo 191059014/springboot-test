@@ -1,0 +1,49 @@
+# Default values for mopmweb.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: pmarketing/springboottestdocker
+  tag: 0.0.1
+  pullPolicy: Always
+
+secret:
+  # 注意key不要使用减号'-'连接单词,如果需要一定使用下划线'_'
+  # 因为模板会识别key名称，自动并将key对应的值映射到容器中与key名称相同的环境变量上,而环境变量名称不支持减号'-'
+
+  # 日志级别
+  logging_level: 'INFO'
+  # 环境
+  profiles_active: 'dev'
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    service.beta.kubernetes.io/alicloud-loadbalancer-id: lb-2ze5xdh580ue96sf625aj
+  path: /
+  hosts:
+    - pmopmweb-dev.19ego.cn
+  tls:
+    - secretName: traefik-cert
+      hosts:
+        - pmopmweb-dev.19ego.cn
+
+resources:
+  requests:
+    memory: 1000Mi
+    cpu: 1000m
+  limits:
+    memory: 2000Mi
+    cpu: 2000m
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

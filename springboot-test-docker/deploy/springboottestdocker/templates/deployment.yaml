@@ -1,0 +1,53 @@
+{{- $fullName := .Release.Name -}}
+{{- $chartName := .Chart.Name -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ $fullName }}-{{ $chartName }}-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ $fullName }}-{{ $chartName }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: {{ $chartName }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        env:
+{{- range $key, $val := .Values.secret }}
+        - name: {{ $key }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $fullName }}-{{ $chartName }}-secret
+              key: {{ $key }}
+{{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        volumeMounts:
+        - name: log
+          mountPath: /log
+      volumes:
+      - name: log
+        hostPath:
+          path: /log/pmarketing/{{ $chartName }}
+  {{- with .Values.nodeSelector }}
+    nodeSelector:
+{{ toYaml . | indent 8 }}
+  {{- end }}
+  {{- with .Values.affinity }}
+    affinity:
+{{ toYaml . | indent 8 }}
+  {{- end }}
+  {{- with .Values.tolerations }}
+    tolerations:
+{{ toYaml . | indent 8 }}
+  {{- end }}
+
+
