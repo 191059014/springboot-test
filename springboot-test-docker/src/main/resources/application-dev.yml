@@ -1,3 +1,4 @@
 logging:
   level:
     com.hb.test.docker: ${logging_level}
+  path: /log

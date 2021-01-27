@@ -31,9 +31,10 @@ public class TestController {
     }
 
     @GetMapping("/print/environment")
-    public void printEnvironment() {
+    public Object printEnvironment() {
         String profilesActive = env.getProperty("spring.profiles.active");
         LOGGER.info("profilesActive={}", profilesActive);
+        return profilesActive;
     }
 
 }
