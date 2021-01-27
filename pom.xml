@@ -26,6 +26,7 @@
         <module>springboot-test-sharding-jdbc</module>
         <module>springboot-test-nacos</module>
         <module>springboot-test-docker</module>
+        <module>springboot-test-codegenerate</module>
     </modules>
 
     <properties>
