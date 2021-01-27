@@ -16,3 +16,11 @@ tar -zxvf deploy.tar.gz
 cd deploy
 sh deploy.sh pmbizweb pmbizweb-dev
 ```
+- 两种方式都需要把相关文件拷贝到安装了docker和k8s机器的相关目录下
+
+```bash
+
+/data/pmarketing/springboottestdocker
+Chart.yaml  templates  values.yaml
+
+```
