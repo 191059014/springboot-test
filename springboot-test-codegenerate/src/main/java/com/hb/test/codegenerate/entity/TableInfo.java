@@ -3,7 +3,6 @@ package com.hb.test.codegenerate.entity;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 表信息
@@ -24,17 +23,4 @@ public class TableInfo {
     // 创建时间
     private Date createTime;
 
-    /**
-     * 列名
-     */
-    private List<ColumnEntity> columns;
-
-    /**
-     * 驼峰类型
-     */
-    private String caseClassName;
-    /**
-     * 普通类型
-     */
-    private String lowerClassName;
 }

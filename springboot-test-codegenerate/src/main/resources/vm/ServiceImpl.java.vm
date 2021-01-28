@@ -1,0 +1,43 @@
+package ${package};
+
+import ${package}.${className}DO;
+import ${package}.I${className}Mapper;
+import ${package}.I${className}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * ${comments}实现类
+ *
+ * @version v0.1, ${datetime}, create by ${author}.
+ */
+@Service
+public class ${className}ServiceImpl implements I${className}Service {
+
+    /**
+     * ${comments}操作数据库层
+     */
+    @Autowired
+    private I${className}Mapper ${className}Mapper;
+
+    @Override
+    public Page<${className}DO> queryPages(${className}DO ${classname}, Integer pageNum, Integer pageSize) {
+        return ${className}Mapper.queryPages(${classname}, (pageNum - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public int save(${className}DO ${classname}) {
+        return ${className}Mapper.save(${classname});
+    }
+
+    @Override
+    public int updateById(${pk.attrType} ${pk.attrName}, ${className}DO ${classname}) {
+        return ${className}Mapper.updateById(${pk.attrName},${classname});
+    }
+
+    @Override
+    public int deleteById(${pk.attrType} ${pk.attrName}) {
+        return ${className}Mapper.deleteById(${pk.attrName});
+    }
+
+}

@@ -1,4 +1,4 @@
-package com.hb.test.codegenerate.utils;
+package com.hb.test.codegenerate.util;
 
 import com.zaxxer.hikari.HikariDataSource;
 

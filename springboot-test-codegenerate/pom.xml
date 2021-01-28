@@ -36,6 +36,13 @@
             <artifactId>HikariCP</artifactId>
         </dependency>
 
+        <!-- commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>

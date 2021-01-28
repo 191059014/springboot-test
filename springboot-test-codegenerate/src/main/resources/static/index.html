@@ -36,6 +36,10 @@
             text-align: center;
             padding-top: 10px;
         }
+
+        .ivu-modal {
+            width: 600px!important;
+        }
     </style>
 </head>
 <body>
@@ -51,23 +55,22 @@
                             :rules="tableRequestValidate">
                         <i-col span="12">
                             <form-item label="URL" prop="url" required>
-                                <i-input v-model="tableQueryVo.url" placeholder="请输入数据库连接完整url"></i-input>
+                                <i-input v-model="tableQueryVo.url" placeholder="请输入数据库连接完整url" clearable></i-input>
                             </form-item>
                         </i-col>
                         <i-col span="3">
                             <form-item label="用户名" prop="username" label-width="60" required>
-                                <i-input v-model="tableQueryVo.username" placeholder="请输入数据库用户名"></i-input>
+                                <i-input v-model="tableQueryVo.username" placeholder="请输入数据库用户名" clearable></i-input>
                             </form-item>
                         </i-col>
                         <i-col span="3">
                             <form-item label="密码" prop="password" required>
-                                <i-input v-model="tableQueryVo.password" type="password"
-                                         placeholder="请输入数据库密码"></i-input>
+                                <i-input v-model="tableQueryVo.password" type="password" password placeholder="请输入数据库密码" clearable></i-input>
                             </form-item>
                         </i-col>
                         <i-col span="4">
                             <form-item label="表名" prop="tableName" label-width="40">
-                                <i-input v-model="tableQueryVo.tableName" placeholder="请输入数据库表名"></i-input>
+                                <i-input v-model="tableQueryVo.tableName" placeholder="请输入数据库表名" clearable></i-input>
                             </form-item>
                         </i-col>
 
@@ -118,36 +121,31 @@
             <Row :gutter="16">
                 <i-col span="12">
                     <form-item label="表名" prop="tableName" label-width="40">
-                        <i-input v-model="codegenerateVo.tableName" disabled></i-input>
+                        <i-input v-model="codegenerateVo.tableNames[0]" disabled></i-input>
                     </form-item>
                 </i-col>
                 <i-col span="12">
                     <form-item label="包名" prop="packageName" label-width="40">
-                        <i-input v-model="codegenerateVo.packageName" placeholder="可为空，加载系统默认配置"></i-input>
+                        <i-input v-model="codegenerateVo.packageName" clearable></i-input>
                     </form-item>
                 </i-col>
             </Row>
             <Row :gutter="16">
                 <i-col span="12">
                     <form-item label="作者" prop="author" label-width="40">
-                        <i-input v-model="codegenerateVo.author" placeholder="可为空，加载系统默认配置"></i-input>
+                        <i-input v-model="codegenerateVo.author" clearable></i-input>
                     </form-item>
                 </i-col>
                 <i-col span="12">
-                    <form-item label="模块" prop="moduleName" label-width="40">
-                        <i-input v-model="codegenerateVo.moduleName" placeholder="可为空，加载系统默认配置"></i-input>
+                    <form-item label="类名" prop="className" label-width="40">
+                        <i-input v-model="codegenerateVo.className" placeholder="例如，表名为t_order_01，则填Order" clearable></i-input>
                     </form-item>
                 </i-col>
             </Row>
             <Row :gutter="16">
                 <i-col span="12">
-                    <form-item label="前缀" prop="tablePrefix" label-width="40">
-                        <i-input v-model="codegenerateVo.tablePrefix" placeholder="可为空，加载系统默认配置"></i-input>
-                    </form-item>
-                </i-col>
-                <i-col span="12">
                     <form-item label="注释" prop="comments" label-width="40">
-                        <i-input v-model="codegenerateVo.comments" placeholder="可为空，加载数据库表注释"></i-input>
+                        <i-input v-model="codegenerateVo.comments" placeholder="可为空，加载数据库表注释" clearable></i-input>
                     </form-item>
                 </i-col>
             </Row>
@@ -173,12 +171,11 @@
                     username: "",
                     password: ""
                 },
-                packageName: "",
-                author: "",
-                moduleName: "",
-                tablePrefix: "",
-                comments: "",
-                tableName: ""
+                packageName: "com.hb.test.codegenerate",
+                author: "Mr.Huang",
+                className: "",
+                comments: "xx表",
+                tableNames: []
             },
             tableQueryVo: {
                 currentPage: 1,
@@ -247,10 +244,10 @@
         computed: {},
         methods: {
             showConfig(tableName) {
-                this.codegenerateVo.tableName = tableName;
                 this.codegenerateVo.tableQueryVo.url = this.tableQueryVo.url;
                 this.codegenerateVo.tableQueryVo.username = this.tableQueryVo.username;
                 this.codegenerateVo.tableQueryVo.password = this.tableQueryVo.password;
+                this.codegenerateVo.tableNames[0] = tableName;
                 this.showConfigDialog = true;
             },
             changePage(currentPage) {
@@ -286,7 +283,7 @@
                     responseType: 'arraybuffer'
                 }).then((response) => { // 处理返回的文件流
                     let blob = new Blob([response.data], {type: 'application/zip'});
-                    let filename = this.codegenerateVo.tableName + '.zip';
+                    let filename = 'code.zip';
                     let link = document.createElement('a');
                     link.href = URL.createObjectURL(blob);
                     link.download = filename;
@@ -297,6 +294,7 @@
                         document.body.removeChild(link);
                     }, 0)
                 }).catch(() => this.$Message.error("代码生成失败"));
+                this.showConfigDialog = false;
             },
             cancel() {
                 this.showConfigDialog = false;

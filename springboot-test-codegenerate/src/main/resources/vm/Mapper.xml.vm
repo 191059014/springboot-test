@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package}.I${className}Mapper">
+
+  <resultMap id="${classname}Map" type="${package}.${className}DO">
+    #foreach($column in $columns)
+      #if($column.attrName==$pk.attrName)
+        <id column="$column.columnName" property="$column.attrName" jdbcType="$column.attrType"/>
+      #else
+        <result column="$column.columnName" property="$column.attrName" jdbcType="$column.attrType"/>
+      #end
+    #end
+  </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" resultMap="${classname}Map">
+        select * from ${tableName}
+        where ${pk.columnName} = #{${pk.attrName}}
+    </select>
+
+    <!--查询集合-->
+    <select id="selectList" resultMap="${classname}Map">
+        select * from ${tableName}
+        <include refid="whereSql"/>
+        order by gmt_modified desc
+    </select>
+
+    <!--查询总条数-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*) from ${tableName}
+        <include refid="whereSql"/>
+    </select>
+
+    <!--分页条件查询-->
+    <select id="selectPages" resultMap="${classname}Map">
+        select * from ${tableName}
+        <include refid="whereSql"/>
+        order by gmt_modified desc
+        <if test="startRow != null and pageSize != null">
+            limit #{startRow}, #{pageSize}
+        </if>
+    </select>
+
+    <!--条件查询-->
+    <sql id="whereSql">
+        <where>
+          #foreach($column in $columns)
+              <if test="$!column.attrName != null#if($column.attrType.equals("String")) and $column.attrName != ''#end">
+                  and $!column.columnName = #{$column.attrName}
+              </if>
+          #end
+        </where>
+    </sql>
+
+    <!--选择性的新增-->
+    <insert id="insertBySelective">
+        insert into ${tableName}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+          #foreach($column in $columns)
+              <if test="$!column.attrName != null#if($column.attrType.equals("String")) and $column.attrName != ''#end">
+                $column.columnName,
+              </if>
+          #end
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+          #foreach($column in $columns)
+              <if test="$!column.attrName != null#if($column.attrType.equals("String")) and $column.attrName != ''#end">
+                  #{$column.attrName},
+              </if>
+          #end
+        </trim>
+    </insert>
+
+    <!--选择性的修改-->
+    <update id="updateBySelective">
+        update ${tableName}
+        <set>
+          #foreach($column in $columns)
+              <if test="$!column.attrName != null#if($column.attrType.equals("String")) and $column.attrName != ''#end">
+                $column.columnName = #{$column.attrName},
+              </if>
+          #end
+        </set>
+        where $pk.columnName = #{$pk.attrName}
+    </update>
+
+    <!--通过主键逻辑删除-->
+    <update id="deleteById">
+        update ${tableName} set record_status=1 where $pk.columnName = #{$pk.attrName}
+    </update>
+
+</mapper>

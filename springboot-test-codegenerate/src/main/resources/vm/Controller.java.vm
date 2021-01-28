@@ -1,0 +1,148 @@
+package ${package};
+
+import com.hb.test.codegenerate.common.Page;
+import com.hb.test.codegenerate.common.R
+import com.hb.test.codegenerate.common.ResultCode;
+import ${package}.${className}DO;
+import ${package}.I${className}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
+/**
+ * ${comments}控制层
+ *
+ * @version v0.1, ${datetime}, create by ${author}.
+ */
+@RestController
+@RequestMapping("/${classname}")
+public class ${className}Controller {
+
+    /**
+     * 日志
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(${className}Controller.class);
+
+    /**
+     * ${comments}服务层
+     */
+    @Autowired
+    private I${className}Service i${classname}Service;
+
+    /**
+     * 分页查询${comments}
+     *
+     * @param ${classname}
+     *              查询条件对象
+     * @param pageNum
+     *              当前第几页
+     * @param pageSize
+     *              每页条数
+     * @return 分页结果
+     */
+    @PostMapping("/queryPages")
+    public R<Page<${className}DO>> queryPages(@RequestBody ${className}DO ${classname},
+                                              @RequestParam("pageNum") Integer pageNum,
+                                              @RequestParam("pageSize") Integer pageSize) {
+        String baseLog = "[分页查询${comments}controller]";
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("{}入参={}={}={}", baseLog,${classname}, pageNum, pageSize);
+        }
+        try {
+            Page<${className}DO> page = i${classname}Service.queryPages(${classname}, pageNum, pageSize);
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("{}出参={}", baseLog, page);
+            }
+            return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), page);
+        } catch (Exception e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("{}系统异常=", baseLog, e);
+            }
+            return new R<>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
+        }
+    }
+
+
+    /**
+     * 新增${comments}
+     *
+     * @param ${classname}
+     *              新增对象信息
+     * @return 影响的行数
+     */
+    @PostMapping("/save")
+    public R save(@RequestBody ${className}DO ${classname}) {
+        String baseLog = "[新增${comments}controller]";
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("{}入参={}", baseLog,${classname});
+        }
+        try {
+            int addRows = i${classname}Service.save(${classname});
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("{}出参={}", baseLog, addRows);
+            }
+            return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
+        } catch (Exception e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("{}系统异常=", baseLog, e);
+            }
+            return new R<>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
+        }
+    }
+
+    /**
+     * 通过主键修改${comments}
+     *
+     * @param ${classname}
+     *                  要修改的信息
+     * @return 影响的行数
+     */
+    @PostMapping("/update")
+    public R update(@RequestBody ${className}DO ${classname}) {
+        String baseLog = "[通过主键修改${comments}controller]";
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("{}入参={}", baseLog,${classname});
+        }
+        try {
+            int updateRows = i${classname}Service.update(${pk.attrName},${classname});
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("{}出参={}", baseLog, updateRows);
+            }
+            return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
+        } catch (Exception e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("{}系统异常=", baseLog, e);
+            }
+            return new R<>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
+        }
+    }
+
+    /**
+     * 通过主键删除${comments}
+     *
+     * @param ${pk.attrName}
+     *              主键
+     * @return 影响的行数
+     */
+    @PostMapping("/{${pk.lowerAttrName}}")
+    public R deleteById(@RequestParam("${pk.attrName}") ${pk.attrType} ${pk.attrName}) {
+        String baseLog = "[通过主键删除${comments}controller]";
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("{}入参={}", baseLog,${pk.attrName});
+        }
+        try {
+            int deleteRows = i${classname}Service.deleteById(${pk.attrName});
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("{}出参={}", baseLog, deleteRows);
+            }
+            return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
+        } catch (Exception e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("{}系统异常=", baseLog, e);
+            }
+            return new R<>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
+        }
+    }
+
+}

@@ -2,6 +2,7 @@ package com.hb.test.codegenerate.service;
 
 import com.hb.test.codegenerate.common.Page;
 import com.hb.test.codegenerate.entity.TableInfo;
+import com.hb.test.codegenerate.vo.CodegenerateVo;
 import com.hb.test.codegenerate.vo.TableQueryVo;
 
 /**
@@ -19,4 +20,14 @@ public interface ICodegenerateService {
      * @return 分页信息
      */
     Page<TableInfo> findTablePages(TableQueryVo tableQueryVo) throws Exception;
+
+    /**
+     * 生成代码
+     * 
+     * @param codegenerateVo
+     *            代码生成相关条件
+     * @return 字节数组
+     */
+    byte[] generatorCode(CodegenerateVo codegenerateVo) throws Exception;
+
 }

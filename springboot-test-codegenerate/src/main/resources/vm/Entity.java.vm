@@ -1,0 +1,27 @@
+package ${package};
+
+import lombok.Data;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.lang.Integer;
+import java.lang.String;
+import java.util.Date;
+import java.lang.Long;
+import java.lang.Boolean;
+import java.math.BigDecimal;
+
+/**
+ * ${comments}数据模型
+ *
+ * @version v0.1, ${datetime}, create by ${author}.
+ */
+@Data
+public class ${className}DO implements Serializable{
+
+    #foreach ($column in $columns)
+        // $column.comments
+        private $column.attrType $column.lowerAttrName;
+    #end
+
+}

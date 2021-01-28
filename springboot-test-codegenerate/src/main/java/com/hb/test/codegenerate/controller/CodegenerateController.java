@@ -7,9 +7,11 @@ import com.hb.test.codegenerate.entity.TableInfo;
 import com.hb.test.codegenerate.service.ICodegenerateService;
 import com.hb.test.codegenerate.vo.CodegenerateVo;
 import com.hb.test.codegenerate.vo.TableQueryVo;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +53,7 @@ public class CodegenerateController {
             return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), page);
         } catch (Exception e) {
             if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("系统异常=", e);
+                LOGGER.error("分页查询系统异常=", e);
             }
             return new R<>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg(), null);
         }
@@ -68,7 +70,18 @@ public class CodegenerateController {
      */
     @PostMapping("/generatorCode")
     public void generatorCode(@RequestBody CodegenerateVo codegenerateVo, HttpServletResponse response) {
-
+        try {
+            byte[] data = iCodegenerateService.generatorCode(codegenerateVo);
+            response.reset();
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=code.zip");
+            response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+            response.setContentType("application/octet-stream; charset=UTF-8");
+            IOUtils.write(data, response.getOutputStream());
+        } catch (Exception e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("生成代码系统异常=", e);
+            }
+        }
     }
 
 }

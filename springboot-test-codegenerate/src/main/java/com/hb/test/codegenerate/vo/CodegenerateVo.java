@@ -3,6 +3,7 @@ package com.hb.test.codegenerate.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * 代码生成vo
@@ -20,12 +21,10 @@ public class CodegenerateVo implements Serializable {
     private String packageName;
     // 作者
     private String author;
-    // 模块名称
-    private String moduleName;
-    // 表前缀
-    private String tablePrefix;
+    // 类名
+    private String className;
     // 表名称
-    private String tableName;
+    private Set<String> tableNames;
     // 表备注
     private String comments;
 
