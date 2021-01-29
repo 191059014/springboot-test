@@ -3,10 +3,10 @@ package ${package};
 import com.hb.test.codegenerate.common.Page;
 import com.hb.test.codegenerate.common.R;
 import com.hb.test.codegenerate.common.ResultCode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import javax.annotation.Resource;
 
 /**
  * ${comments}控制层
@@ -95,14 +95,14 @@ public class ${className}Controller {
      *            要修改的信息
      * @return 影响的行数
      */
-    @PostMapping("/update")
-    public R update(@RequestBody ${className}DO ${classname}) {
+    @PostMapping("/updateById")
+    public R updateById(@RequestBody ${className}DO ${classname}) {
         String baseLog = "[通过主键修改${comments}controller]";
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("{}入参={}", baseLog, ${classname});
         }
         try {
-            int updateRows = i${classname}Service.updateBySelective(${classname});
+            int updateRows = i${classname}Service.updateById(${classname});
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("{}出参={}", baseLog, updateRows);
             }

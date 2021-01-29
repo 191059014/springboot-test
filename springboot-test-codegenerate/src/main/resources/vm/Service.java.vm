@@ -59,13 +59,13 @@ public interface I${className}Service {
     int insertBySelective(${className}DO ${classname});
 
     /**
-     * 选择性修改
+     * 通过主键修改
      *
      * @param ${classname}
      *            实例对象
      * @return 影响行数
      */
-    int updateBySelective(${className}DO ${classname});
+    int updateById(${className}DO ${classname});
 
     /**
      * 通过主键删除数据

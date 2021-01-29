@@ -1,10 +1,10 @@
 package ${package};
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
+import javax.annotation.Resource;
 
 /**
  * ${comments}服务层实现类
@@ -23,7 +23,7 @@ public class ${className}ServiceImpl implements I${className}Service {
      * ${comments}操作数据库层
      */
     @Resource
-    private I${className}Mapper ${className}Mapper;
+    private I${className}Mapper ${classname}Mapper;
 
     /**
      * 通过主键查询单条数据
@@ -34,7 +34,7 @@ public class ${className}ServiceImpl implements I${className}Service {
      */
     @Override
     public ${className}DO selectById(${pk.attrType} ${pk.attrName}) {
-        return this.${className}Mapper.selectById(${pk.attrName});
+        return this.${classname}Mapper.selectById(${pk.attrName});
     }
 
     /**
@@ -46,7 +46,7 @@ public class ${className}ServiceImpl implements I${className}Service {
      */
     @Override
     public List<${className}DO> selectList(${className}DO ${classname}) {
-        return this.${className}Mapper.selectList(${classname});
+        return this.${classname}Mapper.selectList(${classname});
     }
 
     /**
@@ -58,7 +58,7 @@ public class ${className}ServiceImpl implements I${className}Service {
      */
     @Override
     public Long selectCount(${className}DO ${classname}) {
-        return this.${className}Mapper.selectCount(${classname});
+        return this.${classname}Mapper.selectCount(${classname});
     }
 
     /**
@@ -74,7 +74,7 @@ public class ${className}ServiceImpl implements I${className}Service {
      */
     @Override
     public List<${className}DO> selectPages(${className}DO ${classname}, int startRow, int pageSize) {
-        return this.${className}Mapper.selectPages(${classname}, startRow, pageSize);
+        return this.${classname}Mapper.selectPages(${classname}, startRow, pageSize);
     }
 
     /**
@@ -86,19 +86,19 @@ public class ${className}ServiceImpl implements I${className}Service {
      */
     @Override
     public int insertBySelective(${className}DO ${classname}) {
-        return this.${className}Mapper.insertBySelective(${classname});
+        return this.${classname}Mapper.insertBySelective(${classname});
     }
 
     /**
-     * 选择性修改
+     * 通过主键修改
      *
      * @param ${classname}
      *            实例对象
      * @return 影响行数
      */
     @Override
-    public int updateBySelective(${className}DO ${classname}) {
-        return this.${className}Mapper.updateBySelective(${classname});
+    public int updateById(${className}DO ${classname}) {
+        return this.${classname}Mapper.updateById(${classname});
     }
 
     /**
@@ -110,7 +110,7 @@ public class ${className}ServiceImpl implements I${className}Service {
      */
     @Override
     public int deleteById(${pk.attrType} ${pk.attrName}) {
-        return this.${className}Mapper.deleteById(${pk.attrName});
+        return this.${classname}Mapper.deleteById(${pk.attrName});
     }
 
 }

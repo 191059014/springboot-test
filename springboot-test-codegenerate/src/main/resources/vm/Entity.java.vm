@@ -19,12 +19,16 @@ import java.util.Date;
 @Data
 public class ${className}DO implements Serializable {
 
-    // serialVersionUID
+    /**
+     * serialVersionUID
+     */
     private static final long serialVersionUID = ${serialVersionUID}L;
 
 #foreach ($column in $columns)
-    // $column.columnComment
+    /**
+     * $column.columnComment
+     */
     private $column.attrType $column.attrName;
-#end
 
+#end
 }

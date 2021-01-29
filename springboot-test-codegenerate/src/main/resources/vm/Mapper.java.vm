@@ -1,7 +1,6 @@
 package ${package};
 
 import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -9,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
  *
  * @version v0.1, ${nowTime}, create by ${author}.
  */
-@Mapper
 public interface I${className}Mapper {
 
     /**
@@ -62,13 +60,13 @@ public interface I${className}Mapper {
     int insertBySelective(${className}DO ${classname});
 
     /**
-     * 选择性修改
+     * 通过主键修改
      *
      * @param ${classname}
      *            实例对象
      * @return 影响行数
      */
-    int updateBySelective(${className}DO ${classname});
+    int updateById(${className}DO ${classname});
 
     /**
      * 通过主键删除数据

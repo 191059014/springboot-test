@@ -1,0 +1,31 @@
+import Ajax from '@/router/axios'
+
+/**
+ * 分页查询${comments}
+ */
+export const query${className}Pages = (${classname}, pageNum, pageSize) => {
+    return Ajax.post(`/${classname}/queryPages?pageNum=` + pageNum + "&pageSize=" + pageSize, ${classname}).then(res => res.data);
+};
+
+/**
+ * 新增${comments}
+ */
+export const save${className} = (${classname}) => {
+    return Ajax.post(`/${classname}/save`, ${classname}).then(res => res.data);
+};
+
+/**
+ * 通过主键修改${comments}
+ */
+export const update${className}ById = (${classname}) => {
+    return Ajax.post(`/${classname}/updateById`, ${classname}).then(res => res.data);
+};
+
+/**
+ * 通过主键删除${comments}
+ */
+export const delete${className}ById = (${pk.attrName}) => {
+    return Ajax.get(`/${classname}/deleteById`, ${pk.attrName}).then(res => res.data);
+};
+
+

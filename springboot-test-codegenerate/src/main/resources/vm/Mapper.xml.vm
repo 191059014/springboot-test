@@ -70,8 +70,8 @@
         </trim>
     </insert>
 
-    <!--选择性的修改-->
-    <update id="updateBySelective">
+    <!--通过主键修改-->
+    <update id="updateById">
         update ${tableName}
         <set>
           #foreach($column in $columns)

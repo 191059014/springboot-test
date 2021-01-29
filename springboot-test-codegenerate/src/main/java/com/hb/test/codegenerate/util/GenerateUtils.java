@@ -15,13 +15,20 @@ import java.util.Map;
  */
 public class GenerateUtils {
 
-    // 默认作者
+    /**
+     * 默认作者
+     */
     public static final String DEFAULT_AUTHOR = "Mr.Huang";
-    // 默认包名
+
+    /**
+     * 默认包名
+     */
     public static final String DEFAULT_PACKAGENAME = "com.hb.test.codegenerate";
 
-    // 类型转换
-    public static Map<String, String> javaTypeMap = new HashMap<>();
+    /**
+     * 数据库字段和实体类字段映射关系
+     */
+    private static Map<String, String> javaTypeMap = new HashMap<>();
 
     static {
         javaTypeMap.put("tinyint", "Integer");
@@ -69,14 +76,14 @@ public class GenerateUtils {
      * @return 模板列表
      */
     public static List<String> getTemplates() {
-        List<String> templates = new ArrayList<String>();
+        List<String> templates = new ArrayList<>();
         templates.add("vm/Entity.java.vm");
         templates.add("vm/Mapper.java.vm");
         templates.add("vm/Service.java.vm");
         templates.add("vm/ServiceImpl.java.vm");
         templates.add("vm/Controller.java.vm");
         templates.add("vm/Mapper.xml.vm");
-        // templates.add("vm/api.js.vm");
+        templates.add("vm/Api.js.vm");
         return templates;
     }
 
@@ -85,7 +92,11 @@ public class GenerateUtils {
      */
     public static String getFilePath(String template, String className, String packageName) {
 
-        String javaPath = getProjectPath(packageName);
+        String javaPath = getPackagePath(packageName);
+
+        if (template.contains("Mapper.xml.vm")) {
+            return javaPath + className + "Mapper.xml";
+        }
 
         if (template.contains("Entity.java.vm")) {
             return javaPath + className + "DO.java";
@@ -107,23 +118,22 @@ public class GenerateUtils {
             return javaPath + className + "Controller.java";
         }
 
-        if (template.contains("Mapper.xml.vm")) {
-            return javaPath + className + "Mapper.xml";
+        if (template.contains("Api.js.vm")) {
+            return javaPath + getClassname(className) + ".js";
         }
 
         return null;
     }
 
     /**
-     * 获取工程路径
+     * 获取包路径
      * 
      * @param packageName
      *            包名
-     * @return 工程路径
+     * @return 包路径
      */
-    public static String getProjectPath(String packageName) {
-        return new StringBuilder().append("src/main/java/").append(packageName.replace(".", "/")).append("/")
-            .toString();
+    public static String getPackagePath(String packageName) {
+        return new StringBuilder().append(packageName.replace(".", "/")).append("/").toString();
     }
 
     /**
