@@ -1,2 +1,2 @@
 # springboot-test-codegenerate
-velocity引擎生成代码
+利用velocity引擎自动生成代码，支持mysql、oracle等
