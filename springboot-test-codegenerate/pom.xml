@@ -10,10 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>springboot-test-codegenerate</artifactId>
-
+    <packaging>jar</packaging>
     <name>springboot-test-codegenerate</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <url>https://github.com/191059014</url>
 
     <dependencies>
 
@@ -46,11 +45,23 @@
     </dependencies>
 
     <build>
-        <finalName>springboot-test-codegenerate</finalName>
+        <finalName>codegenerate</finalName>
         <plugins>
+            <!--spring-boot-maven插件-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>./target</outputDirectory>
+                    <mainClass>com.hb.test.codegenerate.CodegenerateApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -12,7 +12,6 @@
     <artifactId>springboot-test-web</artifactId>
 
     <name>springboot-test-web</name>
-    <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
     <dependencies>
@@ -23,5 +22,27 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>springboot-test-web</finalName>
+        <plugins>
+            <!--spring-boot-maven插件-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>./target</outputDirectory>
+                    <mainClass>com.hb.test.web.WebApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -14,7 +14,7 @@ public class CodegenerateApplication {
         SpringApplication.run(CodegenerateApplication.class, args);
 
         System.out.println("==================================================");
-        System.out.println("      http://localhost:9999/index.html");
+        System.out.println("   自动生成代码：http://localhost:9999/index.html");
         System.out.println("==================================================");
     }
 
