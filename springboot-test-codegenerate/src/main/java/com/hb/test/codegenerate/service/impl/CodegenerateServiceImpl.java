@@ -24,12 +24,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -118,7 +120,8 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
                 tableInfo.setTableComment(tableRs.getString("tableComment"));
                 tableInfo.setEngine(tableRs.getString("engine"));
                 tableInfo.setTableCollation(tableRs.getString("tableCollation"));
-                tableInfo.setCreateTime(tableRs.getDate("createTime"));
+                Date createTime = tableRs.getDate("createTime");
+                tableInfo.setCreateTime(DateUtils.format(createTime, DateUtils.FORMAT1));
                 list.add(tableInfo);
             }
             /*
@@ -213,6 +216,7 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
         map.put("comments", StringUtils.isNotBlank(vo.getComments()) ? vo.getComments() : tableInfo.getTableComment());
         map.put("package",
             StringUtils.isNotBlank(vo.getPackageName()) ? vo.getPackageName() : GenerateUtils.DEFAULT_PACKAGENAME);
+        map.put("serialVersionUID", new Random().nextLong());
 
         // 设置velocity资源加载器
         Properties prop = new Properties();

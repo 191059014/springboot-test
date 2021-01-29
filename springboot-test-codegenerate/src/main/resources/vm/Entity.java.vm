@@ -1,27 +1,30 @@
 package ${package};
 
 import lombok.Data;
-
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.lang.Integer;
-import java.lang.String;
-import java.util.Date;
-import java.lang.Long;
-import java.lang.Boolean;
+#foreach ($column in $columns)
+#if($column.attrType=="BigDecimal")
 import java.math.BigDecimal;
+#elseif($column.attrType=="Date")
+import java.util.Date;
+#else
+#end
+#end
 
 /**
  * ${comments}数据模型
  *
- * @version v0.1, ${datetime}, create by ${author}.
+ * @version v0.1, ${nowTime}, create by ${author}.
  */
 @Data
-public class ${className}DO implements Serializable{
+public class ${className}DO implements Serializable {
 
-    #foreach ($column in $columns)
-        // $column.comments
-        private $column.attrType $column.lowerAttrName;
-    #end
+    // serialVersionUID
+    private static final long serialVersionUID = ${serialVersionUID}L;
+
+#foreach ($column in $columns)
+    // $column.columnComment
+    private $column.attrType $column.attrName;
+#end
 
 }

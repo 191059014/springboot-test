@@ -21,6 +21,6 @@ public class TableInfo {
     // 字符集
     private String tableCollation;
     // 创建时间
-    private Date createTime;
+    private String createTime;
 
 }

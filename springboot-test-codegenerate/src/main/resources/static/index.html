@@ -173,8 +173,8 @@
                 },
                 packageName: "com.hb.test.codegenerate",
                 author: "Mr.Huang",
-                className: "",
-                comments: "xx表",
+                className: "Order",
+                comments: "订单表",
                 tableNames: []
             },
             tableQueryVo: {
@@ -227,10 +227,7 @@
                 {
                     title: '创建时间',
                     key: 'createTime',
-                    align: 'center',
-                    render: (h, params) => {
-                        return h('div', Date.parse(params.row.createTime.substring(0, params.row.createTime.indexOf("."))).toString('yyyy-MM-dd HH:mm:ss'));
-                    }
+                    align: 'center'
                 },
                 {
                     title: '操作',

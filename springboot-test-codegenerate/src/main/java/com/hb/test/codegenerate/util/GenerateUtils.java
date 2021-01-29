@@ -19,8 +19,6 @@ public class GenerateUtils {
     public static final String DEFAULT_AUTHOR = "Mr.Huang";
     // 默认包名
     public static final String DEFAULT_PACKAGENAME = "com.hb.test.codegenerate";
-    // 默认表前缀
-    public static final String DEFAULT_TABLEPREFIX = "t_";
 
     // 类型转换
     public static Map<String, String> javaTypeMap = new HashMap<>();
@@ -73,11 +71,11 @@ public class GenerateUtils {
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
         templates.add("vm/Entity.java.vm");
-        // templates.add("vm/Mapper.java.vm");
-        // templates.add("vm/Service.java.vm");
-        // templates.add("vm/ServiceImpl.java.vm");
-        // templates.add("vm/Controller.java.vm");
-        // templates.add("vm/Mapper.xml.vm");
+        templates.add("vm/Mapper.java.vm");
+        templates.add("vm/Service.java.vm");
+        templates.add("vm/ServiceImpl.java.vm");
+        templates.add("vm/Controller.java.vm");
+        templates.add("vm/Mapper.xml.vm");
         // templates.add("vm/api.js.vm");
         return templates;
     }

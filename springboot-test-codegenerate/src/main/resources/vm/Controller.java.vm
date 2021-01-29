@@ -1,10 +1,8 @@
 package ${package};
 
 import com.hb.test.codegenerate.common.Page;
-import com.hb.test.codegenerate.common.R
+import com.hb.test.codegenerate.common.R;
 import com.hb.test.codegenerate.common.ResultCode;
-import ${package}.${className}DO;
-import ${package}.I${className}Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.LoggerFactory;
@@ -13,7 +11,7 @@ import org.slf4j.Logger;
 /**
  * ${comments}控制层
  *
- * @version v0.1, ${datetime}, create by ${author}.
+ * @version v0.1, ${nowTime}, create by ${author}.
  */
 @RestController
 @RequestMapping("/${classname}")
@@ -27,7 +25,7 @@ public class ${className}Controller {
     /**
      * ${comments}服务层
      */
-    @Autowired
+    @Resource
     private I${className}Service i${classname}Service;
 
     /**
@@ -47,10 +45,10 @@ public class ${className}Controller {
                                               @RequestParam("pageSize") Integer pageSize) {
         String baseLog = "[分页查询${comments}controller]";
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("{}入参={}={}={}", baseLog,${classname}, pageNum, pageSize);
+            LOGGER.info("{}入参={}={}={}", baseLog, ${classname}, pageNum, pageSize);
         }
         try {
-            Page<${className}DO> page = i${classname}Service.queryPages(${classname}, pageNum, pageSize);
+            Page<${className}DO> page = i${classname}Service.selectPages(${classname}, (pageNum - 1) * pageSize, pageSize);
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("{}出参={}", baseLog, page);
             }
@@ -63,22 +61,21 @@ public class ${className}Controller {
         }
     }
 
-
     /**
      * 新增${comments}
      *
      * @param ${classname}
-     *              新增对象信息
+     *            新增对象信息
      * @return 影响的行数
      */
     @PostMapping("/save")
     public R save(@RequestBody ${className}DO ${classname}) {
         String baseLog = "[新增${comments}controller]";
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("{}入参={}", baseLog,${classname});
+            LOGGER.info("{}入参={}", baseLog, ${classname});
         }
         try {
-            int addRows = i${classname}Service.save(${classname});
+            int addRows = i${classname}Service.insertBySelective(${classname});
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("{}出参={}", baseLog, addRows);
             }
@@ -95,17 +92,17 @@ public class ${className}Controller {
      * 通过主键修改${comments}
      *
      * @param ${classname}
-     *                  要修改的信息
+     *            要修改的信息
      * @return 影响的行数
      */
     @PostMapping("/update")
     public R update(@RequestBody ${className}DO ${classname}) {
         String baseLog = "[通过主键修改${comments}controller]";
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("{}入参={}", baseLog,${classname});
+            LOGGER.info("{}入参={}", baseLog, ${classname});
         }
         try {
-            int updateRows = i${classname}Service.update(${pk.attrName},${classname});
+            int updateRows = i${classname}Service.updateBySelective(${classname});
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("{}出参={}", baseLog, updateRows);
             }
@@ -122,14 +119,14 @@ public class ${className}Controller {
      * 通过主键删除${comments}
      *
      * @param ${pk.attrName}
-     *              主键
+     *            主键
      * @return 影响的行数
      */
-    @PostMapping("/{${pk.lowerAttrName}}")
+    @GetMapping("/deleteById")
     public R deleteById(@RequestParam("${pk.attrName}") ${pk.attrType} ${pk.attrName}) {
         String baseLog = "[通过主键删除${comments}controller]";
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("{}入参={}", baseLog,${pk.attrName});
+            LOGGER.info("{}入参={}", baseLog, ${pk.attrName});
         }
         try {
             int deleteRows = i${classname}Service.deleteById(${pk.attrName});
