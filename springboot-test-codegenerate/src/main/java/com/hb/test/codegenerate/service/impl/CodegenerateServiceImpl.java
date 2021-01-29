@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -87,8 +86,8 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
 
     @Override
     public Page<TableInfo> findTablePages(TableQueryVo vo) throws Exception {
-        DataSource dataSource = DbUtils.dynamicCreateDatasource(vo.getUrl(), vo.getUsername(), vo.getPassword());
-        try (Connection connection = dataSource.getConnection()) {
+        Connection connection = DbUtils.getDbConnection(vo.getUrl(), vo.getUsername(), vo.getPassword());
+        try {
             /*
              * 获取分页查询sql、查询总条数sql
              */
@@ -128,6 +127,10 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
              * 返回分页结果
              */
             return new Page<>(total, list);
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
         }
     }
 
@@ -136,9 +139,9 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
         /*
          * 查询表信息
          */
-        DataSource dataSource = DbUtils.dynamicCreateDatasource(vo.getTableQueryVo().getUrl(),
+        Connection connection = DbUtils.getDbConnection(vo.getTableQueryVo().getUrl(),
             vo.getTableQueryVo().getUsername(), vo.getTableQueryVo().getPassword());
-        try (Connection connection = dataSource.getConnection()) {
+        try {
             Set<String> tableNames = vo.getTableNames();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ZipOutputStream zip = new ZipOutputStream(outputStream);
@@ -183,6 +186,10 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
              * 返回结果
              */
             return outputStream.toByteArray();
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
         }
 
     }

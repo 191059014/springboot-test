@@ -20,7 +20,7 @@ public class R<T> {
     /**
      * 返回消息
      */
-    private String message;
+    private String msg;
 
     /**
      * 返回数据

@@ -269,10 +269,12 @@
                     if (valid) {
                         http.post('/codegenerator/findTablePages', this.tableQueryVo)
                             .then(response => {
-                                const data = response.data;
+                                let data = response.data;
                                 if (data.code === 10000) {
                                     this.data = data.data.list;
                                     this.total = data.data.total;
+                                } else {
+                                    this.$Message.error(data.msg);
                                 }
                             })
                             .catch(() => this.$Message.error("查询失败"));

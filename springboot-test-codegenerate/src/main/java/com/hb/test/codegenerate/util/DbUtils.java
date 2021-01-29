@@ -1,5 +1,7 @@
 package com.hb.test.codegenerate.util;
 
+import com.hb.test.codegenerate.common.ResultCode;
+import com.hb.test.codegenerate.exception.BusinessException;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
@@ -18,7 +20,7 @@ public class DbUtils {
      * 动态创建数据源
      * 
      * @param url
-     *            数据库连接
+     *            数据库连接地址
      * @param username
      *            用户名
      * @param password
@@ -31,6 +33,27 @@ public class DbUtils {
         dataSource.setUsername(username);
         dataSource.setPassword(password);
         return dataSource;
+    }
+
+    /**
+     * 获取数据库连接
+     * 
+     * @param url
+     *            数据库连接地址
+     * @param username
+     *            用户名
+     * @param password
+     *            密码
+     * @return 数据库连接
+     */
+    public static Connection getDbConnection(String url, String username, String password) {
+        DataSource dataSource = dynamicCreateDatasource(url, username, password);
+        try {
+            return dataSource.getConnection();
+        } catch (Exception e) {
+            throw new BusinessException(ResultCode.DB_CONNECT_ERROR.getCode(), ResultCode.DB_CONNECT_ERROR.getMsg());
+        }
+
     }
 
     /**

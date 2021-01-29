@@ -4,6 +4,7 @@ import com.hb.test.codegenerate.common.Page;
 import com.hb.test.codegenerate.common.R;
 import com.hb.test.codegenerate.common.ResultCode;
 import com.hb.test.codegenerate.entity.TableInfo;
+import com.hb.test.codegenerate.exception.BusinessException;
 import com.hb.test.codegenerate.service.ICodegenerateService;
 import com.hb.test.codegenerate.vo.CodegenerateVo;
 import com.hb.test.codegenerate.vo.TableQueryVo;
@@ -51,6 +52,11 @@ public class CodegenerateController {
         try {
             Page<TableInfo> page = iCodegenerateService.findTablePages(tableQueryVo);
             return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), page);
+        } catch (BusinessException e) {
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("分页查询业务异常={}", e.toString());
+            }
+            return new R<>(e.getCode(), e.getMsg(), null);
         } catch (Exception e) {
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error("分页查询系统异常=", e);
@@ -77,6 +83,10 @@ public class CodegenerateController {
             response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
             response.setContentType("application/octet-stream; charset=UTF-8");
             IOUtils.write(data, response.getOutputStream());
+        } catch (BusinessException e) {
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("分页查询业务异常={}", e.toString());
+            }
         } catch (Exception e) {
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error("生成代码系统异常=", e);
