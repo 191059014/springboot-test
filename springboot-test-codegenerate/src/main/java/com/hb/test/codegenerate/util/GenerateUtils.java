@@ -77,13 +77,13 @@ public class GenerateUtils {
      */
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
-        templates.add("vm/Entity.java.vm");
-        templates.add("vm/Mapper.java.vm");
-        templates.add("vm/Service.java.vm");
-        templates.add("vm/ServiceImpl.java.vm");
-        templates.add("vm/Controller.java.vm");
-        templates.add("vm/Mapper.xml.vm");
-        templates.add("vm/Api.js.vm");
+        templates.add("vmtemplate/Entity.java.vm");
+        templates.add("vmtemplate/Mapper.java.vm");
+        templates.add("vmtemplate/Service.java.vm");
+        templates.add("vmtemplate/ServiceImpl.java.vm");
+        templates.add("vmtemplate/Controller.java.vm");
+        templates.add("vmtemplate/Mapper.xml.vm");
+        templates.add("vmtemplate/Api.js.vm");
         return templates;
     }
 
