@@ -99,7 +99,7 @@ public class GenerateUtils {
         }
 
         if (template.contains("Entity.java.vm")) {
-            return javaPath + className + "DO.java";
+            return javaPath + className + " PO.java";
         }
 
         if (template.contains("Mapper.java.vm")) {
