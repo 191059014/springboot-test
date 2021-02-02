@@ -1,6 +1,6 @@
 package ${package};
 
-import java.util.List;
+import com.hb.bsmanage.web.dao.base.IBaseDao;
 
 /**
  * ${comments}服务层接口

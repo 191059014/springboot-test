@@ -43,7 +43,7 @@ public class ${upperClassName}Controller extends BaseController {
      * @return 分页结果
      */
     @PostMapping("/queryPages")
-    public R<Pagination<${upperClassName}PO>> queryPages(@RequestBody ${upperClassName}PO ${lowerClassName},
+    public Result<Pagination<${upperClassName}PO>> queryPages(@RequestBody ${upperClassName}PO ${lowerClassName},
                                               @RequestParam("pageNum") Integer pageNum,
                                               @RequestParam("pageSize") Integer pageSize) {
         String baseLog = "[分页查询${comments}controller]";
@@ -55,7 +55,7 @@ public class ${upperClassName}Controller extends BaseController {
         }
         Where where = Where.build();
     #foreach ($column in $columns)
-        where.andCondition(QueryType.EQUAL, $column.columnName, ${lowerClassName}.get$column.upperAttrName());
+        where.andCondition(QueryType.EQUAL, "$column.columnName", ${lowerClassName}.get${column.upperAttrName}()});
     #end
         Pagination<${upperClassName}PO> page = i${lowerClassName}Service.selectPages(where, (pageNum - 1) * pageSize, pageSize);
         if (LOGGER.isInfoEnabled()) {
@@ -72,7 +72,7 @@ public class ${upperClassName}Controller extends BaseController {
      * @return 影响的行数
      */
     @PostMapping("/save")
-    public R save(@RequestBody ${upperClassName}PO ${lowerClassName}) {
+    public Result save(@RequestBody ${upperClassName}PO ${lowerClassName}) {
         String baseLog = "[新增${comments}controller]";
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("{}入参={}", baseLog, ${lowerClassName});
@@ -92,12 +92,12 @@ public class ${upperClassName}Controller extends BaseController {
      * @return 影响的行数
      */
     @PostMapping("/updateById")
-    public R updateById(@RequestBody ${upperClassName}PO ${lowerClassName}) {
+    public Result updateById(@RequestBody ${upperClassName}PO ${lowerClassName}) {
         String baseLog = "[通过主键修改${comments}controller]";
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("{}入参={}", baseLog, ${lowerClassName});
         }
-        int updateRows = i${lowerClassName}Service.update(Where.build().and().equal(${pk.columnName}, ${lowerClassName}.get${pk.upperAttrName}()}), ${lowerClassName});
+        int updateRows = i${lowerClassName}Service.update(Where.build().and().equal("${pk.columnName}", ${lowerClassName}.get${pk.upperAttrName}()), ${lowerClassName});
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("{}出参={}", baseLog, updateRows);
         }
@@ -112,7 +112,7 @@ public class ${upperClassName}Controller extends BaseController {
      * @return 影响的行数
      */
     @GetMapping("/deleteById")
-    public R deleteById(@RequestParam("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}) {
+    public Result deleteById(@RequestParam("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}) {
         String baseLog = "[通过主键删除${comments}controller]";
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("{}入参={}", baseLog, ${pk.lowerAttrName});
