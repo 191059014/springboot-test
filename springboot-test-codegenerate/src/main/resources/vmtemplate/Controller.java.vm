@@ -55,7 +55,7 @@ public class ${upperClassName}Controller extends BaseController {
         }
         Where where = Where.build();
     #foreach ($column in $columns)
-        where.andCondition(QueryType.EQUAL, "$column.columnName", ${lowerClassName}.get${column.upperAttrName}()});
+        where.andCondition(QueryType.EQUAL, "$column.columnName", ${lowerClassName}.get${column.upperAttrName}());
     #end
         Pagination<${upperClassName}PO> page = i${lowerClassName}Service.selectPages(where, (pageNum - 1) * pageSize, pageSize);
         if (LOGGER.isInfoEnabled()) {

@@ -25,7 +25,7 @@ export const update${upperClassName}ById = (${lowerClassName}) => {
  * 通过主键删除${comments}
  */
 export const delete${upperClassName}ById = (${pk.lowerAttrName}) => {
-    return Ajax.get(`/${lowerClassName}/deleteById?${pk.lowerAttrName}=`+${pk.lowerAttrName}).then(res => res.data);
+    return Ajax.get(`/${lowerClassName}/deleteById?${pk.lowerAttrName}=` + ${pk.lowerAttrName}).then(res => res.data);
 };
 
 

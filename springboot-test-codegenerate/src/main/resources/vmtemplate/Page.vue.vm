@@ -3,7 +3,7 @@
     <el-form :inline="true" :model="queryCondition">
     #foreach ($column in $columns)
       <el-form-item label="$column.columnComment" required>
-        <el-input v-model="queryCondition.$column.attrName" autocomplete="off" placeholder="$column.columnComment"></el-input>
+        <el-input v-model="queryCondition.$column.lowerAttrName" autocomplete="off" placeholder="$column.columnComment"></el-input>
       </el-form-item>
     #end
       <el-form-item>
@@ -17,14 +17,14 @@
     </el-form>
 
     <el-table
-      :data="${classname}List"
+      :data="${upperClassName}List"
       stripe
       highlight-current-row
       v-loading="tableLoading"
       style="width: 100%">
       <el-table-column type="index" label="序号" min-width="100"></el-table-column>
     #foreach ($column in $columns)
-      <el-table-column prop="$column.attrName" label="$column.columnComment" min-width="100" sortable></el-table-column>
+      <el-table-column prop="$column.lowerAttrName" label="$column.columnComment" min-width="100" sortable></el-table-column>
     #end
       <el-table-column label="操作" min-width="100">
         <template slot-scope="scope">
@@ -47,10 +47,10 @@
     </el-row>
 
     <el-dialog title="新增${comments}" :visible.sync="showAddDialog">
-      <el-form :model="${className}Add" label-position="right" label-width="80px">
+      <el-form :model="${upperClassName}Add" label-position="right" label-width="80px">
       #foreach ($column in $columns)
         <el-form-item label="$column.columnComment" required>
-          <el-input v-model="${className}Add.$column.attrName" autocomplete="off"></el-input>
+          <el-input v-model="${upperClassName}Add.$column.lowerAttrName" autocomplete="off"></el-input>
         </el-form-item>
       #end
       </el-form>
@@ -61,10 +61,10 @@
     </el-dialog>
 
     <el-dialog title="修改${comments}" :visible.sync="showUpdateDialog">
-      <el-form :model="${className}Update" label-position="right" label-width="80px">
+      <el-form :model="${upperClassName}Update" label-position="right" label-width="80px">
         #foreach ($column in $columns)
           <el-form-item label="$column.columnComment" required>
-            <el-input v-model="${className}Update.$column.attrName" autocomplete="off"></el-input>
+            <el-input v-model="${upperClassName}Update.$column.lowerAttrName" autocomplete="off"></el-input>
           </el-form-item>
         #end
       </el-form>
@@ -79,7 +79,7 @@
 
 <script>
   export default {
-    name:'${className}',
+    name:'${upperClassName}',
     data() {
       return {
         pageNum: 1,
@@ -88,25 +88,25 @@
         tableLoading: false,
         queryCondition: {
       #foreach ($column in $columns)
-        $column.attrName: null;
+        $column.lowerAttrName: null,
       #end
         },
-        ${classname}List: [],
+        ${lowerClassName}List: [],
         showAddDialog: false,
-        ${className}Add: {
+        ${upperClassName}Add: {
         #foreach ($column in $columns)
-          $column.attrName: null;
+          $column.lowerAttrName: null,
         #end
         },
         showUpdateDialog: false,
-        ${className}Update: {
+        ${upperClassName}Update: {
         #foreach ($column in $columns)
-          $column.attrName: null;
+          $column.lowerAttrName: null,
         #end
         },
-        ${className}UpdatePrimary: {
+        ${upperClassName}UpdatePrimary: {
         #foreach ($column in $columns)
-          $column.attrName: null;
+          $column.lowerAttrName: null,
         #end
         }
       }
@@ -125,9 +125,9 @@
       },
       queryPages() {
         this.tableLoading = true;
-        this.hbapis.query${className}Pages(this.queryCondition, this.pageNum, this.pageSize).then(res => {
+        this.hbapis.query${upperClassName}Pages(this.queryCondition, this.pageNum, this.pageSize).then(res => {
           if (this.hbconsts.ResponseEnum.SUCCESS.code === res.code) {
-            this.${classname}List = res.data.data;
+            this.${lowerClassName}List = res.data.data;
             this.total = res.data.count;
           } else {
             this.hbalert.error(res.msg);
@@ -137,34 +137,42 @@
       },
       showDialogOfAdd(show) {
         if (show) {
-          this.${className}Add = {};
+          this.${upperClassName}Add = {};
           this.showAddDialog = true;
         } else {
-          this.${className}Update = {};
+          this.${upperClassName}Update = {};
           this.showAddDialog = false;
         }
       },
       showDialogOfUpdate(index, row) {
+        /**
+         * 填充修改的值
+         */
       #foreach ($column in $columns)
-        // 填充修改的值
-        this.${className}Update.$column.attrName = row.$column.attrName;
-        // 纪律修改的原始值
-        this.${className}UpdatePrimary.$column.attrName = row.$column.attrName;
+        // $column.columnComment
+        this.${upperClassName}Update.$column.lowerAttrName = row.$column.lowerAttrName;
+      #end
+        /**
+         * 记录修改的原始值
+         */
+      #foreach ($column in $columns)
+        // $column.columnComment
+        this.${upperClassName}UpdatePrimary.$column.lowerAttrName = row.$column.lowerAttrName;
       #end
         this.showUpdateDialog = true;
       },
       hideDialogOfUpdate() {
         this.showUpdateDialog = false;
-        this.${className}Update = {};
+        this.${upperClassName}Update = {};
       },
       handleAdd() {
       #foreach ($column in $columns)
-        if (!this.${className}Add.$column.attrName) {
+        if (!this.${upperClassName}Add.$column.lowerAttrName) {
           this.hbalert.warn("$column.columnComment不能为空");
           return false;
         }
       #end
-        this.hbapis.save${className}(this.${className}Add).then(res => {
+        this.hbapis.save${upperClassName}(this.${upperClassName}Add).then(res => {
           if (this.hbconsts.ResponseEnum.SUCCESS.code === res.code) {
             this.hbalert.success(res.msg);
             this.showAddDialog = false;
@@ -176,14 +184,16 @@
       },
       handleEdit() {
         #foreach ($column in $columns)
-          if (!this.${className}Add.$column.attrName) {
+          if (!this.${upperClassName}Add.$column.lowerAttrName) {
             this.hbalert.warn("$column.columnComment不能为空");
             return false;
           }
         #end
         let updateFlag = false;
+        let shouldUpdateInfo = {"${pk.lowerAttrName}": this.${upperClassName}UpdatePrimary.${pk.lowerAttrName}};
       #foreach ($column in $columns)
-        if (this.${className}Update.$column.attrName != this.${className}UpdatePrimary.$column.attrName) {
+        if (this.${upperClassName}Update.$column.lowerAttrName !== this.${upperClassName}UpdatePrimary.$column.lowerAttrName) {
+          shouldUpdateInfo.$column.lowerAttrName = this.${upperClassName}Update.$column.lowerAttrName;
           updateFlag = true;
         }
       #end
@@ -191,7 +201,7 @@
           this.hbalert.warn("没有任何修改");
           return false;
         }
-        this.hbapis.update${className}ById(this.${className}Update).then(res => {
+        this.hbapis.update${upperClassName}ById(showUpdateInfo).then(res => {
           if (this.hbconsts.ResponseEnum.SUCCESS.code === res.code) {
             this.hbalert.success(res.msg);
             this.showUpdateDialog = false;
@@ -203,7 +213,7 @@
       },
       handleDelete(index, row) {
         this.hbalert.confirmWarning('提示', '确定删除吗？', () => {
-          this.hbapis.delete${className}ById(row.${pk.attrName}).then(res => {
+          this.hbapis.delete${upperClassName}ById(row.${pk.lowerAttrName}).then(res => {
             if (this.hbconsts.ResponseEnum.SUCCESS.code === res.code) {
               this.hbalert.success('删除成功');
               this.queryPages();
