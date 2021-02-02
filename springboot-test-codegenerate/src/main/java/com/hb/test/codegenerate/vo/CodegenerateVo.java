@@ -21,8 +21,8 @@ public class CodegenerateVo implements Serializable {
     private String packageName;
     // 作者
     private String author;
-    // 类名
-    private String className;
+    // 大写类名
+    private String upperClassName;
     // 表名称
     private Set<String> tableNames;
     // 表备注

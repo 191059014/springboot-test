@@ -29,6 +29,11 @@ public class ColumnInfo {
     /**
      * Java属性名称(第一个字母小写)，如：user_name => userName
      */
-    private String attrName;
+    private String lowerAttrName;
+
+    /**
+     * Java属性名称(第一个字母大写)，如：user_name => UserName
+     */
+    private String upperAttrName;
 
 }

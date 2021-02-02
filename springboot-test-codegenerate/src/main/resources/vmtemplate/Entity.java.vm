@@ -17,7 +17,7 @@ import java.util.Date;
  * @version v0.1, ${nowTime}, create by ${author}.
  */
 @Data
-public class ${className}DO implements Serializable {
+public class ${upperClassName}DO implements Serializable {
 
     /**
      * serialVersionUID
@@ -28,7 +28,7 @@ public class ${className}DO implements Serializable {
     /**
      * $column.columnComment
      */
-    private $column.attrType $column.attrName;
+    private $column.attrType $column.lowerAttrName;
 
 #end
 }

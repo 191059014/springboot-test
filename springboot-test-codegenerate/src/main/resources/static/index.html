@@ -137,7 +137,7 @@
                 </i-col>
                 <i-col span="12">
                     <form-item label="类名" prop="className" label-width="40">
-                        <i-input v-model="codegenerateVo.className" placeholder="例如，表名为t_order_01，则填Order"
+                        <i-input v-model="codegenerateVo.upperClassName" placeholder="例如，表名为t_order_01，则填Order"
                                  clearable></i-input>
                     </form-item>
                 </i-col>
@@ -173,7 +173,7 @@
                 },
                 packageName: "com.hb.test.codegenerate",
                 author: "Mr.Huang",
-                className: "Order",
+                upperClassName: "Order",
                 comments: "订单表",
                 tableNames: []
             },
@@ -248,7 +248,7 @@
                 this.codegenerateVo.comments = row.tableComment;
                 let className = this.underlineToHump(row.tableName);
                 className = className.substring(0, 1).toUpperCase() + className.substring(1);
-                this.codegenerateVo.className = className;
+                this.codegenerateVo.upperClassName = className;
                 this.showConfigDialog = true;
             },
             underlineToHump(str) {

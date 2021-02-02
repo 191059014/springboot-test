@@ -8,39 +8,39 @@ import org.apache.ibatis.annotations.Param;
  *
  * @version v0.1, ${nowTime}, create by ${author}.
  */
-public interface I${className}Mapper {
+public interface I${upperClassName}Mapper {
 
     /**
      * 通过主键查询单条数据
      *
-     * @param ${pk.attrName}
+     * @param ${pk.lowerAttrName}
      *            主键
      * @return 实例对象
      */
-    ${className}DO selectById(${pk.attrType} ${pk.attrName});
+    ${upperClassName}DO selectById(${pk.attrType} ${pk.lowerAttrName});
 
     /**
      * 通过实体作为筛选条件查询集合
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            查询条件
      * @return 对象列表
      */
-    List<${className}DO> selectList(@Param("dobj") ${className}DO ${classname});
+    List<${upperClassName}DO> selectList(@Param("dobj") ${upperClassName}DO ${lowerClassName});
 
     /**
      * 条件查询总条数
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            查询条件
      * @return 总条数
      */
-    Long selectCount(@Param("dobj") ${className}DO ${classname});
+    Long selectCount(@Param("dobj") ${upperClassName}DO ${lowerClassName});
 
     /**
      * 查询指定行数据
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            查询条件
      * @param startRow
      *            查询起始位置
@@ -48,33 +48,33 @@ public interface I${className}Mapper {
      *            每页查询条数
      * @return 对象列表
      */
-    List<${className}DO> selectPages(@Param("dobj") ${className}DO ${classname}, @Param("startRow") int startRow, @Param("pageSize") int pageSize);
+    List<${upperClassName}DO> selectPages(@Param("dobj") ${upperClassName}DO ${lowerClassName}, @Param("startRow") int startRow, @Param("pageSize") int pageSize);
 
     /**
      * 选择性新增
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            实例对象
      * @return 影响行数
      */
-    int insertBySelective(${className}DO ${classname});
+    int insertBySelective(${upperClassName}DO ${lowerClassName});
 
     /**
      * 通过主键修改
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            实例对象
      * @return 影响行数
      */
-    int updateById(${className}DO ${classname});
+    int updateById(${upperClassName}DO ${lowerClassName});
 
     /**
      * 通过主键删除数据
      *
-     * @param ${pk.attrName}
+     * @param ${pk.lowerAttrName}
      *            主键
      * @return 影响行数
      */
-    int deleteById(${pk.attrType} ${pk.attrName});
+    int deleteById(${pk.attrType} ${pk.lowerAttrName});
 
 }

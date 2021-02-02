@@ -62,7 +62,8 @@ public class GenerateUtils {
         for (ColumnInfo column : columns) {
             // 列名转换成Java属性名
             String attrName = StrUtils.underlineToHump(column.getColumnName());
-            column.setAttrName(StringUtils.uncapitalize(attrName));
+            column.setLowerAttrName(StringUtils.uncapitalize(attrName));
+            column.setUpperAttrName(attrName.substring(0, 1).toUpperCase() + attrName.substring(1));
             // 列的数据类型，转换成Java类型
             String attrType = javaTypeMap.get(column.getDataType());
             column.setAttrType(attrType);
@@ -119,7 +120,7 @@ public class GenerateUtils {
         }
 
         if (template.contains("Api.js.vm")) {
-            return javaPath + getClassname(className) + ".js";
+            return javaPath + getLowerClassName(className) + ".js";
         }
 
         return null;
@@ -155,7 +156,7 @@ public class GenerateUtils {
      *            表名
      * @return 类名
      */
-    public static String getClassName(String tableName) {
+    public static String getUpperClassName(String tableName) {
         String str = StrUtils.underlineToHump(tableName);
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
@@ -168,7 +169,7 @@ public class GenerateUtils {
      * 
      * @return 类名
      */
-    public static String getClassname(String className) {
+    public static String getLowerClassName(String className) {
         return className.substring(0, 1).toLowerCase() + className.substring(1);
     }
 

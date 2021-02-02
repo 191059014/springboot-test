@@ -7,39 +7,39 @@ import java.util.List;
  *
  * @version v0.1, ${nowTime}, create by ${author}.
  */
-public interface I${className}Service {
+public interface I${upperClassName}Service {
 
     /**
      * 通过主键查询单条数据
      *
-     * @param ${pk.attrName}
+     * @param ${pk.lowerAttrName}
      *            主键
      * @return 实例对象
      */
-    ${className}DO selectById(${pk.attrType} ${pk.attrName});
+    ${upperClassName}DO selectById(${pk.attrType} ${pk.lowerAttrName});
 
     /**
      * 通过实体作为筛选条件查询集合
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            查询条件
      * @return 对象列表
      */
-    List<${className}DO> selectList(${className}DO ${classname});
+    List<${upperClassName}DO> selectList(${upperClassName}DO ${lowerClassName});
 
     /**
      * 条件查询总条数
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            查询条件
      * @return 总条数
      */
-    Long selectCount(${className}DO ${classname});
+    Long selectCount(${upperClassName}DO ${lowerClassName});
 
     /**
      * 分页查询数据
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            查询条件
      * @param startRow
      *            查询起始位置
@@ -47,33 +47,33 @@ public interface I${className}Service {
      *            每页查询条数
      * @return 对象列表
      */
-    List<${className}DO> selectPages(${className}DO ${classname}, int startRow, int pageSize);
+    List<${upperClassName}DO> selectPages(${upperClassName}DO ${lowerClassName}, int startRow, int pageSize);
 
     /**
      * 选择性新增
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            实例对象
      * @return 影响行数
      */
-    int insertBySelective(${className}DO ${classname});
+    int insertBySelective(${upperClassName}DO ${lowerClassName});
 
     /**
      * 通过主键修改
      *
-     * @param ${classname}
+     * @param ${lowerClassName}
      *            实例对象
      * @return 影响行数
      */
-    int updateById(${className}DO ${classname});
+    int updateById(${upperClassName}DO ${lowerClassName});
 
     /**
      * 通过主键删除数据
      *
-     * @param ${pk.attrName}
+     * @param ${pk.lowerAttrName}
      *            主键
      * @return 影响行数
      */
-    int deleteById(${pk.attrType} ${pk.attrName});
+    int deleteById(${pk.attrType} ${pk.lowerAttrName});
 
 }

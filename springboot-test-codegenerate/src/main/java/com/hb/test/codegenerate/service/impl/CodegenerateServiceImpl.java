@@ -214,9 +214,9 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
         Map<String, Object> map = new HashMap<>(16);
         map.put("tableName", tableInfo.getTableName());
         map.put("pk", GenerateUtils.getPkColumn(columnList));
-        map.put("className", StringUtils.isNotBlank(vo.getClassName()) ? vo.getClassName()
-            : GenerateUtils.getClassName(tableInfo.getTableName()));
-        map.put("classname", GenerateUtils.getClassname(map.get("className").toString()));
+        map.put("upperClassName", StringUtils.isNotBlank(vo.getUpperClassName()) ? vo.getUpperClassName()
+            : GenerateUtils.getUpperClassName(tableInfo.getTableName()));
+        map.put("lowerClassName", GenerateUtils.getLowerClassName(map.get("upperClassName").toString()));
         map.put("columns", GenerateUtils.convertColumns(columnList));
         map.put("nowTime", DateUtils.getNowTime());
         map.put("author", StringUtils.isNotBlank(vo.getAuthor()) ? vo.getAuthor() : GenerateUtils.DEFAULT_AUTHOR);
@@ -245,7 +245,7 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
             try {
                 // 添加到zip
                 String filePath =
-                    GenerateUtils.getFilePath(template, map.get("className").toString(), map.get("package").toString());
+                    GenerateUtils.getFilePath(template, map.get("upperClassName").toString(), map.get("package").toString());
                 if (filePath == null) {
                     if (LOGGER.isWarnEnabled()) {
                         LOGGER.warn("获取完整文件路径失败，模板：{}", template);
