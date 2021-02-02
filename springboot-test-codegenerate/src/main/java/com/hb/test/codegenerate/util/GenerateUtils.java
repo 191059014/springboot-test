@@ -79,12 +79,11 @@ public class GenerateUtils {
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
         templates.add("vmtemplate/Entity.java.vm");
-        templates.add("vmtemplate/Mapper.java.vm");
         templates.add("vmtemplate/Service.java.vm");
         templates.add("vmtemplate/ServiceImpl.java.vm");
         templates.add("vmtemplate/Controller.java.vm");
-        templates.add("vmtemplate/Mapper.xml.vm");
         templates.add("vmtemplate/Api.js.vm");
+        templates.add("vmtemplate/Page.vue.vm");
         return templates;
     }
 
