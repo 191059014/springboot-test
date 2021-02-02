@@ -12,105 +12,12 @@ import javax.annotation.Resource;
  * @version v0.1, ${nowTime}, create by ${author}.
  */
 @Service
-public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
+public class ${upperClassName}ServiceImpl extends BaseDaoImpl<${upperClassName}PO> implements I${upperClassName}Service {
 
     /**
      * 日志
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(${upperClassName}ServiceImpl.class);
 
-    /**
-     * ${comments}操作数据库层
-     */
-    @Resource
-    private I${upperClassName}Mapper ${lowerClassName}Mapper;
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param ${pk.lowerAttrName}
-     *            主键
-     * @return 实例对象
-     */
-    @Override
-    public ${upperClassName}DO selectById(${pk.attrType} ${pk.lowerAttrName}) {
-        return this.${lowerClassName}Mapper.selectById(${pk.lowerAttrName});
-    }
-
-    /**
-     * 通过实体作为筛选条件查询集合
-     *
-     * @param ${lowerClassName}
-     *            查询条件
-     * @return 对象列表
-     */
-    @Override
-    public List<${upperClassName}DO> selectList(${upperClassName}DO ${lowerClassName}) {
-        return this.${lowerClassName}Mapper.selectList(${lowerClassName});
-    }
-
-    /**
-     * 条件查询总条数
-     *
-     * @param ${lowerClassName}
-     *            查询条件
-     * @return 总条数
-     */
-    @Override
-    public Long selectCount(${upperClassName}DO ${lowerClassName}) {
-        return this.${lowerClassName}Mapper.selectCount(${lowerClassName});
-    }
-
-    /**
-     * 分页查询数据
-     *
-     * @param ${lowerClassName}
-     *            查询条件
-     * @param startRow
-     *            查询起始位置
-     * @param pageSize
-     *            每页查询条数
-     * @return 对象列表
-     */
-    @Override
-    public List<${upperClassName}DO> selectPages(${upperClassName}DO ${lowerClassName}, int startRow, int pageSize) {
-        return this.${lowerClassName}Mapper.selectPages(${lowerClassName}, startRow, pageSize);
-    }
-
-    /**
-     * 选择性新增
-     *
-     * @param ${lowerClassName}
-     *            实例对象
-     * @return 影响行数
-     */
-    @Override
-    public int insertBySelective(${upperClassName}DO ${lowerClassName}) {
-        return this.${lowerClassName}Mapper.insertBySelective(${lowerClassName});
-    }
-
-    /**
-     * 通过主键修改
-     *
-     * @param ${lowerClassName}
-     *            实例对象
-     * @return 影响行数
-     */
-    @Override
-    public int updateById(${upperClassName}DO ${lowerClassName}) {
-        return this.${lowerClassName}Mapper.updateById(${lowerClassName});
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param ${pk.lowerAttrName}
-     *            主键
-     * @return 影响行数
-     */
-    @Override
-    public int deleteById(${pk.attrType} ${pk.lowerAttrName}) {
-        return this.${lowerClassName}Mapper.deleteById(${pk.lowerAttrName});
-    }
 
 }
