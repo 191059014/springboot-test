@@ -24,8 +24,8 @@ export const update${className}ById = (${classname}) => {
 /**
  * 通过主键删除${comments}
  */
-export const delete${className}ById = (${pk.attrName}) => {
-    return Ajax.get(`/${classname}/deleteById`, ${pk.attrName}).then(res => res.data);
+export const delete${className}ById = (${pk.attrname}) => {
+    return Ajax.get(`/${classname}/deleteById`, ${pk.attrname}).then(res => res.data);
 };
 
 

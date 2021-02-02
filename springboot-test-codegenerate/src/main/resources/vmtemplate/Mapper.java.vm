@@ -13,11 +13,11 @@ public interface I${className}Mapper {
     /**
      * 通过主键查询单条数据
      *
-     * @param ${pk.attrName}
+     * @param ${pk.attrname}
      *            主键
      * @return 实例对象
      */
-    ${className}DO selectById(${pk.attrType} ${pk.attrName});
+    ${className}DO selectById(${pk.attrType} ${pk.attrname});
 
     /**
      * 通过实体作为筛选条件查询集合
@@ -71,10 +71,10 @@ public interface I${className}Mapper {
     /**
      * 通过主键删除数据
      *
-     * @param ${pk.attrName}
+     * @param ${pk.attrname}
      *            主键
      * @return 影响行数
      */
-    int deleteById(${pk.attrType} ${pk.attrName});
+    int deleteById(${pk.attrType} ${pk.attrname});
 
 }

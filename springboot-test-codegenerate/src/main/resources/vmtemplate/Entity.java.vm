@@ -28,7 +28,7 @@ public class ${className}DO implements Serializable {
     /**
      * $column.columnComment
      */
-    private $column.attrType $column.attrName;
+    private $column.attrType $column.attrname;
 
 #end
 }

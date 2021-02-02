@@ -61,8 +61,9 @@ public class GenerateUtils {
     public static List<ColumnInfo> convertColumns(List<ColumnInfo> columns) {
         for (ColumnInfo column : columns) {
             // 列名转换成Java属性名
-            String attrName = StrUtils.underlineToHump(column.getColumnName());
-            column.setAttrName(StringUtils.uncapitalize(attrName));
+            String attrname = StrUtils.underlineToHump(column.getColumnName());
+            column.setAttrname(StringUtils.uncapitalize(attrname));
+            column.setAttrName(attrname.substring(0, 1).toUpperCase() + attrname.substring(1));
             // 列的数据类型，转换成Java类型
             String attrType = javaTypeMap.get(column.getDataType());
             column.setAttrType(attrType);

@@ -5,10 +5,10 @@
     <!--字段映射-->
     <resultMap id="${classname}Map" type="${package}.${className}DO">
         #foreach($column in $columns)
-          #if($column.attrName==$pk.attrName)
-        <id column="$column.columnName" property="$column.attrName" jdbcType="$column.dataType"/>
+          #if($column.attrname==$pk.attrname)
+        <id column="$column.columnName" property="$column.attrname" jdbcType="$column.dataType"/>
           #else
-        <result column="$column.columnName" property="$column.attrName" jdbcType="$column.dataType"/>
+        <result column="$column.columnName" property="$column.attrname" jdbcType="$column.dataType"/>
           #end
         #end
     </resultMap>
@@ -16,7 +16,7 @@
     <!--查询单个-->
     <select id="selectById" resultMap="${classname}Map">
         select * from ${tableName}
-        where ${pk.columnName} = #{${pk.attrName}}
+        where ${pk.columnName} = #{${pk.attrname}}
     </select>
 
     <!--查询集合-->
@@ -44,8 +44,8 @@
     <sql id="whereSql">
         <where>
           #foreach($column in $columns)
-            <if test="dobj.$!column.attrName != null#if($column.attrType.equals("String")) and dobj.$column.attrName != ''#end">
-                and $!column.columnName = #{dobj.$column.attrName}
+            <if test="dobj.$!column.attrname != null#if($column.attrType.equals("String")) and dobj.$column.attrname != ''#end">
+                and $!column.columnName = #{dobj.$column.attrname}
             </if>
           #end
         </where>
@@ -56,15 +56,15 @@
         insert into ${tableName}
         <trim prefix="(" suffix=")" suffixOverrides=",">
           #foreach($column in $columns)
-            <if test="$!column.attrName != null#if($column.attrType.equals("String")) and $column.attrName != ''#end">
+            <if test="$!column.attrname != null#if($column.attrType.equals("String")) and $column.attrname != ''#end">
                 $column.columnName,
             </if>
           #end
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
           #foreach($column in $columns)
-              <if test="$!column.attrName != null#if($column.attrType.equals("String")) and $column.attrName != ''#end">
-                  #{$column.attrName},
+              <if test="$!column.attrname != null#if($column.attrType.equals("String")) and $column.attrname != ''#end">
+                  #{$column.attrname},
               </if>
           #end
         </trim>
@@ -75,17 +75,17 @@
         update ${tableName}
         <set>
           #foreach($column in $columns)
-            <if test="$!column.attrName != null#if($column.attrType.equals("String")) and $column.attrName != ''#end">
-                $column.columnName = #{$column.attrName},
+            <if test="$!column.attrname != null#if($column.attrType.equals("String")) and $column.attrname != ''#end">
+                $column.columnName = #{$column.attrname},
             </if>
           #end
         </set>
-        where $pk.columnName = #{$pk.attrName}
+        where $pk.columnName = #{$pk.attrname}
     </update>
 
     <!--通过主键逻辑删除-->
     <update id="deleteById">
-        update ${tableName} set record_status = 1 where $pk.columnName = #{$pk.attrName}
+        update ${tableName} set record_status = 1 where $pk.columnName = #{$pk.attrname}
     </update>
 
 </mapper>

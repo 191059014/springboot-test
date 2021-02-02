@@ -118,18 +118,18 @@ public class ${className}Controller {
     /**
      * 通过主键删除${comments}
      *
-     * @param ${pk.attrName}
+     * @param ${pk.attrname}
      *            主键
      * @return 影响的行数
      */
     @GetMapping("/deleteById")
-    public R deleteById(@RequestParam("${pk.attrName}") ${pk.attrType} ${pk.attrName}) {
+    public R deleteById(@RequestParam("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
         String baseLog = "[通过主键删除${comments}controller]";
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("{}入参={}", baseLog, ${pk.attrName});
+            LOGGER.info("{}入参={}", baseLog, ${pk.attrname});
         }
         try {
-            int deleteRows = i${classname}Service.deleteById(${pk.attrName});
+            int deleteRows = i${classname}Service.deleteById(${pk.attrname});
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("{}出参={}", baseLog, deleteRows);
             }

@@ -28,13 +28,13 @@ public class ${className}ServiceImpl implements I${className}Service {
     /**
      * 通过主键查询单条数据
      *
-     * @param ${pk.attrName}
+     * @param ${pk.attrname}
      *            主键
      * @return 实例对象
      */
     @Override
-    public ${className}DO selectById(${pk.attrType} ${pk.attrName}) {
-        return this.${classname}Mapper.selectById(${pk.attrName});
+    public ${className}DO selectById(${pk.attrType} ${pk.attrname}) {
+        return this.${classname}Mapper.selectById(${pk.attrname});
     }
 
     /**
@@ -104,13 +104,13 @@ public class ${className}ServiceImpl implements I${className}Service {
     /**
      * 通过主键删除数据
      *
-     * @param ${pk.attrName}
+     * @param ${pk.attrname}
      *            主键
      * @return 影响行数
      */
     @Override
-    public int deleteById(${pk.attrType} ${pk.attrName}) {
-        return this.${classname}Mapper.deleteById(${pk.attrName});
+    public int deleteById(${pk.attrType} ${pk.attrname}) {
+        return this.${classname}Mapper.deleteById(${pk.attrname});
     }
 
 }
