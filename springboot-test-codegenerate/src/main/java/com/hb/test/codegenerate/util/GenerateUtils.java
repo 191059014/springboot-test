@@ -78,49 +78,54 @@ public class GenerateUtils {
      */
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
+        templates.add("vmtemplate/Mapper.xml.vm");
         templates.add("vmtemplate/Entity.java.vm");
         templates.add("vmtemplate/Mapper.java.vm");
         templates.add("vmtemplate/Service.java.vm");
         templates.add("vmtemplate/ServiceImpl.java.vm");
         templates.add("vmtemplate/Controller.java.vm");
-        templates.add("vmtemplate/Mapper.xml.vm");
         templates.add("vmtemplate/Api.js.vm");
+        templates.add("vmtemplate/Page.vue.vm");
         return templates;
     }
 
     /**
      * 获取文件完整路径名
      */
-    public static String getFilePath(String template, String className, String packageName) {
+    public static String getFilePath(String template, String upperClassName, String packageName) {
 
         String javaPath = getPackagePath(packageName);
 
         if (template.contains("Mapper.xml.vm")) {
-            return javaPath + className + "Mapper.xml";
+            return javaPath + upperClassName + "Mapper.xml";
         }
 
         if (template.contains("Entity.java.vm")) {
-            return javaPath + className + "DO.java";
+            return javaPath + upperClassName + "PO.java";
         }
 
         if (template.contains("Mapper.java.vm")) {
-            return javaPath + "I" + className + "Mapper.java";
+            return javaPath + "I" + upperClassName + "Mapper.java";
         }
 
         if (template.contains("Service.java.vm")) {
-            return javaPath + "I" + className + "Service.java";
+            return javaPath + "I" + upperClassName + "Service.java";
         }
 
         if (template.contains("ServiceImpl.java.vm")) {
-            return javaPath + className + "ServiceImpl.java";
+            return javaPath + upperClassName + "ServiceImpl.java";
         }
 
         if (template.contains("Controller.java.vm")) {
-            return javaPath + className + "Controller.java";
+            return javaPath + upperClassName + "Controller.java";
         }
 
         if (template.contains("Api.js.vm")) {
-            return javaPath + getLowerClassName(className) + ".js";
+            return javaPath + getLowerClassName(upperClassName) + ".js";
+        }
+
+        if (template.contains("Page.vue.vm")) {
+            return javaPath + upperClassName + ".vue";
         }
 
         return null;
