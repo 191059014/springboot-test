@@ -2,13 +2,11 @@ package ${package};
 
 import lombok.Data;
 import java.io.Serializable;
-#foreach ($column in $columns)
-#if($column.attrType=="BigDecimal")
+#if(${hasBigDecimal})
 import java.math.BigDecimal;
-#elseif($column.attrType=="Date")
+#elseif(${hasDate})
 import java.util.Date;
 #else
-#end
 #end
 
 /**
