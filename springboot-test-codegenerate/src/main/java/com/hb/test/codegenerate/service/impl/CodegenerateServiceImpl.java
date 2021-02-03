@@ -224,6 +224,14 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
         map.put("package",
             StringUtils.isNotBlank(vo.getPackageName()) ? vo.getPackageName() : GenerateUtils.DEFAULT_PACKAGENAME);
         map.put("serialVersionUID", new Random().nextLong());
+        for (ColumnInfo columnInfo : columnList) {
+            if ("BigDecimal".equals(columnInfo.getAttrType())) {
+                map.put("hasBigDecimal", true);
+            }
+            if ("Date".equals(columnInfo.getAttrType())) {
+                map.put("hasDate", true);
+            }
+        }
 
         // 设置velocity资源加载器
         Properties prop = new Properties();

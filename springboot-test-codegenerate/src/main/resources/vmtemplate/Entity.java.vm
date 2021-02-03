@@ -1,14 +1,14 @@
 package ${package};
 
+import com.hb.mybatis.annotation.Column;
+import com.hb.mybatis.annotation.Table;
 import lombok.Data;
 import java.io.Serializable;
-#foreach ($column in $columns)
-#if($column.attrType=="BigDecimal")
+#if(${hasBigDecimal})
 import java.math.BigDecimal;
-#elseif($column.attrType=="Date")
+#elseif(${hasDate})
 import java.util.Date;
 #else
-#end
 #end
 
 /**
@@ -17,6 +17,7 @@ import java.util.Date;
  * @version v0.1, ${nowTime}, create by ${author}.
  */
 @Data
+@Table("${tableName}")
 public class ${upperClassName}PO implements Serializable {
 
     /**
@@ -28,6 +29,11 @@ public class ${upperClassName}PO implements Serializable {
     /**
      * $column.columnComment
      */
+#if($column.lowerAttrName==$pk.lowerAttrName)
+    @Column(value = "$column.columnName", isPk = true)
+#else
+    @Column(value = "$column.columnName")
+#end
     private $column.attrType $column.lowerAttrName;
 
 #end
