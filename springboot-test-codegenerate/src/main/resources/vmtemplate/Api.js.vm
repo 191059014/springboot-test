@@ -4,28 +4,28 @@ import Ajax from '@/router/axios'
  * 分页查询${comments}
  */
 export const query${upperClassName}Pages = (${lowerClassName}, pageNum, pageSize) => {
-    return Ajax.post(`/${lowerClassName}/queryPages?pageNum=` + pageNum + "&pageSize=" + pageSize, ${lowerClassName}).then(res => res.data);
+    return Ajax.post(`bs/auth/${lowerClassName}/queryPages?pageNum=` + pageNum + "&pageSize=" + pageSize, ${lowerClassName}).then(res => res.data);
 };
 
 /**
  * 新增${comments}
  */
 export const save${upperClassName} = (${lowerClassName}) => {
-    return Ajax.post(`/${lowerClassName}/save`, ${lowerClassName}).then(res => res.data);
+    return Ajax.post(`bs/auth/${lowerClassName}/save`, ${lowerClassName}).then(res => res.data);
 };
 
 /**
  * 通过主键修改${comments}
  */
 export const update${upperClassName}ById = (${lowerClassName}) => {
-    return Ajax.post(`/${lowerClassName}/updateById`, ${lowerClassName}).then(res => res.data);
+    return Ajax.post(`bs/auth/${lowerClassName}/updateById`, ${lowerClassName}).then(res => res.data);
 };
 
 /**
  * 通过主键删除${comments}
  */
 export const delete${upperClassName}ById = (${pk.lowerAttrName}) => {
-    return Ajax.get(`/${lowerClassName}/deleteById?${pk.lowerAttrName}=` + ${pk.lowerAttrName}).then(res => res.data);
+    return Ajax.get(`bs/auth/${lowerClassName}/deleteById?${pk.lowerAttrName}=` + ${pk.lowerAttrName}).then(res => res.data);
 };
 
 

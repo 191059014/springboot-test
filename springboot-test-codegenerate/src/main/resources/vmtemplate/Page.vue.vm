@@ -17,7 +17,7 @@
     </el-form>
 
     <el-table
-      :data="${upperClassName}List"
+      :data="${lowerClassName}List"
       stripe
       highlight-current-row
       v-loading="tableLoading"
@@ -184,7 +184,7 @@
       },
       handleEdit() {
         #foreach ($column in $columns)
-          if (!this.${upperClassName}Add.$column.lowerAttrName) {
+          if (!this.${upperClassName}Update.$column.lowerAttrName) {
             this.hbalert.warn("$column.columnComment不能为空");
             return false;
           }
@@ -201,7 +201,7 @@
           this.hbalert.warn("没有任何修改");
           return false;
         }
-        this.hbapis.update${upperClassName}ById(showUpdateInfo).then(res => {
+        this.hbapis.update${upperClassName}ById(shouldUpdateInfo).then(res => {
           if (this.hbconsts.ResponseEnum.SUCCESS.code === res.code) {
             this.hbalert.success(res.msg);
             this.showUpdateDialog = false;
