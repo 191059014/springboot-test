@@ -168,7 +168,7 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
                     while (columnRs.next()) {
                         columnInfo = new ColumnInfo();
                         columnInfo.setColumnName(columnRs.getString("columnName"));
-                        columnInfo.setDataType(columnRs.getString("dataType"));
+                        columnInfo.setDataType(GenerateUtils.getJdbcType(columnRs.getString("dataType")));
                         columnInfo.setColumnComment(columnRs.getString("columnComment"));
                         columnInfo.setColumnKey(columnRs.getString("columnKey"));
                         columnInfo.setExtra(columnRs.getString("extra"));
@@ -252,8 +252,8 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
 
             try {
                 // 添加到zip
-                String filePath =
-                    GenerateUtils.getFilePath(template, map.get("upperClassName").toString(), map.get("package").toString());
+                String filePath = GenerateUtils.getFilePath(template, map.get("upperClassName").toString(),
+                    map.get("package").toString());
                 if (filePath == null) {
                     if (LOGGER.isWarnEnabled()) {
                         LOGGER.warn("获取完整文件路径失败，模板：{}", template);

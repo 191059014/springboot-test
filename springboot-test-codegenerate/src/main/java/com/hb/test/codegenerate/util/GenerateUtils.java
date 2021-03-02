@@ -30,7 +30,20 @@ public class GenerateUtils {
      */
     private static Map<String, String> javaTypeMap = new HashMap<>();
 
+    /**
+     * 数据库字段类型
+     */
+    private static Map<String, String> jdbcTypeMap = new HashMap<>();
+
     static {
+        initJavaTypeMap();
+        initJdbcTypeMap();
+    }
+
+    /**
+     * 初始化javaTypeMap
+     */
+    private static void initJavaTypeMap() {
         javaTypeMap.put("tinyint", "Integer");
         javaTypeMap.put("smallint", "Integer");
         javaTypeMap.put("mediumint", "Integer");
@@ -53,6 +66,28 @@ public class GenerateUtils {
         javaTypeMap.put("date", "Date");
         javaTypeMap.put("datetime", "Date");
         javaTypeMap.put("timestamp", "Date");
+    }
+
+    /**
+     * 初始化jdbcTypeMap
+     */
+    private static void initJdbcTypeMap() {
+        jdbcTypeMap.put("int", "INTEGER");
+    }
+
+    /**
+     * 获取mybatis的xml文件里resultMap标签里的jdbcType
+     * 
+     * @param dataType
+     *            mysql里的数据类型
+     * @return jdbcType
+     */
+    public static String getJdbcType(String dataType) {
+        String jdbcType = jdbcTypeMap.get(dataType);
+        if (jdbcType == null) {
+            jdbcType = dataType.toUpperCase();
+        }
+        return jdbcType;
     }
 
     /**
