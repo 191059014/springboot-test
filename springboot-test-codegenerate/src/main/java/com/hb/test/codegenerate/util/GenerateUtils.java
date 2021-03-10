@@ -49,7 +49,7 @@ public class GenerateUtils {
         javaTypeMap.put("mediumint", "Integer");
         javaTypeMap.put("int", "Integer");
         javaTypeMap.put("number", "Integer");
-        javaTypeMap.put("integer", "integer");
+        javaTypeMap.put("integer", "Integer");
         javaTypeMap.put("bigint", "Long");
         javaTypeMap.put("float", "Float");
         javaTypeMap.put("double", "Double");
@@ -100,7 +100,7 @@ public class GenerateUtils {
             column.setLowerAttrName(StringUtils.uncapitalize(attrName));
             column.setUpperAttrName(attrName.substring(0, 1).toUpperCase() + attrName.substring(1));
             // 列的数据类型，转换成Java类型
-            String attrType = javaTypeMap.get(column.getDataType());
+            String attrType = javaTypeMap.get(column.getDataType().toLowerCase());
             column.setAttrType(attrType);
         }
         return columns;
