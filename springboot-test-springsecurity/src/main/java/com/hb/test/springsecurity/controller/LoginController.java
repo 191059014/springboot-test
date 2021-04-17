@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 测试
+ * 登陆
  *
  * @author Mr.Huang
  * @version v0.1, LoginController.java, 2020/6/1 14:27, create by huangbiao.
@@ -27,13 +27,13 @@ public class LoginController {
     /**
      * 登陆接口
      *
-     * @param user 用户信息
      * @return 结果
      */
-    @RequestMapping(value = "/doLogin")
+    @RequestMapping(value = "/login")
     public String doLogin(HttpServletRequest request) {
         try {
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getParameter("userName"), request.getParameter("password")));
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                request.getParameter("userName"), request.getParameter("password")));
             SecurityContextHolder.getContext().setAuthentication(authenticate);
             System.out.println(111);
         } catch (LockedException e) {
@@ -47,5 +47,3 @@ public class LoginController {
     }
 
 }
-
-    

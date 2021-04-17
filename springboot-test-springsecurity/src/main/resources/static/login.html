@@ -1,70 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width,initial-scale=1">
     <title>登陆</title>
+
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
 </head>
+
 <body>
-<form method="post" action="/doLogin">
-    <table>
-        <tr>
-            <td>用户名</td>
-            <td><input type="text" id="userName" name="userName" value="zhangsan"/></td>
-        </tr>
-        <tr>
-            <td>密码</td>
-            <td><input type="text" id="password" name="password" value="123"/></td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align: center">
-                <button type="submit">login</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                zhangsan
-            </td>
-            <td>
-                123
-            </td>
-        </tr>
-        <tr>
-            <td>
-                lisi
-            </td>
-            <td>
-                456
-            </td>
-        </tr>
-    </table>
+
+<form method="post" action="http://localhost:8081/login">
+    用户名：<input name="username" value="zhangsan">
+    密码：<input name="password" value="123">
+    <button type="submit">登陆</button>
 </form>
 
-<script>
+<script type="text/javascript">
 
     $(function () {
 
     });
 
-    // function login() {
-    //     let userName = $("#userName").val();
-    //     let password = $("#password").val();
-    //     let params = {
-    //         "userName": userName,
-    //         "password": password
-    //     };
-    //     let url = "http://localhost:8080/doLogin";
-    //     $.ajax({
-    //         url: url,
-    //         type: "post",
-    //         contentType: "application/json;charset=UTF-8",
-    //         data: JSON.stringify(params),
-    //         success: function (res) {
-    //             alert(res)
-    //         }
-    //     })
-    // }
+    /**
+     * 发送get请求
+     */
+    function sendGet() {
+        let url = $('#urlOfGet').val();
+        if (!url) {
+            alert("请填写请求地址");
+            return false;
+        }
+        let headerStr = $('#headersOfGet').val();
+        let headers = {};
+        if (headerStr) {
+            let headersArr = headerStr.split(";");
+            for (let i = 0; i < headersArr.length; i++) {
+                let headersArrElement = headersArr[i];
+                let header = headersArrElement.split(":");
+                headers[header[0]] = header[1];
+            }
+        }
+        get(url, headers, function (data) {
+            alert("结果=" + JSON.stringify(data));
+        })
+    }
+
+    /**
+     * 发送post请求
+     */
+    function sendPost() {
+        let url = $('#urlOfPost').val();
+        if (!url) {
+            alert("请填写请求地址");
+            return false;
+        }
+        let headerStr = $('#headersOfPost').val();
+        let headers = {};
+        if (headerStr) {
+            let headersArr = headerStr.split(";");
+            for (let i = 0; i < headersArr.length; i++) {
+                let headersArrElement = headersArr[i];
+                let header = headersArrElement.split(":");
+                headers[header[0]] = header[1];
+            }
+        }
+        let body = $('#bodyOfPost').val();
+        let parse = JSON.parse(body);
+        post(url, headers, parse, function (data) {
+            alert("结果=" + JSON.stringify(data));
+        })
+    }
+
+    /**
+     * get请求
+     *
+     * @param url 请求地址
+     * @param headers 请求头
+     * @param callback 回调函数
+     */
+    let get = (url, headers, callback) => {
+        $.ajax(
+            {
+                url: url,
+                type: 'get',
+                headers: headers,
+                success: function (data) {
+                    callback && callback(data);
+                },
+                error: function (data) {
+                    console.error(data);
+                    alert("系统异常")
+                }
+            }
+        );
+    };
+
+    /**
+     * post请求
+     *
+     * @param url 请求地址
+     * @param headers 请求头
+     * @param body 请求体
+     * @param callback 回调函数
+     */
+    let post = (url, headers, body, callback) => {
+        $.ajax(
+            {
+                url: url,
+                type: 'post',
+                contentType: 'application/json;charset=utf8',
+                headers: headers,
+                data: JSON.stringify(body),
+                success: function (data) {
+                    callback && callback(data);
+                },
+                error: function (data) {
+                    console.error(data);
+                    alert("系统异常")
+                }
+            }
+        );
+    };
 
 </script>
 </body>
+
 </html>

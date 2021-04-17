@@ -1,6 +1,5 @@
 package com.hb.test.springsecurity.config;
 
-import com.hb.test.springsecurity.common.Consts;
 import com.hb.test.springsecurity.model.Permission;
 import com.hb.test.springsecurity.model.Role;
 import com.hb.test.springsecurity.model.UserPrincipal;
@@ -25,9 +24,6 @@ import java.util.stream.Collectors;
 @Component
 public class RbacAuthorityService {
 
-    @Autowired
-    private RequestMappingHandlerMapping mapping;
-
     /**
      * 校验是否含有权限
      *
@@ -36,35 +32,36 @@ public class RbacAuthorityService {
      * @return true为有权限
      */
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
+        System.out.println("进入url动态权限验证");
 
         Object userInfo = authentication.getPrincipal();
         boolean hasPermission = false;
 
         if (userInfo instanceof UserDetails) {
-            UserPrincipal principal = (UserPrincipal) userInfo;
-            Long userId = principal.getUser().getUserId();
-
-            List<Role> roles = this.selectByUserId(userId);
-            List<String> roleIds = roles.stream().map(Role::getRoleId).collect(Collectors.toList());
-            List<Permission> permissions = this.selectByRoleIdList(roleIds);
-
-            //获取资源，前后端分离，所以过滤页面权限，只保留按钮权限
-            List<Permission> btnPerms = permissions.stream()
-                    // 过滤页面权限
-                    .filter(permission -> Objects.equals(permission.getType(), Consts.BUTTON))
-                    // 过滤 URL 为空
-                    .filter(permission -> !StringUtils.isEmpty(permission.getUrl()))
-                    // 过滤 METHOD 为空
-                    .filter(permission -> !StringUtils.isEmpty(permission.getMethod()))
-                    .collect(Collectors.toList());
-
-            for (Permission btnPerm : btnPerms) {
-                AntPathRequestMatcher antPathMatcher = new AntPathRequestMatcher(btnPerm.getUrl(), btnPerm.getMethod());// 也可以只通过url来匹配
-                if (antPathMatcher.matches(request)) {
-                    hasPermission = true;
-                    break;
-                }
-            }
+//            UserPrincipal principal = (UserPrincipal) userInfo;
+//            Long userId = principal.getUser().getUserId();
+//
+//            List<Role> roles = this.selectByUserId(userId);
+//            List<String> roleIds = roles.stream().map(Role::getRoleId).collect(Collectors.toList());
+//            List<Permission> permissions = this.selectByRoleIdList(roleIds);
+//
+//            //获取资源，前后端分离，所以过滤页面权限，只保留按钮权限
+//            List<Permission> btnPerms = permissions.stream()
+//                    // 过滤页面权限
+//                    .filter(permission -> Objects.equals(permission.getType(), Consts.BUTTON))
+//                    // 过滤 URL 为空
+//                    .filter(permission -> !StringUtils.isEmpty(permission.getUrl()))
+//                    // 过滤 METHOD 为空
+//                    .filter(permission -> !StringUtils.isEmpty(permission.getMethod()))
+//                    .collect(Collectors.toList());
+//
+//            for (Permission btnPerm : btnPerms) {
+//                AntPathRequestMatcher antPathMatcher = new AntPathRequestMatcher(btnPerm.getUrl(), btnPerm.getMethod());// 也可以只通过url来匹配
+//                if (antPathMatcher.matches(request)) {
+//                    hasPermission = true;
+//                    break;
+//                }
+//            }
 
             return hasPermission;
         } else {
@@ -77,7 +74,7 @@ public class RbacAuthorityService {
         Permission permission = new Permission();
         permission.setUrl("/v1");
         permission.setMethod("GET");
-        permission.setType(Consts.BUTTON);
+//        permission.setType(Consts.BUTTON);
         permissions.add(permission);
         return permissions;
     }

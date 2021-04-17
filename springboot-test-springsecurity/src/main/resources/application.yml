@@ -1,12 +1,11 @@
 server:
   port: 8081
-spring:
-  mvc:
-    static-path-pattern: /templates/**
-    view:
-      prefix: /templates/
-      suffix: .html
 logging:
   level:
     root: info
   path: C:\WindowsD\log
+ignoresUrlArr:
+  /login.html
+spring:
+  mvc:
+    static-path-pattern: /static/**
