@@ -3,6 +3,7 @@ package com.hb.test.springsecurity.config;
 import com.alibaba.fastjson.JSON;
 import com.hb.test.springsecurity.common.Result;
 import com.hb.test.springsecurity.common.ResultCode;
+import com.hb.test.springsecurity.util.ServletUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e)
         throws IOException, ServletException {
         System.out.println("进入权限不足处理器");
-        response.getWriter().write(JSON.toJSONString(Result.of(ResultCode.ACCESS_DENIED)));
+        e.printStackTrace();
+        ServletUtils.writeResponse(response, JSON.toJSONString(Result.of(ResultCode.ACCESS_DENIED)));
     }
 
 }

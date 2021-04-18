@@ -16,6 +16,8 @@ public enum ResultCode {
     ACCOUNT_LOCKED("30104", "账号锁定"),
     ACCOUNT_NOT_EXIST("30105", "用户不存在"),
     ACCESS_DENIED("30106", "权限不足"),
+    TOKEN_IS_NULL("30107", "token为空"),
+    NOT_LOGIN("30107", "未登录"),
     ;
 
     private String code;

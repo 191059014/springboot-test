@@ -1,8 +1,8 @@
 package com.hb.test.springsecurity.config;
 
 import com.hb.test.springsecurity.model.Permission;
+import com.hb.test.springsecurity.model.Role;
 import com.hb.test.springsecurity.model.User;
-import com.hb.test.springsecurity.model.UserPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,11 +26,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = getUserByUserName(s);
         System.out.println("用户信息：" + user);
-        List<String> roleList = getRoleListByRoleIdArr(s);
-        System.out.println("角色信息：" + user);
+        List<Role> roleList = getRoleListByRoleIdArr(s);
+        System.out.println("角色信息：" + roleList);
         List<Permission> permissionList = getPermissionListByPermissionIdArr(s);
-        System.out.println("权限信息：" + user);
-        return new UserPrincipal(user, roleList, permissionList);
+        System.out.println("权限信息：" + permissionList);
+        user.setRoles(roleList);
+        user.setPermissions(permissionList);
+        return user;
     }
 
     /**
@@ -42,24 +44,33 @@ public class UserDetailServiceImpl implements UserDetailsService {
      */
     public static User getUserByUserName(String userName) {
         Map<String, User> userMap = new HashMap<>();
-        userMap.put("zhangsan",
-            new User(123L, "zhangsan", "$2a$10$DBYNsfDsGsjIDmL/LL7uku1JJvMAESHwFbyfNNvINYPiFxOfCXq0q"));// 123
-        userMap.put("lisi", new User(456L, "lisi", "$2a$10$furPmcpdd5uKPwkJ3HEN8OuMNfqPKEkG8Ci9XII2K5.Jwdti9FHQi")); // 456
+        User user1 = new User();
+        user1.setUserId(123L);
+        user1.setUserName("zhangsan");
+        user1.setPassword("$2a$10$DBYNsfDsGsjIDmL/LL7uku1JJvMAESHwFbyfNNvINYPiFxOfCXq0q");// 123
+        userMap.put("zhangsan", user1);
+
+        User user2 = new User();
+        user2.setUserId(456L);
+        user2.setUserName("lisi");
+        user2.setPassword("$2a$10$furPmcpdd5uKPwkJ3HEN8OuMNfqPKEkG8Ci9XII2K5.Jwdti9FHQi");// 456
+        userMap.put("lisi", user2);
+
         return userMap.get(userName);
     }
 
     /**
      * 根据用户名获取角色集合
      *
-     * @param roleId
-     *            角色ID
+     * @param username
+     *            用户名
      * @return 角色集合
      */
-    public static List<String> getRoleListByRoleIdArr(String... roleId) {
-        Map<String, List<String>> roleMap = new HashMap<>();
-        roleMap.put("zhangsan", Arrays.asList("r1"));
-        roleMap.put("lisi", Arrays.asList("r2"));
-        return roleMap.get(roleId[0]);
+    public static List<Role> getRoleListByRoleIdArr(String username) {
+        Map<String, List<Role>> roleMap = new HashMap<>();
+        roleMap.put("zhangsan", Arrays.asList(new Role("r1")));
+        roleMap.put("lisi", Arrays.asList(new Role("r2")));
+        return roleMap.get(username);
     }
 
     /**

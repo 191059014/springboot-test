@@ -53,8 +53,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenFilter tokenFilter;
 
-    @Value("${ignoresUrlArr}")
-    private String ignoresUrlArr;
+    @Value("${security.loginUrl}")
+    private String loginUrl;
+
+    @Value("${security.logoutUrl}")
+    private String logoutUrl;
+
+    @Value("${security.ignoreUrls}")
+    private String ignoreUrls;
 
     /**
      * 密码加密器
@@ -98,7 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // 指定表单登陆方式
             .formLogin()
             // 指定登录处理的url（当请求为此路径时才被认为是登陆）
-            .loginProcessingUrl("/login")
+            .loginProcessingUrl(loginUrl)
             // 定义登录时的用户名字段
             .usernameParameter("username")
             // 定义登录时的密码字段
@@ -114,7 +120,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // 开启注销设置
             .logout()
             // 指定注销处理url（当请求为此路径时才被认为是注销）
-            .logoutUrl("/logout")
+            .logoutUrl(logoutUrl)
             // 注销处理器
             .addLogoutHandler(customLogoutHandler)
             // 注销成功处理器
@@ -142,10 +148,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         // 忽略请求
         WebSecurity ws = web.ignoring().and();
-        String[] ignoresArr = ignoresUrlArr.split(",");
-        System.out.println("忽略的请求路径：" + Arrays.toString(ignoresArr));
-        for (String ignoresUrl : ignoresArr) {
-            ws.ignoring().antMatchers(ignoresUrl);
+        String[] ignoreUrlArr = ignoreUrls.split(",");
+        System.out.println("忽略的请求路径：" + Arrays.toString(ignoreUrlArr));
+        for (String ignoreUrl : ignoreUrlArr) {
+            ws.ignoring().antMatchers(ignoreUrl);
         }
 
     }

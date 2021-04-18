@@ -4,8 +4,8 @@ logging:
   level:
     root: info
   path: C:\WindowsD\log
-ignoresUrlArr:
-  /login.html
-spring:
-  mvc:
-    static-path-pattern: /static/**
+security:
+  loginUrl: /login
+  logoutUrl: /logout
+  ignoreUrls: /page/**,/js/**,/css/**,/favicon.ico
+

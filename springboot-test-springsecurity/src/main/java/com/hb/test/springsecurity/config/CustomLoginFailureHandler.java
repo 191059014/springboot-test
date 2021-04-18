@@ -3,6 +3,7 @@ package com.hb.test.springsecurity.config;
 import com.alibaba.fastjson.JSON;
 import com.hb.test.springsecurity.common.Result;
 import com.hb.test.springsecurity.common.ResultCode;
+import com.hb.test.springsecurity.util.ServletUtils;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -30,6 +31,7 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException e) throws IOException {
         System.out.println("进入登陆失败处理器");
+        e.printStackTrace();
         ResultCode resultCode = null;
         if (e instanceof AccountExpiredException) {
             // 账号过期
@@ -54,7 +56,8 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
             resultCode = ResultCode.FAIL;
         }
 
-        response.getWriter().write(JSON.toJSONString(Result.of(resultCode)));
+        ServletUtils.writeResponse(response, JSON.toJSONString(Result.of(resultCode)));
+
     }
 
 }

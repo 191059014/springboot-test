@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @PostMapping("/v1")
-    @PreAuthorize("hasAuthority('v1')")
+    @PreAuthorize("hasAuthority('p1')")
     public String v1() {
         return "成功访问v1";
     }
 
     @PostMapping("/v2")
-    @PreAuthorize("hasAuthority('v2')")
+    @PreAuthorize("hasAuthority('p2')")
     public String v2() {
         return "成功访问v2";
     }

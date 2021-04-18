@@ -1,11 +1,18 @@
 package com.hb.test.springsecurity.common;
 
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
  * 统一返回前端数据模型
  *
  * @version v0.1, 2021/4/17 23:38, create by huangbiao.
  */
-public class Result<T> {
+@Data
+public class Result<T> implements Serializable {
+
+    private static final long serialVersionUID = 3730853535572002727L;
 
     private String code;
     private String msg;
