@@ -45,13 +45,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public static User getUserByUserName(String userName) {
         Map<String, User> userMap = new HashMap<>();
         User user1 = new User();
-        user1.setUserId(123L);
+        user1.setUserId("123");
         user1.setUserName("zhangsan");
         user1.setPassword("$2a$10$DBYNsfDsGsjIDmL/LL7uku1JJvMAESHwFbyfNNvINYPiFxOfCXq0q");// 123
         userMap.put("zhangsan", user1);
 
         User user2 = new User();
-        user2.setUserId(456L);
+        user2.setUserId("456");
         user2.setUserName("lisi");
         user2.setPassword("$2a$10$furPmcpdd5uKPwkJ3HEN8OuMNfqPKEkG8Ci9XII2K5.Jwdti9FHQi");// 456
         userMap.put("lisi", user2);
