@@ -3,7 +3,6 @@ package com.hb.test.springsecurity.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 /**
  * 权限
@@ -14,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Permission implements GrantedAuthority {
+public class Permission {
 
     public Permission(String permissionId) {
         this.permissionId = permissionId;
@@ -60,10 +59,4 @@ public class Permission implements GrantedAuthority {
      */
     private Long parentId;
 
-    @Override
-    public String getAuthority() {
-        return permissionId;
-    }
 }
-
-    

@@ -11,10 +11,10 @@ public class SpringbootTestSpringSecurityJWTApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SpringbootTestSpringSecurityJWTApplication.class, args);
         ConfigurableEnvironment environment = context.getEnvironment();
-        String loginUrl = String.format("http://localhost:%s", environment.getProperty("server.port"));
-        System.out.println("======================================================================");
+        String loginUrl = String.format("http://localhost:%s/page/login.html", environment.getProperty("server.port"));
+        System.out.println("============================================================================");
         System.out.println("    enjoy you self，more please see: " + loginUrl + "/toLogin");
-        System.out.println("======================================================================");
+        System.out.println("============================================================================");
     }
 
 }

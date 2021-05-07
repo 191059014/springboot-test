@@ -1,16 +1,22 @@
 package com.hb.test.springsecurity.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Arrays;
 
 /**
  * SpringSecurity配置
@@ -20,10 +26,41 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private CustomLoginSuccessHandler customLoginSuccessHandler;
+
+    @Autowired
+    private CustomLoginFailureHandler customLoginFailureHandler;
+
+    @Autowired
+    private CustomLogoutHandler customLogoutHandler;
+
+    @Autowired
+    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    @Autowired
+    private TokenFilter tokenFilter;
+
+    @Value("${security.loginUrl}")
+    private String loginUrl;
+
+    @Value("${security.logoutUrl}")
+    private String logoutUrl;
+
+    @Value("${security.ignoreUrls}")
+    private String ignoreUrls;
 
     /**
      * 密码加密器
@@ -51,50 +88,71 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.addFilterBefore(verifyCodeFilter, UsernamePasswordAuthenticationFilter.class); // 验证码过滤器
         http
-                .authorizeRequests()//开启登录配置
-                .antMatchers("/v1").hasAuthority("p1")//表示访问/v1这个接口，需要具备r1这个角色
-                .antMatchers("/v2").hasAuthority("p2")//表示访问/v2这个接口，需要具备r2这个角色
-                .anyRequest().authenticated()//表示剩余的其他接口，登录之后就能访问
-                .anyRequest().access("@rbacAuthorityService.hasPermission(request,authentication)")// rbac动态url认证
-                .and()
-                .formLogin()
-                //定义登录页面，未登录时，访问一个需要登录之后才能访问的接口，会自动跳转到该页面
-                .loginPage("/toLogin")
-                //登录处理接口
-                .loginProcessingUrl("/doLogin")
-                //定义登录时，用户名的 key，默认为 username
-                .usernameParameter("userName")
-                //定义登录时，用户密码的 key，默认为 password
-                .passwordParameter("password")
-                .successHandler(new LoginSuccessHandler())
-                .failureHandler(new LoginFailureHandler())
-                .permitAll()//和表单登录相关的接口统统都直接通过
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessHandler((req, resp, authentication) -> {
-                    System.out.println("注销成功处理器");
-                })
-                .permitAll()
-                .and()
-                .httpBasic()
-                .and()
-                .csrf().disable()
-                .exceptionHandling().accessDeniedHandler((request, response, e) -> {
-                    System.out.println("权限不足");
-                    response.sendRedirect("/403");
-                })
-        ;
+            // 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
+            .cors().and().csrf().disable()
+            // 基于token，所以不需要session
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            // 打开认证配置
+            .and().authorizeRequests()
+            // 其他所有请求需要身份认证
+            .anyRequest().authenticated();
+            // rbac动态权限认证
+//            .anyRequest().access("@rbacAuthorityService.hasPermission(request, authentication)");
+
+        http
+            // 指定表单登陆方式
+            .formLogin()
+            // 指定登录处理的url（当请求为此路径时才被认为是登陆）
+            .loginProcessingUrl(loginUrl)
+            // 定义登录时的用户名字段
+            .usernameParameter("username")
+            // 定义登录时的密码字段
+            .passwordParameter("password")
+            // 登陆成功处理器
+            .successHandler(customLoginSuccessHandler)
+            // 登陆失败处理器
+            .failureHandler(customLoginFailureHandler)
+            // 和登录相关的接口直接跳过权限
+            .permitAll();
+
+        http
+            // 开启注销设置
+            .logout()
+            // 指定注销处理url（当请求为此路径时才被认为是注销）
+            .logoutUrl(logoutUrl)
+            // 注销处理器
+            .addLogoutHandler(customLogoutHandler)
+            // 注销成功处理器
+            .logoutSuccessHandler(customLogoutSuccessHandler)
+            // 和登录相关的接口直接跳过权限
+            .permitAll();
+
+        http
+            // 开启异常处理
+            .exceptionHandling()
+            // 认证过的用户访问无权限资源时的异常处理器
+            .accessDeniedHandler(customAccessDeniedHandler)
+            // 匿名用户访问无权限资源时的异常处理器
+            .authenticationEntryPoint(customAuthenticationEntryPoint);
+
+        // 验证码过滤器
+        // http.addFilterBefore(verifyCodeFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // 因为是前后端分离的项目，所以要加一个token过滤器
+        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        // 忽略拦截
-        web.ignoring().antMatchers("/static/**")
-        .antMatchers("/403");
+        // 忽略请求
+        WebSecurity ws = web.ignoring().and();
+        String[] ignoreUrlArr = ignoreUrls.split(",");
+        System.out.println("忽略的请求路径：" + Arrays.toString(ignoreUrlArr));
+        for (String ignoreUrl : ignoreUrlArr) {
+            ws.ignoring().antMatchers(ignoreUrl);
+        }
+
     }
 }
-
-    
