@@ -27,6 +27,7 @@
         <module>springboot-test-nacos</module>
         <module>springboot-test-docker</module>
         <module>springboot-test-codegenerate</module>
+        <module>springboot-test-actuator</module>
     </modules>
 
     <properties>
