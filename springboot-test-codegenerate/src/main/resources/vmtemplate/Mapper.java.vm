@@ -57,7 +57,7 @@ public interface I${upperClassName}Mapper {
      *            实例对象
      * @return 影响行数
      */
-    int insertBySelective(${upperClassName}DO ${lowerClassName});
+    int insertBySelective(@Param("dobj") ${upperClassName}DO ${lowerClassName});
 
     /**
      * 通过主键修改
@@ -66,7 +66,7 @@ public interface I${upperClassName}Mapper {
      *            实例对象
      * @return 影响行数
      */
-    int updateById(${upperClassName}DO ${lowerClassName});
+    int updateById(@Param("dobj") ${upperClassName}DO ${lowerClassName});
 
     /**
      * 通过主键删除数据
@@ -75,6 +75,6 @@ public interface I${upperClassName}Mapper {
      *            主键
      * @return 影响行数
      */
-    int deleteById(${pk.attrType} ${pk.lowerAttrName});
+    int deleteById(@Param("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName});
 
 }

@@ -52,15 +52,15 @@
         insert into ${tableName}
         <trim prefix="(" suffix=")" suffixOverrides=",">
           #foreach($column in $columns)
-            <if test="$!column.lowerAttrName != null#if($column.attrType.equals("String")) and $column.lowerAttrName != ''#end">
+            <if test="dobj.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and dobj.$column.lowerAttrName != ''#end">
                 $column.columnName,
             </if>
           #end
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
           #foreach($column in $columns)
-              <if test="$!column.lowerAttrName != null#if($column.attrType.equals("String")) and $column.lowerAttrName != ''#end">
-                  #{$column.lowerAttrName},
+              <if test="dobj.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and dobj.$column.lowerAttrName != ''#end">
+                  #{dobj.$column.lowerAttrName},
               </if>
           #end
         </trim>
@@ -71,17 +71,17 @@
         update ${tableName}
         <set>
           #foreach($column in $columns)
-            <if test="$!column.lowerAttrName != null#if($column.attrType.equals("String")) and $column.lowerAttrName != ''#end">
-                $column.columnName = #{$column.lowerAttrName},
+            <if test="dobj.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and dobj.$column.lowerAttrName != ''#end">
+                $column.columnName = #{dobj.$column.lowerAttrName},
             </if>
           #end
         </set>
-        where $pk.columnName = #{$pk.lowerAttrName}
+        where $pk.columnName = #{dobj.$pk.lowerAttrName}
     </update>
 
-    <!--通过主键逻辑删除-->
-    <update id="deleteById">
-        update ${tableName} set record_status = 1 where $pk.columnName = #{$pk.lowerAttrName}
-    </update>
+    <!--通过主键物理删除-->
+    <delete id="deleteById">
+        delete from ${tableName} where $pk.columnName = #{$pk.lowerAttrName}
+    </delete>
 
 </mapper>

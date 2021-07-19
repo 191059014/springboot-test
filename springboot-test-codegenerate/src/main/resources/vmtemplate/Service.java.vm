@@ -19,6 +19,15 @@ public interface I${upperClassName}Service {
     ${upperClassName}DO selectById(${pk.attrType} ${pk.lowerAttrName});
 
     /**
+     * 通过条件查询单条数据
+     *
+     * @param ${lowerClassName}
+     *            查询条件
+     * @return 实例对象
+     */
+    ${upperClassName}DO selectOne(${upperClassName}DO ${lowerClassName});
+
+    /**
      * 通过实体作为筛选条件查询集合
      *
      * @param ${lowerClassName}

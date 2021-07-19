@@ -3,6 +3,8 @@ package ${package};
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+
 import java.util.List;
 import javax.annotation.Resource;
 
@@ -35,6 +37,19 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
     @Override
     public ${upperClassName}DO selectById(${pk.attrType} ${pk.lowerAttrName}) {
         return this.${lowerClassName}Mapper.selectById(${pk.lowerAttrName});
+    }
+
+    /**
+     * 通过条件查询单条数据
+     *
+     * @param ${lowerClassName}
+     *            查询条件
+     * @return 对象列表
+     */
+    @Override
+    public ${upperClassName}DO selectOne(${upperClassName}DO ${lowerClassName}) {
+        List<${upperClassName}DO> list = this.${lowerClassName}Mapper.selectList(${lowerClassName});
+        return CollectionUtils.isEmpty(list) ? new ${upperClassName}DO() : list.get(0);
     }
 
     /**

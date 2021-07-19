@@ -4,7 +4,9 @@ import lombok.Data;
 import java.io.Serializable;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
-#elseif(${hasDate})
+#else
+#end
+#if(${hasDate})
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 #else

@@ -44,24 +44,32 @@ public class GenerateUtils {
      * 初始化javaTypeMap
      */
     private static void initJavaTypeMap() {
+        // 整数类型
         javaTypeMap.put("tinyint", "Integer");
         javaTypeMap.put("smallint", "Integer");
         javaTypeMap.put("mediumint", "Integer");
         javaTypeMap.put("int", "Integer");
         javaTypeMap.put("number", "Integer");
         javaTypeMap.put("integer", "Integer");
+        // 其他数值类型
         javaTypeMap.put("bigint", "Long");
         javaTypeMap.put("float", "Float");
         javaTypeMap.put("double", "Double");
         javaTypeMap.put("decimal", "BigDecimal");
         javaTypeMap.put("bit", "Boolean");
+        // 字符串类型
         javaTypeMap.put("char", "String");
         javaTypeMap.put("varchar", "String");
-        javaTypeMap.put("varchar2", "String");
+        javaTypeMap.put("tinyblob", "String");
         javaTypeMap.put("tinytext", "String");
+        javaTypeMap.put("blob", "String");
         javaTypeMap.put("text", "String");
+        javaTypeMap.put("mediumblob", "String");
         javaTypeMap.put("mediumtext", "String");
+        javaTypeMap.put("longblob", "String");
         javaTypeMap.put("longtext", "String");
+        // 日期类型
+        javaTypeMap.put("year", "Date");
         javaTypeMap.put("time", "Date");
         javaTypeMap.put("date", "Date");
         javaTypeMap.put("datetime", "Date");
