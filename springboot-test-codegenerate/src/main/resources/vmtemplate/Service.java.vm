@@ -1,6 +1,7 @@
 package ${package};
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * ${comments}服务层接口
@@ -59,13 +60,25 @@ public interface I${upperClassName}Service {
     List<${upperClassName}DO> selectPages(${upperClassName}DO ${lowerClassName}, int startRow, int pageSize);
 
     /**
-     * 选择性新增
+     * 通过id集合查询
+     *
+     * @param idSet
+     *            id集合
+     * @param ${lowerClassName}
+     *            查询条件
+     * @return 结果集
+     */
+    List<${upperClassName}DO> selectByIdSet(Set<${pk.attrType}> idSet, ${upperClassName}DO ${lowerClassName});
+
+
+    /**
+     * 新增
      *
      * @param ${lowerClassName}
      *            实例对象
      * @return 影响行数
      */
-    int insertBySelective(${upperClassName}DO ${lowerClassName});
+    int insert(${upperClassName}DO ${lowerClassName});
 
     /**
      * 通过主键修改

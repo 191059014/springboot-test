@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Resource;
 
 /**
@@ -93,6 +94,21 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
     }
 
     /**
+     * 通过id集合查询
+     *
+     * @param idSet
+     *            id集合
+     * @param ${lowerClassName}
+     *            查询条件
+     * @return 结果集
+     */
+    @Override
+    public List<${upperClassName}DO> selectByIdSet(Set<${pk.attrType}> idSet, ${upperClassName}DO ${lowerClassName}) {
+        return this.${lowerClassName}Mapper.selectBy${pk.lowerAttrName}Set(idSet, ${lowerClassName});
+    }
+
+
+    /**
      * 选择性新增
      *
      * @param ${lowerClassName}
@@ -100,7 +116,7 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
      * @return 影响行数
      */
     @Override
-    public int insertBySelective(${upperClassName}DO ${lowerClassName}) {
+    public int insert(${upperClassName}DO ${lowerClassName}) {
         return this.${lowerClassName}Mapper.insertBySelective(${lowerClassName});
     }
 
