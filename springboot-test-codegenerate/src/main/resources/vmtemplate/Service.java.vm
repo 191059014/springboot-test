@@ -3,6 +3,8 @@ package ${package};
 import java.util.List;
 import java.util.Set;
 
+import com.hb.platform.unic.model.Page;
+
 /**
  * ${comments}服务层接口
  *
@@ -38,26 +40,17 @@ public interface I${upperClassName}Service {
     List<${upperClassName}DO> selectList(${upperClassName}DO ${lowerClassName});
 
     /**
-     * 条件查询总条数
-     *
-     * @param ${lowerClassName}
-     *            查询条件
-     * @return 总条数
-     */
-    Long selectCount(${upperClassName}DO ${lowerClassName});
-
-    /**
      * 分页查询数据
      *
      * @param ${lowerClassName}
      *            查询条件
-     * @param startRow
-     *            查询起始位置
+     * @param pageNum
+     *            当前页数
      * @param pageSize
      *            每页查询条数
      * @return 对象列表
      */
-    List<${upperClassName}DO> selectPages(${upperClassName}DO ${lowerClassName}, int startRow, int pageSize);
+    Page<${upperClassName}DO> selectPages(${upperClassName}DO ${lowerClassName}, int pageNum, int pageSize);
 
     /**
      * 通过id集合查询

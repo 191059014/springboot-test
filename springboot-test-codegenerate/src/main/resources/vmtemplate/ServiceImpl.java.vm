@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.Resource;
 
+import com.hb.platform.unic.model.Page;
+
 /**
  * ${comments}服务层实现类
  *
@@ -66,31 +68,21 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
     }
 
     /**
-     * 条件查询总条数
-     *
-     * @param ${lowerClassName}
-     *            查询条件
-     * @return 总条数
-     */
-    @Override
-    public Long selectCount(${upperClassName}DO ${lowerClassName}) {
-        return this.${lowerClassName}Mapper.selectCount(${lowerClassName});
-    }
-
-    /**
      * 分页查询数据
      *
      * @param ${lowerClassName}
      *            查询条件
-     * @param startRow
-     *            查询起始位置
+     * @param pageNum
+     *            当前页数
      * @param pageSize
      *            每页查询条数
      * @return 对象列表
      */
     @Override
-    public List<${upperClassName}DO> selectPages(${upperClassName}DO ${lowerClassName}, int startRow, int pageSize) {
-        return this.${lowerClassName}Mapper.selectPages(${lowerClassName}, startRow, pageSize);
+    public Page<${upperClassName}DO> selectPages(${upperClassName}DO ${lowerClassName}, int pageNum, int pageSize) {
+        Long count = this.${lowerClassName}Mapper.selectCount(${lowerClassName});
+        List<${upperClassName}DO> dataList = this.${lowerClassName}Mapper.selectPages(${lowerClassName}, Page.createBefore(pageNum, pageSize));
+        return Page.create(count, dataList);
     }
 
     /**
@@ -104,7 +96,7 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
      */
     @Override
     public List<${upperClassName}DO> selectByIdSet(Set<${pk.attrType}> idSet, ${upperClassName}DO ${lowerClassName}) {
-        return this.${lowerClassName}Mapper.selectBy${pk.lowerAttrName}Set(idSet, ${lowerClassName});
+        return this.${lowerClassName}Mapper.selectBy${pk.upperAttrName}Set(idSet, ${lowerClassName});
     }
 
 
@@ -117,7 +109,7 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
      */
     @Override
     public int insert(${upperClassName}DO ${lowerClassName}) {
-        return this.${lowerClassName}Mapper.insertBySelective(${lowerClassName});
+        return this.${lowerClassName}Mapper.insert(${lowerClassName});
     }
 
     /**

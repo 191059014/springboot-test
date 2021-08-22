@@ -1,12 +1,19 @@
 package ${package};
 
-import com.hb.test.codegenerate.common.Page;
-import com.hb.test.codegenerate.common.R;
-import com.hb.test.codegenerate.common.ResultCode;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+
 import javax.annotation.Resource;
+
+import com.hb.platform.unic.model.Page;
+import com.hb.platform.unic.model.Result;
+import com.hb.test.codegenerate.common.ResultCode;
 
 /**
  * ${comments}控制层
@@ -26,7 +33,7 @@ public class ${upperClassName}Controller {
      * ${comments}服务层
      */
     @Resource
-    private I${upperClassName}Service i${lowerClassName}Service;
+    private I${upperClassName}Service ${lowerClassName}Service;
 
     /**
      * 分页查询${comments}
@@ -40,25 +47,10 @@ public class ${upperClassName}Controller {
      * @return 分页结果
      */
     @PostMapping("/queryPages")
-    public R<Page<${upperClassName}DO>> queryPages(@RequestBody ${upperClassName}DO ${lowerClassName},
-                                              @RequestParam("pageNum") Integer pageNum,
-                                              @RequestParam("pageSize") Integer pageSize) {
-        String baseLog = "[分页查询${comments}controller]";
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("{}入参={}={}={}", baseLog, ${lowerClassName}, pageNum, pageSize);
-        }
-        try {
-            Page<${upperClassName}DO> page = i${lowerClassName}Service.selectPages(${lowerClassName}, (pageNum - 1) * pageSize, pageSize);
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("{}出参={}", baseLog, page);
-            }
-            return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), page);
-        } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("{}系统异常=", baseLog, e);
-            }
-            return new R<>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
-        }
+    public Result<Page<${upperClassName}DO>> queryPages(@RequestBody ${upperClassName}DO ${lowerClassName},
+                                                        @RequestParam("pageNum") Integer pageNum,
+                                                        @RequestParam("pageSize") Integer pageSize) {
+        return Result.success(${lowerClassName}Service.selectPages(${lowerClassName}, pageNum, pageSize));
     }
 
     /**
@@ -69,23 +61,8 @@ public class ${upperClassName}Controller {
      * @return 影响的行数
      */
     @PostMapping("/save")
-    public R save(@RequestBody ${upperClassName}DO ${lowerClassName}) {
-        String baseLog = "[新增${comments}controller]";
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("{}入参={}", baseLog, ${lowerClassName});
-        }
-        try {
-            int addRows = i${lowerClassName}Service.insertBySelective(${lowerClassName});
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("{}出参={}", baseLog, addRows);
-            }
-            return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
-        } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("{}系统异常=", baseLog, e);
-            }
-            return new R<>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
-        }
+    public Result save(@RequestBody ${upperClassName}DO ${lowerClassName}) {
+        return Result.success(${lowerClassName}Service.insert(${lowerClassName}));
     }
 
     /**
@@ -96,23 +73,8 @@ public class ${upperClassName}Controller {
      * @return 影响的行数
      */
     @PostMapping("/updateById")
-    public R updateById(@RequestBody ${upperClassName}DO ${lowerClassName}) {
-        String baseLog = "[通过主键修改${comments}controller]";
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("{}入参={}", baseLog, ${lowerClassName});
-        }
-        try {
-            int updateRows = i${lowerClassName}Service.updateById(${lowerClassName});
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("{}出参={}", baseLog, updateRows);
-            }
-            return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
-        } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("{}系统异常=", baseLog, e);
-            }
-            return new R<>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
-        }
+    public Result updateById(@RequestBody ${upperClassName}DO ${lowerClassName}) {
+        return Result.success(${lowerClassName}Service.updateById(${lowerClassName}));
     }
 
     /**
@@ -123,23 +85,8 @@ public class ${upperClassName}Controller {
      * @return 影响的行数
      */
     @GetMapping("/deleteById")
-    public R deleteById(@RequestParam("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}) {
-        String baseLog = "[通过主键删除${comments}controller]";
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("{}入参={}", baseLog, ${pk.lowerAttrName});
-        }
-        try {
-            int deleteRows = i${lowerClassName}Service.deleteById(${pk.lowerAttrName});
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("{}出参={}", baseLog, deleteRows);
-            }
-            return new R<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
-        } catch (Exception e) {
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("{}系统异常=", baseLog, e);
-            }
-            return new R<>(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
-        }
+    public Result deleteById(@RequestParam("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}) {
+        return Result.success(${lowerClassName}Service.deleteById(${pk.lowerAttrName}));
     }
 
 }

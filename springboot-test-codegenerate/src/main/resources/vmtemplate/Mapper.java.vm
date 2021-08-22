@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
+import com.hb.platform.unic.model.Page;
 
 /**
  * ${comments}数据库层接口
@@ -28,7 +29,7 @@ public interface I${upperClassName}Mapper {
      *            查询条件
      * @return 对象列表
      */
-    List<${upperClassName}DO> selectList(@Param("dobj") ${upperClassName}DO ${lowerClassName});
+    List<${upperClassName}DO> selectList(@Param("qc") ${upperClassName}DO ${lowerClassName});
 
     /**
      * 条件查询总条数
@@ -37,20 +38,18 @@ public interface I${upperClassName}Mapper {
      *            查询条件
      * @return 总条数
      */
-    Long selectCount(@Param("dobj") ${upperClassName}DO ${lowerClassName});
+    Long selectCount(@Param("qc") ${upperClassName}DO ${lowerClassName});
 
     /**
      * 查询指定行数据
      *
      * @param ${lowerClassName}
      *            查询条件
-     * @param startRow
-     *            查询起始位置
-     * @param pageSize
-     *            每页查询条数
+     * @param page
+     *            分页条件
      * @return 对象列表
      */
-    List<${upperClassName}DO> selectPages(@Param("dobj") ${upperClassName}DO ${lowerClassName}, @Param("startRow") int startRow, @Param("pageSize") int pageSize);
+    List<${upperClassName}DO> selectPages(@Param("qc") ${upperClassName}DO ${lowerClassName}, @Param("pc") Page page);
 
     /**
      * 通过id集合查询
@@ -61,7 +60,7 @@ public interface I${upperClassName}Mapper {
      *            查询条件
      * @return 结果集
      */
-    List<${upperClassName}DO> selectByIdSet(@Param("idSet") Set<${pk.attrType}> idSet, @Param("dobj")${upperClassName}DO ${lowerClassName});
+    List<${upperClassName}DO> selectByIdSet(@Param("idSet") Set<${pk.attrType}> idSet, @Param("qc")${upperClassName}DO ${lowerClassName});
 
     /**
      * 新增
@@ -70,7 +69,7 @@ public interface I${upperClassName}Mapper {
      *            实例对象
      * @return 影响行数
      */
-    int insert(@Param("dobj") ${upperClassName}DO ${lowerClassName});
+    int insert(@Param("qc") ${upperClassName}DO ${lowerClassName});
 
     /**
      * 通过主键修改
@@ -79,7 +78,7 @@ public interface I${upperClassName}Mapper {
      *            实例对象
      * @return 影响行数
      */
-    int updateById(@Param("dobj") ${upperClassName}DO ${lowerClassName});
+    int updateById(@Param("qc") ${upperClassName}DO ${lowerClassName});
 
     /**
      * 通过主键删除数据

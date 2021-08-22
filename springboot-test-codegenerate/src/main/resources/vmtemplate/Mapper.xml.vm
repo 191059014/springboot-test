@@ -5,7 +5,7 @@
     <!--字段映射-->
     <resultMap id="${lowerClassName}Map" type="${package}.${upperClassName}DO">
         #foreach($column in $columns)
-        <result column="$column.columnName" property="$column.lowerAttrName" jdbcType="$column.dataType"/>
+        <result column="$column.columnName" property="$column.lowerAttrName"/>
         #end
     </resultMap>
 
@@ -18,7 +18,7 @@
     <select id="selectList" resultMap="${lowerClassName}Map">
         select * from ${tableName}
         <include refid="whereCondition"/>
-        order by gmt_modified desc
+        order by update_time desc
     </select>
 
     <!--查询总条数-->
@@ -31,8 +31,8 @@
     <select id="selectPages" resultMap="${lowerClassName}Map">
         select * from ${tableName}
         <include refid="whereCondition"/>
-        order by gmt_modified desc
-        limit #{startRow}, #{pageSize}
+        order by update_time desc
+        limit #{pc.startIndex}, #{pc.pageSize}
     </select>
 
     <!--通过id集合查询-->
@@ -48,29 +48,29 @@
     <!--通过主键修改-->
     <update id="updateById">
         update ${tableName}
-        <include refid="updateValueCondition"/>
-        where $pk.columnName = #{dobj.$pk.lowerAttrName}
+        <include refid="updateFields"/>
+        where $pk.columnName = #{qc.$pk.lowerAttrName}
     </update>
 
     <!--通过主键物理删除-->
-    <delete id="deleteById">
-        delete from ${tableName} where $pk.columnName = #{$pk.lowerAttrName}
-    </delete>
+    <update id="deleteById">
+        update ${tableName} set is_valid = 0 where $pk.columnName = #{$pk.lowerAttrName}
+    </update>
 
     <!--选择性的新增-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="$pk.columnName" keyColumn="$pk.lowerAttrName">
         insert into ${tableName}
         <trim prefix="(" suffix=")" suffixOverrides=",">
             #foreach($column in $columns)
-            <if test="dobj.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and dobj.$column.lowerAttrName != ''#end">
+            <if test="qc.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and qc.$column.lowerAttrName != ''#end">
                 $column.columnName,
             </if>
             #end
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             #foreach($column in $columns)
-            <if test="dobj.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and dobj.$column.lowerAttrName != ''#end">
-                #{dobj.$column.lowerAttrName},
+            <if test="qc.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and qc.$column.lowerAttrName != ''#end">
+                #{qc.$column.lowerAttrName},
             </if>
             #end
         </trim>
@@ -79,20 +79,21 @@
     <!--条件查询-->
     <sql id="whereCondition">
         <where>
+            is_valid = 1
             #foreach($column in $columns)
-            <if test="dobj.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and dobj.$column.lowerAttrName != ''#end">
-                and $!column.columnName = #{dobj.$column.lowerAttrName}
+            <if test="qc.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and qc.$column.lowerAttrName != ''#end">
+                and $!column.columnName = #{qc.$column.lowerAttrName}
             </if>
             #end
         </where>
     </sql>
 
     <!--更新字段sql-->
-    <sql id="updateValueCondition">
+    <sql id="updateFields">
         <set>
             #foreach($column in $columns)
-            <if test="dobj.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and dobj.$column.lowerAttrName != ''#end">
-                $column.columnName = #{dobj.$column.lowerAttrName},
+            <if test="qc.$!column.lowerAttrName != null#if($column.attrType.equals("String")) and qc.$column.lowerAttrName != ''#end">
+                $column.columnName = #{qc.$column.lowerAttrName},
             </if>
             #end
         </set>
