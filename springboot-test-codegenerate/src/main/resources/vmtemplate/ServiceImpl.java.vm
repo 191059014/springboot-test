@@ -82,7 +82,7 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
     public Page<${upperClassName}DO> selectPages(${upperClassName}DO ${lowerClassName}, int pageNum, int pageSize) {
         Long count = this.${lowerClassName}Mapper.selectCount(${lowerClassName});
         List<${upperClassName}DO> dataList = this.${lowerClassName}Mapper.selectPages(${lowerClassName}, Page.createBefore(pageNum, pageSize));
-        return Page.create(count, dataList);
+        return Page.createAfter(count, dataList);
     }
 
     /**

@@ -26,6 +26,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -224,11 +225,13 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
         map.put("package",
             StringUtils.isNotBlank(vo.getPackageName()) ? vo.getPackageName() : GenerateUtils.DEFAULT_PACKAGENAME);
         map.put("serialVersionUID", new Random().nextLong());
+        List<String> basePropertyList =
+            Arrays.asList("id", "creator", "createTime", "updator", "updateTime", "isValid");
         for (ColumnInfo columnInfo : columnList) {
             if ("BigDecimal".equals(columnInfo.getAttrType())) {
                 map.put("hasBigDecimal", true);
             }
-            if ("Date".equals(columnInfo.getAttrType())) {
+            if (!basePropertyList.contains(columnInfo.getLowerAttrName()) && "Date".equals(columnInfo.getAttrType())) {
                 map.put("hasDate", true);
             }
         }

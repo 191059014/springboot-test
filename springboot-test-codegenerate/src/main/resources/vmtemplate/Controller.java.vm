@@ -13,7 +13,6 @@ import javax.annotation.Resource;
 
 import com.hb.platform.unic.model.Page;
 import com.hb.platform.unic.model.Result;
-import com.hb.test.codegenerate.common.ResultCode;
 
 /**
  * ${comments}控制层
