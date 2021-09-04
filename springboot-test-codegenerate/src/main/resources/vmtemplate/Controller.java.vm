@@ -6,27 +6,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
 
-import com.hb.platform.unic.model.Page;
-import com.hb.platform.unic.model.Result;
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.Result;
 
 /**
  * ${comments}控制层
  *
  * @version v0.1, ${nowTime}, create by ${author}.
  */
+@Slf4j
 @RestController
 @RequestMapping("/${lowerClassName}")
 public class ${upperClassName}Controller {
-
-    /**
-     * 日志
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(${upperClassName}Controller.class);
 
     /**
      * ${comments}服务层

@@ -1,28 +1,23 @@
 package ${package};
 
 import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Resource;
 
-import com.hb.platform.unic.model.Page;
+import com.hb.platform.unic.base.model.Page;
 
 /**
  * ${comments}服务层实现类
  *
  * @version v0.1, ${nowTime}, create by ${author}.
  */
+@Slf4j
 @Service
 public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
-
-    /**
-     * 日志
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(${upperClassName}ServiceImpl.class);
 
     /**
      * ${comments}操作数据库层
@@ -52,7 +47,7 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
     @Override
     public ${upperClassName}DO selectOne(${upperClassName}DO ${lowerClassName}) {
         List<${upperClassName}DO> list = this.${lowerClassName}Mapper.selectList(${lowerClassName});
-        return CollectionUtils.isEmpty(list) ? new ${upperClassName}DO() : list.get(0);
+        return CollectionUtils.isEmpty(list) ? null : list.get(0);
     }
 
     /**

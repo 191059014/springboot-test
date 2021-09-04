@@ -3,7 +3,7 @@ package ${package};
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.hb.platform.unic.model.BaseDO;
+import com.hb.platform.unic.base.model.BaseDO;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #else
@@ -31,7 +31,9 @@ public class ${upperClassName}DO extends BaseDO {
     && $column.lowerAttrName!="createTime"
     && $column.lowerAttrName!="updator"
     && $column.lowerAttrName!="updateTime"
-    && $column.lowerAttrName!="isValid")
+    && $column.lowerAttrName!="isValid"
+    && $column.lowerAttrName!="parentId"
+    && $column.lowerAttrName!="tenantId")
     /**
      * $column.columnComment
      */
