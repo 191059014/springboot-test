@@ -43,6 +43,7 @@
             #{$pk.lowerAttrName}
         </foreach>
         <include refid="whereCondition"/>
+        order by update_time desc
     </select>
 
     <!--通过主键修改-->
