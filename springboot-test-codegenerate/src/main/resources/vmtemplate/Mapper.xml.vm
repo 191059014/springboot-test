@@ -23,7 +23,7 @@
 
     <!--查询总条数-->
     <select id="selectCount" resultType="java.lang.Long">
-        select count(*) from ${tableName}
+        select count(1) from ${tableName}
         <include refid="whereCondition"/>
     </select>
 

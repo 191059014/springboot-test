@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
-
 import javax.annotation.Resource;
-
+import com.hb.platform.hbmanage.web.common.enums.ResultCode;
+import com.hb.platform.unic.common.validator.Assert;
+import com.hb.platform.unic.common.validator.Check;
 import com.hb.platform.unic.base.model.Page;
 import com.hb.platform.unic.base.model.Result;
 
@@ -42,8 +43,8 @@ public class ${upperClassName}Controller {
      */
     @PostMapping("/queryPages")
     public Result<Page<${upperClassName}DO>> queryPages(@RequestBody ${upperClassName}DO ${lowerClassName},
-                                                        @RequestParam("pageNum") Integer pageNum,
-                                                        @RequestParam("pageSize") Integer pageSize) {
+        @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        Assert.ifTrueThrows(Check.isCorrectPageParameter(pageNum, pageSize), ResultCode.PAGE_PARAM_ERROR);
         return Result.success(${lowerClassName}Service.selectPages(${lowerClassName}, pageNum, pageSize));
     }
 
@@ -68,6 +69,7 @@ public class ${upperClassName}Controller {
      */
     @PostMapping("/updateById")
     public Result updateById(@RequestBody ${upperClassName}DO ${lowerClassName}) {
+        Assert.notNull(${lowerClassName}.get${pk.upperAttrName}(), ResultCode.PARAM_ILLEGAL);
         return Result.success(${lowerClassName}Service.updateById(${lowerClassName}));
     }
 
@@ -80,6 +82,7 @@ public class ${upperClassName}Controller {
      */
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}) {
+        Assert.notNull(${pk.lowerAttrName}, ResultCode.PARAM_ILLEGAL);
         return Result.success(${lowerClassName}Service.deleteById(${pk.lowerAttrName}));
     }
 

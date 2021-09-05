@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
-import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.PageCondition;
 
 /**
  * ${comments}数据库层接口
@@ -41,15 +41,15 @@ public interface I${upperClassName}Mapper {
     Long selectCount(@Param("qc") ${upperClassName}DO ${lowerClassName});
 
     /**
-     * 查询指定行数据
+     * 分页条件查询
      *
      * @param ${lowerClassName}
      *            查询条件
-     * @param page
+     * @param pc
      *            分页条件
      * @return 对象列表
      */
-    List<${upperClassName}DO> selectPages(@Param("qc") ${upperClassName}DO ${lowerClassName}, @Param("pc") Page page);
+    List<${upperClassName}DO> selectPages(@Param("qc") ${upperClassName}DO ${lowerClassName}, @Param("pc") PageCondition pc);
 
     /**
      * 通过id集合查询

@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.PageCondition;
 
 /**
  * ${comments}服务层实现类
@@ -76,8 +77,8 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
     @Override
     public Page<${upperClassName}DO> selectPages(${upperClassName}DO ${lowerClassName}, int pageNum, int pageSize) {
         Long count = this.${lowerClassName}Mapper.selectCount(${lowerClassName});
-        List<${upperClassName}DO> dataList = this.${lowerClassName}Mapper.selectPages(${lowerClassName}, Page.createBefore(pageNum, pageSize));
-        return Page.createAfter(count, dataList);
+        List<${upperClassName}DO> dataList = this.${lowerClassName}Mapper.selectPages(${lowerClassName}, PageCondition.create(pageNum, pageSize));
+        return Page.create(count, dataList);
     }
 
     /**
