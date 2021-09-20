@@ -123,13 +123,13 @@ public class ${upperClassName}ServiceImpl implements I${upperClassName}Service {
     /**
      * 通过主键删除数据
      *
-     * @param ${pk.lowerAttrName}
-     *            主键
+     * @param ${lowerClassName}
+     *            实例对象
      * @return 影响行数
      */
     @Override
-    public int deleteById(${pk.attrType} ${pk.lowerAttrName}) {
-        return this.${lowerClassName}Mapper.deleteById(${pk.lowerAttrName});
+    public int deleteById(${upperClassName}DO ${lowerClassName}) {
+        return this.${lowerClassName}Mapper.deleteById(${lowerClassName});
     }
 
 }

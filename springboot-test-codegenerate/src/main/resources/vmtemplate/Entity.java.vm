@@ -27,9 +27,9 @@ public class ${upperClassName}DO extends BaseDO {
 
 #foreach ($column in $columns)
 #if($column.lowerAttrName!="id"
-    && $column.lowerAttrName!="creator"
+    && $column.lowerAttrName!="createBy"
     && $column.lowerAttrName!="createTime"
-    && $column.lowerAttrName!="updator"
+    && $column.lowerAttrName!="updateBy"
     && $column.lowerAttrName!="updateTime"
     && $column.lowerAttrName!="isValid"
     && $column.lowerAttrName!="parentId"

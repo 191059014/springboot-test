@@ -83,10 +83,10 @@ public interface I${upperClassName}Mapper {
     /**
      * 通过主键删除数据
      *
-     * @param ${pk.lowerAttrName}
-     *            主键
+     * @param ${lowerClassName}
+     *            实例对象
      * @return 影响行数
      */
-    int deleteById(@Param("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName});
+    int deleteById(@Param("qc") ${upperClassName}DO ${lowerClassName});
 
 }

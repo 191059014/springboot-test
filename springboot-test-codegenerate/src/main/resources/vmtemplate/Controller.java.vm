@@ -83,7 +83,8 @@ public class ${upperClassName}Controller {
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}) {
         Assert.notNull(${pk.lowerAttrName}, ResultCode.PARAM_ILLEGAL);
-        return Result.success(${lowerClassName}Service.deleteById(${pk.lowerAttrName}));
+        ${upperClassName}DO ${lowerClassName} = new ${upperClassName}DO();
+        return Result.success(${lowerClassName}Service.deleteById(${lowerClassName}));
     }
 
 }

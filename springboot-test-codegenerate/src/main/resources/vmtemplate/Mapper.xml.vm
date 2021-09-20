@@ -55,7 +55,7 @@
 
     <!--通过主键物理删除-->
     <update id="deleteById">
-        update ${tableName} set is_valid = 0 where $pk.columnName = #{$pk.lowerAttrName}
+        update ${tableName} set is_valid = 0 where $pk.columnName = #{qc.$pk.lowerAttrName}
     </update>
 
     <!--选择性的新增-->
