@@ -13,7 +13,7 @@ import com.hb.platform.hbcommon.validator.Check;
 import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.model.Page;
-import com.hb.platform.hbbase.annotation.InOutLog;
+import com.hb.platform.hbbase.common.annotation.InOutLog;
 
 /**
  * ${comments}控制层
