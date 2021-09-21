@@ -11,7 +11,7 @@
 
     <!--查询单个-->
     <select id="selectById" resultMap="${lowerClassName}Map">
-        select * from ${tableName} where ${pk.columnName} = #{${pk.lowerAttrName}}
+        select * from ${tableName} where is_valid = 0 and ${pk.columnName} = #{${pk.lowerAttrName}}
     </select>
 
     <!--查询集合-->
@@ -38,7 +38,7 @@
     <!--通过id集合查询-->
     <select id="selectByIdSet" resultMap="${lowerClassName}Map">
         select * from ${tableName}
-        where $pk.columnName in
+        where is_valid = 1 and $pk.columnName in
         <foreach collection="${pk.lowerAttrName}Set" item="$pk.lowerAttrName" open="(" separator="," close=")">
             #{$pk.lowerAttrName}
         </foreach>

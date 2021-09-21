@@ -3,7 +3,7 @@ package ${package};
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.hb.platform.unic.base.model.BaseDO;
+import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #else
@@ -23,17 +23,10 @@ import com.hb.platform.unic.common.util.DateUtils;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class ${upperClassName}DO extends BaseDO {
+public class ${upperClassName}DO extends AbstractBaseDO {
 
 #foreach ($column in $columns)
-#if($column.lowerAttrName!="id"
-    && $column.lowerAttrName!="createBy"
-    && $column.lowerAttrName!="createTime"
-    && $column.lowerAttrName!="updateBy"
-    && $column.lowerAttrName!="updateTime"
-    && $column.lowerAttrName!="isValid"
-    && $column.lowerAttrName!="parentId"
-    && $column.lowerAttrName!="tenantId")
+#if($column.notBaseProperty)
     /**
      * $column.columnComment
      */

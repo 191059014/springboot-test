@@ -164,11 +164,11 @@ public class GenerateUtils {
         }
 
         if (template.contains("Api.js.vm")) {
-            return javaPath + getLowerClassName(upperClassName) + ".js";
+            return javaPath + upperClassName.toLowerCase() + ".js";
         }
 
         if (template.contains("Page.vue.vm")) {
-            return javaPath + upperClassName + ".vue";
+            return javaPath + upperClassName.toLowerCase() + ".vue";
         }
 
         return null;

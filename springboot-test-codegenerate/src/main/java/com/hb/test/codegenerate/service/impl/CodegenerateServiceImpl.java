@@ -225,14 +225,17 @@ public class CodegenerateServiceImpl implements ICodegenerateService {
         map.put("package",
             StringUtils.isNotBlank(vo.getPackageName()) ? vo.getPackageName() : GenerateUtils.DEFAULT_PACKAGENAME);
         map.put("serialVersionUID", new Random().nextLong());
-        List<String> basePropertyList =
-            Arrays.asList("id", "creator", "createTime", "updator", "updateTime", "isValid");
+        List<String> baseProperties =
+            Arrays.asList("id", "createBy", "createTime", "updateBy", "updateTime", "isValid", "tenantId");
         for (ColumnInfo columnInfo : columnList) {
             if ("BigDecimal".equals(columnInfo.getAttrType())) {
                 map.put("hasBigDecimal", true);
             }
-            if (!basePropertyList.contains(columnInfo.getLowerAttrName()) && "Date".equals(columnInfo.getAttrType())) {
+            if (!baseProperties.contains(columnInfo.getLowerAttrName()) && "Date".equals(columnInfo.getAttrType())) {
                 map.put("hasDate", true);
+            }
+            if (baseProperties.contains(columnInfo.getLowerAttrName())) {
+                columnInfo.setNotBaseProperty(false);
             }
         }
 

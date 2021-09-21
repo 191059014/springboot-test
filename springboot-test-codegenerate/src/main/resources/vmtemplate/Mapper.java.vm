@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
-import com.hb.platform.unic.base.model.PageCondition;
+import com.hb.platform.hbbase.model.PageCondition;
 
 /**
  * ${comments}数据库层接口
@@ -20,7 +20,7 @@ public interface I${upperClassName}Mapper {
      *            主键
      * @return 实例对象
      */
-    ${upperClassName}DO selectById(${pk.attrType} ${pk.lowerAttrName});
+    ${upperClassName}DO selectById(@Param("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName});
 
     /**
      * 通过实体作为筛选条件查询集合

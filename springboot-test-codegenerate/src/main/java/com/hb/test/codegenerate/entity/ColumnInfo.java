@@ -20,20 +20,13 @@ public class ColumnInfo {
     private String columnKey;
     // 其他信息
     private String extra;
-
-    /**
-     * Java属性类型
-     */
+    // Java属性类型
     private String attrType;
-
-    /**
-     * Java属性名称(第一个字母小写)，如：user_name => userName
-     */
+    // Java属性名称(第一个字母小写)，如：user_name => userName
     private String lowerAttrName;
-
-    /**
-     * Java属性名称(第一个字母大写)，如：user_name => UserName
-     */
+    // Java属性名称(第一个字母大写)，如：user_name => UserName
     private String upperAttrName;
+    // 是否是基础字段
+    private boolean notBaseProperty = true;
 
 }

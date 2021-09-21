@@ -1,241 +1,246 @@
 <template>
-  <div class="div_container">
-    <el-form :inline="true" :model="queryCondition">
-    #foreach ($column in $columns)
-      <el-form-item label="$column.columnComment" required>
-        <el-input v-model="queryCondition.$column.lowerAttrName" autocomplete="off" placeholder="$column.columnComment"></el-input>
-      </el-form-item>
-    #end
-      <el-form-item>
-        <el-button type="primary" @click="queryPages">查询
-        </el-button>
-        <el-button type="primary" @click="reset">重置
-        </el-button>
-        <el-button type="primary" @click="showDialogOfAdd(true)">新增
-        </el-button>
-      </el-form-item>
-    </el-form>
-
-    <el-table
-      :data="${lowerClassName}List"
-      stripe
-      highlight-current-row
-      v-loading="tableLoading"
-      style="width: 100%">
-      <el-table-column type="index" label="序号" min-width="100"></el-table-column>
-    #foreach ($column in $columns)
-      <el-table-column prop="$column.lowerAttrName" label="$column.columnComment" min-width="100" sortable></el-table-column>
-    #end
-      <el-table-column label="操作" min-width="100">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="showDialogOfUpdate(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 分页工具 -->
-    <el-row type="flex" justify="end" style="padding-top: 10px">
-      <el-pagination
-        @size-change="changePageSize"
-        @current-change="changePageNum"
-        :current-page="pageNum"
-        :page-sizes="[5, 10, 15,20]"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total">
-      </el-pagination>
-    </el-row>
-
-    <el-dialog title="新增${comments}" :visible.sync="showAddDialog">
-      <el-form :model="${upperClassName}Add" label-position="right" label-width="80px">
-      #foreach ($column in $columns)
-        <el-form-item label="$column.columnComment" required>
-          <el-input v-model="${upperClassName}Add.$column.lowerAttrName" autocomplete="off"></el-input>
-        </el-form-item>
-      #end
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="showDialogOfAdd(false)">取 消</el-button>
-        <el-button type="primary" @click="handleAdd">确 定</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="修改${comments}" :visible.sync="showUpdateDialog">
-      <el-form :model="${upperClassName}Update" label-position="right" label-width="80px">
-        #foreach ($column in $columns)
-          <el-form-item label="$column.columnComment" required>
-            <el-input v-model="${upperClassName}Update.$column.lowerAttrName" autocomplete="off"></el-input>
-          </el-form-item>
-        #end
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="hideDialogOfUpdate()">取 消</el-button>
-        <el-button type="primary" @click="handleEdit">确 定</el-button>
-      </div>
-    </el-dialog>
-
-  </div>
+    <div class="div_container">
+        <!-- 查询条件 -->
+        <el-form :inline="true" :model="QueryCondition">
+            #foreach ($column in $columns)
+            #if($column.notBaseProperty)
+            <el-form-item label="$column.columnComment">
+                <el-input v-model="QueryCondition.$column.lowerAttrName" placeholder="$column.columnComment"></el-input>
+            </el-form-item>
+            #end
+            #end
+            <el-form-item>
+                <el-button type="primary" @click="queryPages">查询</el-button>
+                <el-button type="primary" @click="reset">重置</el-button>
+                <el-button type="primary" @click="openAddDialog(true)">新增</el-button>
+            </el-form-item>
+        </el-form>
+        <!-- 数据表格 -->
+        <el-table :data="${lowerClassName}List" stripe highlight-current-row v-loading="tableLoading">
+            <el-table-column type="index" label="序号" min-width="100"></el-table-column>
+            #foreach ($column in $columns)
+            <el-table-column prop="$column.lowerAttrName" label="$column.columnComment" min-width="100" sortable></el-table-column>
+            #end
+            <el-table-column label="操作" min-width="100">
+                <template slot-scope="scope">
+                    <el-button size="mini" @click="openUpdateDialog(true, scope.$index, scope.row)">编辑</el-button>
+                    <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <!-- 分页工具 -->
+        <el-row type="flex" justify="end">
+            <el-pagination @size-change="changePageSize" @current-change="changePageNum"
+                           :current-page="pageNum" :page-sizes="[5, 10, 15,20]" :page-size="pageSize" :total="total"
+                           layout="total, sizes, prev, pager, next, jumper">
+            </el-pagination>
+        </el-row>
+        <!-- 新增 -->
+        <el-dialog title="新增${comments}" :visible.sync="showAddDialog">
+            <el-form :model="${upperClassName}Add" label-position="right" label-width="80px">
+                #foreach ($column in $columns)
+                #if($column.notBaseProperty)
+                <el-form-item label="$column.columnComment" required>
+                    <el-input v-model="${upperClassName}Add.$column.lowerAttrName"></el-input>
+                </el-form-item>
+                #end
+                #end
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="openAddDialog(false)">取 消</el-button>
+                <el-button type="primary" @click="handleAdd">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 修改 -->
+        <el-dialog title="修改${comments}" :visible.sync="showUpdateDialog">
+            <el-form :model="${upperClassName}Update" label-position="right" label-width="80px">
+                #foreach ($column in $columns)
+                #if($column.notBaseProperty)
+                <el-form-item label="$column.columnComment" required>
+                    <el-input v-model="${upperClassName}Update.$column.lowerAttrName"></el-input>
+                </el-form-item>
+                #end
+                #end
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="openUpdateDialog(false)">取 消</el-button>
+                <el-button type="primary" @click="handleEdit">确 定</el-button>
+            </div>
+        </el-dialog>
+    </div>
 </template>
 
 <script>
-  export default {
-    name:'${upperClassName}',
-    data() {
-      return {
-        pageNum: 1,
-        pageSize: 10,
-        total: 0,
-        tableLoading: false,
-        queryCondition: {
-        #foreach ($column in $columns)
-          $column.lowerAttrName: null,
-        #end
-        },
-        ${lowerClassName}List: [],
-        showAddDialog: false,
-        ${upperClassName}Add: {
-        #foreach ($column in $columns)
-          $column.lowerAttrName: null,
-        #end
-        },
-        showUpdateDialog: false,
-        ${upperClassName}Update: {
-        #foreach ($column in $columns)
-          $column.lowerAttrName: null,
-        #end
-        },
-        ${upperClassName}UpdatePrimary: {
-        #foreach ($column in $columns)
-          $column.lowerAttrName: null,
-        #end
-        }
-      }
-    },
-    methods: {
-      changePageSize(pageSie) {
-        this.pageSize = pageSie;
-        this.queryPages();
-      },
-      changePageNum(pageNum) {
-        this.pageNum = pageNum;
-        this.queryPages();
-      },
-      reset() {
-        this.queryCondition = {};
-      },
-      queryPages() {
-        this.tableLoading = true;
-        this.hbapis.query${upperClassName}Pages(this.queryCondition, this.pageNum, this.pageSize).then(res => {
-          if (this.hbconsts.ResponseEnum.SUCCESS.code === res.code) {
-            this.${lowerClassName}List = res.data.data;
-            this.total = res.data.count;
-          } else {
-            this.hbalert.error(res.msg);
-          }
-          this.tableLoading = false;
-        })
-      },
-      showDialogOfAdd(show) {
-        if (show) {
-          this.${upperClassName}Add = {};
-          this.showAddDialog = true;
-        } else {
-          this.${upperClassName}Update = {};
-          this.showAddDialog = false;
-        }
-      },
-      showDialogOfUpdate(index, row) {
-        /**
-         * 填充修改的值
-         */
-      #foreach ($column in $columns)
-        // $column.columnComment
-        this.${upperClassName}Update.$column.lowerAttrName = row.$column.lowerAttrName;
-      #end
-        /**
-         * 记录修改的原始值
-         */
-      #foreach ($column in $columns)
-        // $column.columnComment
-        this.${upperClassName}UpdatePrimary.$column.lowerAttrName = row.$column.lowerAttrName;
-      #end
-        this.showUpdateDialog = true;
-      },
-      hideDialogOfUpdate() {
-        this.showUpdateDialog = false;
-        this.${upperClassName}Update = {};
-      },
-      handleAdd() {
-      #foreach ($column in $columns)
-        if (!this.${upperClassName}Add.$column.lowerAttrName) {
-          this.hbalert.warn("$column.columnComment不能为空");
-          return false;
-        }
-      #end
-        this.hbapis.save${upperClassName}(this.${upperClassName}Add).then(res => {
-          if (this.hbconsts.ResponseEnum.SUCCESS.code === res.code) {
-            this.hbalert.success(res.msg);
-            this.showAddDialog = false;
-            this.queryPages();
-          } else {
-            this.hbalert.error(res.msg);
-          }
-        })
-      },
-      handleEdit() {
-        #foreach ($column in $columns)
-          if (!this.${upperClassName}Update.$column.lowerAttrName) {
-            this.hbalert.warn("$column.columnComment不能为空");
-            return false;
-          }
-        #end
-        let updateFlag = false;
-        let shouldUpdateInfo = {"${pk.lowerAttrName}": this.${upperClassName}UpdatePrimary.${pk.lowerAttrName}};
-      #foreach ($column in $columns)
-        if (this.${upperClassName}Update.$column.lowerAttrName !== this.${upperClassName}UpdatePrimary.$column.lowerAttrName) {
-          shouldUpdateInfo.$column.lowerAttrName = this.${upperClassName}Update.$column.lowerAttrName;
-          updateFlag = true;
-        }
-      #end
-        if (!updateFlag) {
-          this.hbalert.warn("没有任何修改");
-          return false;
-        }
-        this.hbapis.update${upperClassName}ById(shouldUpdateInfo).then(res => {
-          if (this.hbconsts.ResponseEnum.SUCCESS.code === res.code) {
-            this.hbalert.success(res.msg);
-            this.showUpdateDialog = false;
-            this.queryPages();
-          } else {
-            this.hbalert.error(res.msg);
-          }
-        })
-      },
-      handleDelete(index, row) {
-        this.hbalert.confirmWarning('提示', '确定删除吗？', () => {
-          this.hbapis.delete${upperClassName}ById(row.${pk.lowerAttrName}).then(res => {
-            if (this.hbconsts.ResponseEnum.SUCCESS.code === res.code) {
-              this.hbalert.success('删除成功');
-              this.queryPages();
-            } else {
-              this.hbalert.error(res.msg);
+
+    import * as Api from '../../common/api.js';
+    import * as Alert from '../../common/alert.js';
+
+    export default {
+        name: '${upperClassName}',
+        data() {
+            return {
+                pageNum: 1,
+                pageSize: 10,
+                total: 0,
+                tableLoading: false,
+                showAddDialog: false,
+                showUpdateDialog: false,
+                QueryCondition: {
+                    #foreach ($column in $columns)
+                    #if($column.notBaseProperty)
+                    $column.lowerAttrName: null,
+                    #end
+                    #end
+                },
+                ${lowerClassName}List: [],
+                ${upperClassName}Add: {
+                    #foreach ($column in $columns)
+                    #if($column.notBaseProperty)
+                    $column.lowerAttrName: null,
+                    #end
+                    #end
+                },
+                ${upperClassName}Update: {
+                    ${pk.lowerAttrName}: null,
+                    #foreach ($column in $columns)
+                    #if($column.notBaseProperty)
+                    $column.lowerAttrName: null,
+                    #end
+                    #end
+                },
+                ${upperClassName}UpdatePrimary: {
+                    ${pk.lowerAttrName}: null,
+                    #foreach ($column in $columns)
+                    #if($column.notBaseProperty)
+                    $column.lowerAttrName: null,
+                    #end
+                    #end
+                }
             }
-          })
-        }, () => {
-          // do nothing
-        });
-      }
-    },
-    mounted() {
-      this.queryPages();
+        },
+        methods: {
+            changePageSize(pageSie) {
+                this.pageSize = pageSie;
+                this.queryPages();
+            },
+            changePageNum(pageNum) {
+                this.pageNum = pageNum;
+                this.queryPages();
+            },
+            reset() {
+                this.queryCondition = {};
+            },
+            queryPages() {
+                this.tableLoading = true;
+                Api.get${upperClassName}Pages(this.QueryCondition, this.pageNum, this.pageSize, (res => {
+                    this.${lowerClassName}List = res.data.rows;
+                    this.total = res.data.total;
+                    this.tableLoading = false;
+                }))
+            },
+            openAddDialog(isOpen) {
+                this.${upperClassName}Add = {};
+                this.showAddDialog = isOpen;
+            },
+            handleAdd() {
+                #foreach ($column in $columns)
+                #if($column.notBaseProperty)
+                if (!this.${upperClassName}Add.$column.lowerAttrName) {
+                    Alert.warn("$column.columnComment不能为空");
+                    return false;
+                }
+                #end
+                #end
+                Api.save${upperClassName}(this.${upperClassName}Add, (res => {
+                    Alert.success('添加成功');
+                    this.showAddDialog = false;
+                    this.queryPages();
+                }))
+            },
+            openUpdateDialog(isOpen, index, row) {
+                this.showUpdateDialog = isOpen;
+                if (isOpen) {
+                  /**
+                   * 填充各字段的值
+                   */
+                  // $pk.columnComment
+                  this.${upperClassName}Update.${pk.lowerAttrName} = row.${pk.lowerAttrName};
+                  #foreach ($column in $columns)
+                  #if($column.notBaseProperty)
+                  // $column.columnComment
+                  this.${upperClassName}Update.$column.lowerAttrName = row.$column.lowerAttrName;
+                  #end
+                  #end
+                  /**
+                   * 记录原始值
+                   */
+                  // $pk.columnComment
+                  this.${upperClassName}UpdatePrimary.${pk.lowerAttrName} = row.${pk.lowerAttrName};
+                  #foreach ($column in $columns)
+                  #if($column.notBaseProperty)
+                  // $column.columnComment
+                  this.${upperClassName}UpdatePrimary.$column.lowerAttrName = row.$column.lowerAttrName;
+                  #end
+                  #end
+                } else {
+                    this.${upperClassName}Update = {};
+                }
+            },
+            handleEdit() {
+                #foreach ($column in $columns)
+                #if($column.notBaseProperty)
+                if (!this.${upperClassName}Update.$column.lowerAttrName) {
+                    Alert("$column.columnComment不能为空");
+                    return false;
+                }
+                #end
+                #end
+                let isChange = false;
+                let updateProperties = {};
+                #foreach ($column in $columns)
+                #if($column.notBaseProperty)
+                if (this.${upperClassName}Update.$column.lowerAttrName !== this.${upperClassName}UpdatePrimary.$column.lowerAttrName) {
+                    updateProperties.$column.lowerAttrName = this.${upperClassName}Update.$column.lowerAttrName;
+                    isChange = true;
+                }
+                #end
+                #end
+                if (!isChange) {
+                    Alert.warn("没有任何修改");
+                    return false;
+                }
+                updateProperties.${pk.lowerAttrName} = this.${upperClassName}Update.${pk.lowerAttrName};
+                Api.update${upperClassName}ById(updateProperties, (res => {
+                    Alert.success('修改成功');
+                    this.showUpdateDialog = false;
+                    this.queryPages();
+                }))
+            },
+            handleDelete(index, row) {
+                Alert.confirmWarning('提示', '确定删除吗？', () => {
+                    Api.delete${upperClassName}ById(row.${pk.lowerAttrName}, (res => {
+                        Alert.success('删除成功');
+                        this.queryPages();
+                    }))
+                });
+            }
+        },
+        mounted() {
+            this.queryPages();
+        }
     }
-  }
 </script>
 
 <style scoped>
-  .div_container {
-    padding: 10px;
-  }
+    .div_container {
+        padding: 10px;
+    }
 
+    .el-table {
+        width: 100%;
+    }
 
+    .el-pagination {
+        margin-top: 10px;
+    }
 </style>
