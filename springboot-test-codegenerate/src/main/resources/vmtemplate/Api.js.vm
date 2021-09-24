@@ -6,7 +6,7 @@ export const get${upperClassName}Pages = (${lowerClassName}, pageNum, pageSize, 
 export const save${upperClassName} = (${lowerClassName}, scb) => {
   return Ajax.post(`/${lowerClassName}/save`, ${lowerClassName}).then(res => commonHandleResponse(res, scb));
 };
-// 新增${comments}
+// 通过主键修改${comments}
 export const update${upperClassName}ById = (${lowerClassName}, scb) => {
   return Ajax.post(`/${lowerClassName}/updateById`, ${lowerClassName}).then(res => commonHandleResponse(res, scb));
 };
