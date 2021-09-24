@@ -184,6 +184,7 @@
                   #end
                 } else {
                     this.${upperClassName}Update = {};
+                    this.${upperClassName}UpdatePrimary = {};
                 }
             },
             handleEdit() {
