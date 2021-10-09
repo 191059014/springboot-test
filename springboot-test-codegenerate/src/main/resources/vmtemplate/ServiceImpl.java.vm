@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.Resource;
 
-import com.hb.platform.hbbase.model.Page;
-import com.hb.platform.hbbase.model.PageCondition;
+import com.hb.unic.common.standard.Page;
+import com.hb.unic.common.standard.PageCondition;
 
 /**
  * ${comments}服务层实现类

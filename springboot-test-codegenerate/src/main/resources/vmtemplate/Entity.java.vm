@@ -3,7 +3,7 @@ package ${package};
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
+import com.hb.unic.base.model.impl.AbstractBaseDO;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #else

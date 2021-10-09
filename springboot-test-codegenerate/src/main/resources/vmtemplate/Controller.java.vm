@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 import javax.annotation.Resource;
-import com.hb.platform.hbcommon.validator.Assert;
-import com.hb.platform.hbcommon.validator.Check;
-import com.hb.platform.hbbase.common.Result;
-import com.hb.platform.hbbase.common.ResultCode;
-import com.hb.platform.hbbase.model.Page;
-import com.hb.platform.hbbase.common.annotation.InOutLog;
+import com.hb.unic.common.validator.Assert;
+import com.hb.unic.common.validator.Check;
+import com.hb.unic.base.common.Result;
+import com.hb.unic.base.common.ErrorCode;
+import com.hb.unic.common.standard.Page;
+import com.hb.unic.base.annotation.InOutLog;
 
 /**
  * ${comments}控制层
@@ -45,7 +45,7 @@ public class ${upperClassName}Controller {
     @PostMapping("/queryPages")
     public Result<Page<${upperClassName}DO>> queryPages(@RequestBody ${upperClassName}DO ${lowerClassName},
         @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
-        Assert.ifTrueThrows(Check.incorrectPageParameter(pageNum, pageSize), ResultCode.PAGE_PARAM_ERROR);
+        Assert.ifTrueThrows(Check.incorrectPageParameter(pageNum, pageSize), ErrorCode.PAGE_PARAM_ERROR);
         return Result.success(${lowerClassName}Service.selectPages(${lowerClassName}, pageNum, pageSize));
     }
 
@@ -72,7 +72,7 @@ public class ${upperClassName}Controller {
     @InOutLog("通过主键修改${comments}")
     @PostMapping("/updateById")
     public Result updateById(@RequestBody ${upperClassName}DO ${lowerClassName}) {
-        Assert.notNull(${lowerClassName}.get${pk.upperAttrName}(), ResultCode.PARAM_ILLEGAL);
+        Assert.notNull(${lowerClassName}.get${pk.upperAttrName}(), ErrorCode.PARAM_ILLEGAL);
         return Result.success(${lowerClassName}Service.updateById(${lowerClassName}));
     }
 
@@ -86,7 +86,7 @@ public class ${upperClassName}Controller {
     @InOutLog("通过主键删除${comments}")
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}) {
-        Assert.notNull(${pk.lowerAttrName}, ResultCode.PARAM_ILLEGAL);
+        Assert.notNull(${pk.lowerAttrName}, ErrorCode.PARAM_ILLEGAL);
         ${upperClassName}DO ${lowerClassName} = new ${upperClassName}DO();
         ${lowerClassName}.set${pk.UpperAttrName}(${pk.lowerAttrName});
         return Result.success(${lowerClassName}Service.deleteById(${lowerClassName}));

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
-import com.hb.platform.hbbase.model.PageCondition;
+import com.hb.unic.common.standard.PageCondition;
 
 /**
  * ${comments}数据库层接口
