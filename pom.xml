@@ -28,6 +28,7 @@
         <module>springboot-test-docker</module>
         <module>springboot-test-codegenerate</module>
         <module>springboot-test-actuator</module>
+        <module>springboot-test-db</module>
     </modules>
 
     <properties>
